@@ -28,12 +28,14 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  let requiresAuth = to.matched.some(function (x) { return x.meta.requiresAuth })
+  let requiresAuth = to.matched.some(function(x) {
+    return x.meta.requiresAuth;
+  });
   if (requiresAuth) {
-    next("/login")
+    next("/login");
   } else {
-    next()
+    next();
   }
-})
+});
 
 export default router;
