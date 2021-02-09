@@ -1,5 +1,6 @@
 <template>
   <v-container fluid>
+      <!-- if not mobile then show tab based menu -->
       <div v-if="!$vuetify.breakpoint.mobile">
         <v-tabs
             background-color="primary"
@@ -15,6 +16,7 @@
             </v-tab>
         </v-tabs>
       </div>
+      <!-- if mobile show option (burger) menu -->
       <div v-else>
           <v-menu>
               <template v-slot:activator="{ on, attrs }">
@@ -50,6 +52,7 @@
 <script>
 export default {
     methods: {
+        // hides routes from menus
         showTab: function(route) {
             // list of manual excludes. Handy for crafting personal links, buttons, etc.
             if(route.name in []) return false
