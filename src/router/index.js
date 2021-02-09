@@ -12,6 +12,7 @@ const routes = [
     meta: {
       hide: false,
       requiresAuth: false,
+      icon: "mdi-home",
     },
   },
   {
