@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		<v-app-bar app color="primary" dark>
+		<v-app-bar app dense color="primary" dark>
 			<template v-slot:img="{ props }">
 				<v-img v-bind="props"> </v-img>
 			</template>
@@ -48,3 +48,6 @@ export default {
 // 	<v-btn>Other Test</v-btn>
 // </v-speed-dial>
 </script>
+
+<style lang="scss" scoped>
+</style>

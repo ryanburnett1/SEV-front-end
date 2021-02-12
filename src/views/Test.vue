@@ -1,30 +1,30 @@
 <template>
-	<div>
-		<confirmation-dialog ref="confirm" />
-		<v-btn
-			@click="
-				testDialog();
-				messages++;
-			"
-			>Delete?</v-btn
-		>
+	<v-container fluid>
+		<v-row>
+			<confirmation-dialog ref="confirm" />
+			<v-btn
+				@click="
+					testDialog();
+					messages++;
+				"
+				>Delete?</v-btn
+			>
 
-		<v-badge :content="messages" :value="messages" color="green" overlap>
-			<v-icon large> mdi-vuetify </v-icon>
-		</v-badge>
+			<v-badge :content="messages" :value="messages" color="green" overlap>
+				<v-icon large> mdi-vuetify </v-icon>
+			</v-badge>
+		</v-row>
 
-		<v-container>
-			<v-row>
-				<member-card
-					class="ma-1"
-					v-for="person in members"
-					:key="person.id"
-					:data="person"
-					@click.native="printInfo(person)"
-				></member-card>
-			</v-row>
-		</v-container>
-	</div>
+		<v-row justify>
+			<member-card
+				class="ma-1"
+				v-for="person in members"
+				:key="person.id"
+				:data="person"
+				@click.native="printInfo(person)"
+			></member-card>
+		</v-row>
+	</v-container>
 </template>
 
 <script>
