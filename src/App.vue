@@ -4,7 +4,7 @@
 			<template v-slot:img="{ props }">
 				<v-img v-bind="props"> </v-img>
 			</template>
-			<Navbar />
+			<navbar />
 		</v-app-bar>
 
 		<v-main>
@@ -12,6 +12,10 @@
 				<router-view></router-view>
 			</v-container>
 		</v-main>
+
+		<!-- <v-footer app>
+			<v-alert></v-alert>
+		</v-footer> -->
 	</v-app>
 </template>
 
