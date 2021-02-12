@@ -51,6 +51,7 @@ export default {
 .on-hover {
 	transform: scale(0.97) !important;
 	filter: contrast(115%) brightness(115%);
+	cursor: pointer;
 }
 
 .disabled-style {
