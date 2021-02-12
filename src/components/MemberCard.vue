@@ -13,6 +13,7 @@
 				:disabled="data.disabled"
 			>
 				<v-img :src="data.image"></v-img>
+				<v-card-title v-if="data.disabled">Disabled</v-card-title>
 				<v-card-subtitle>{{ data.name }} | id: {{ data.id }}</v-card-subtitle>
 				<v-divider></v-divider>
 				<v-card-text>{{ data.info }}</v-card-text>
