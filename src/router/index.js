@@ -41,6 +41,17 @@ const routes = [
 			role: "",
 		},
 		component: () => import (/* webpackChunkName: "test" */ "@/views/Test.vue"),
+	},
+	{
+		path: '*',
+		component: () => import(/* webpackChunkName: "" */ "@/views/404.vue"),
+		name: "404",
+		meta: {
+			hide: true,
+			requiresAuth: false,
+			icon: "",
+			role: "",
+		}
 	}
 ];
 
