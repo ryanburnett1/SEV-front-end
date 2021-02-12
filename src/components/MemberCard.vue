@@ -12,8 +12,11 @@
 				max-width="350"
 				:disabled="data.disabled"
 			>
-				<v-img :src="data.image"></v-img>
-				<v-card-title v-if="data.disabled">Disabled</v-card-title>
+				<v-img :src="data.image">
+					<v-card-title v-if="data.disabled" style="color: red"
+						>Status / Disabled / Left
+					</v-card-title>
+				</v-img>
 				<v-card-subtitle>{{ data.name }} | id: {{ data.id }}</v-card-subtitle>
 				<v-divider></v-divider>
 				<v-card-text>{{ data.info }}</v-card-text>
