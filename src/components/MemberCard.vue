@@ -7,13 +7,13 @@
 		<v-skeleton-loader type="card">
 			<v-card
 				:elevation="hover ? 16 : 2"
-				:class="{ 'on-hover': hover }"
+				:class="{ 'on-hover': hover, 'max-auto': true }"
 				height="350"
 				max-width="350"
 				:disabled="data.disabled"
 			>
-				<v-img :src="data.image">
-					<v-card-title v-if="data.disabled" style="color: red"
+				<v-img :src="data.image" class="red--text align-end">
+					<v-card-title v-if="data.disabled"
 						>Status / Disabled / Left
 					</v-card-title>
 				</v-img>
