@@ -31,6 +31,17 @@ const routes = [
 		component: () =>
 			import(/* webpackChunkName: "about" */ "../views/About.vue"),
 	},
+	{
+		path: "/test",
+		name: "Test",
+		meta: {
+			hide: false,
+			requiresAuth: false,
+			icon: "mdi-cog",
+			role: "",
+		},
+		component: () => import (/* webpackChunkName: "test" */ "@/views/Test.vue"),
+	}
 ];
 
 const router = new VueRouter({
