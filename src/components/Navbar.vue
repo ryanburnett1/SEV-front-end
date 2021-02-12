@@ -28,6 +28,7 @@
 							v-for="route in $router.options.routes"
 							:key="route.path"
 							:to="route.path"
+							v-show="showTab(route)"
 						>
 							<v-list-item-icon>
 								<v-icon v-if="route.meta.icon">{{ route.meta.icon }}</v-icon>
