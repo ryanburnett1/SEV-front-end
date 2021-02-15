@@ -16,7 +16,8 @@ const actions = {
 
         let result = password //change to axios request Login(username, password)
         if (result) {
-            commit('loginSuccess');
+            // pass user object with info here
+            commit('loginSuccess', { name: "test user", id: -1});
             console.log('login successful')
             router.push("/")
         }
@@ -59,6 +60,7 @@ const mutations = {
 const getters = {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
+    getUserId: state => state.user.id,
 }
 
 
