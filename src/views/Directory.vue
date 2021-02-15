@@ -6,11 +6,10 @@
 				v-model="search"
 				append-icon="mdi-magnify"
 				label="Search"
-				single-line
 				outlined
 			></v-text-field>
 		</v-row>
-		<v-row class="justify-space-between">
+		<v-row class="justify-space-between" v-if="members.length > 0">
 			<member-card
 				class="ma-2"
 				v-for="member in filter"
@@ -21,7 +20,11 @@
 				"
 			/>
 		</v-row>
-		<!-- <v-row v-else> Problem Here </v-row> -->
+		<v-row v-else>
+			Members Not Found.
+			<br />
+			Please Check Your Internet Connection and Try Refreshing The Page.
+		</v-row>
 	</v-container>
 </template>
 
@@ -39,28 +42,32 @@ export default {
 			members: [
 				{
 					name: "Jason",
-					info: "test",
+					info:
+						"Subtly charming reader. Troublemaker. Social media fan. Total pop culture expert.",
 					id: "-5",
 					image: "https://picsum.photos/1920/1080?random=1",
 					disabled: false,
 				},
 				{
 					name: "Lane",
-					info: "test",
+					info:
+						"Communicator. Hipster-friendly web fanatic. Coffee aficionado. Tv advocate. Proud beer fan. Reader.",
 					id: "-4",
 					image: "https://picsum.photos/1920/1080?random=2",
 					disabled: true,
 				},
 				{
 					name: "Nathan",
-					info: "test",
+					info:
+						"Explorer. Zombie junkie. Analyst. Wannabe writer. Food trailblazer. Devoted pop culture aficionado.",
 					id: "-6",
 					image: "https://picsum.photos/1920/1080?random=3",
 					disabled: false,
 				},
 				{
 					name: "Ryan",
-					info: "test",
+					info:
+						"Music specialist. Social media expert. Alcohol fan. Travel fanatic. Student. Web advocate.",
 					id: "-69",
 					image: "https://picsum.photos/1920/1080?random=4",
 					disabled: false,
