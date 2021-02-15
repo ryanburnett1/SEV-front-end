@@ -25,6 +25,8 @@ const actions = {
     logout({ commit }) {
         commit('resetState')
 
+        // sessionStorage.clear();
+
         console.log("Logging Out")
         router.push('/')
     },
