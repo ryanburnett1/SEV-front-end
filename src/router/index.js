@@ -32,6 +32,29 @@ const routes = [
 			import(/* webpackChunkName: "about" */ "../views/About.vue"),
 	},
 	{
+		path: "/directory",
+		name: "Directory",
+		meta: {
+			hide: false,
+			requiresAuth: false, // can change to true later or use ternary now
+			icon: "",
+			role: "",
+		},
+		component: () => import(/* webpackChunkName: "" */ "@/views/Directory.vue"),
+	},
+	{
+		path: "/member-view/:id",
+		name: "MemberView",
+		meta: {
+			hide: true,
+			requiresAuth: false, // can change to true later or use ternary now
+			icon: "",
+			role: "",
+		},
+		props: true,
+		component: () => import(/**/ "@/views/Member.vue"),
+	},
+	{
 		path: "/test",
 		name: "Test",
 		meta: {
