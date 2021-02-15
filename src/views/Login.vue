@@ -18,7 +18,12 @@
 			<v-btn
 				:disabled="!valid"
 				color="success"
-				@click="login(user.email, user.password)"
+				@click="
+					$store.dispatch('login', {
+						email: user.email,
+						password: user.password,
+					})
+				"
 				>Login</v-btn
 			>
 		</v-form>

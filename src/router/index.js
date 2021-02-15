@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import store from "@/store/index.js";
 
 Vue.use(VueRouter);
 
@@ -47,7 +48,7 @@ const routes = [
 		name: "Directory",
 		meta: {
 			hide: false,
-			requiresAuth: false, // can change to true later or use ternary now
+			requiresAuth: true, // can change to true later or use ternary now
 			icon: "mdi-account-group",
 			role: "",
 		},
@@ -101,7 +102,12 @@ router.beforeEach((to, from, next) => {
 		return x.meta.requiresAuth;
 	});
 
-	if (requiresAuth /* && check user role here */) {
+	if (requiresAuth) {
+		if (store.getters.isLoggedIn /* add second check for roles here */) {
+			next()
+			return
+		}
+
 		next("/login");
 	} else {
 		next();
