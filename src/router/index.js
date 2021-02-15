@@ -16,28 +16,28 @@ const routes = [
 			role: "", // used to check user roles (admin, member, etc)
 		},
 	},
-	{
-		path: "/about",
-		name: "About",
-		meta: {
-			hide: false,
-			requiresAuth: false,
-			icon: "",
-			role: "",
-		},
-		// route level code-splitting
-		// this generates a separate chunk (about.[hash].js) for this route
-		// which is lazy-loaded when the route is visited.
-		component: () =>
-			import(/* webpackChunkName: "about" */ "../views/About.vue"),
-	},
+	// {
+	// 	path: "/about",
+	// 	name: "About",
+	// 	meta: {
+	// 		hide: false,
+	// 		requiresAuth: false,
+	// 		icon: "",
+	// 		role: "",
+	// 	},
+	// 	// route level code-splitting
+	// 	// this generates a separate chunk (about.[hash].js) for this route
+	// 	// which is lazy-loaded when the route is visited.
+	// 	component: () =>
+	// 		import(/* webpackChunkName: "about" */ "../views/About.vue"),
+	// },
 	{
 		path: "/directory",
 		name: "Directory",
 		meta: {
 			hide: false,
 			requiresAuth: false, // can change to true later or use ternary now
-			icon: "",
+			icon: "mdi-account-group",
 			role: "",
 		},
 		component: () => import(/* webpackChunkName: "" */ "@/views/Directory.vue"),

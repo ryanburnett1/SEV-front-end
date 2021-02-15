@@ -1,10 +1,19 @@
 <template>
 	<v-container>
 		<v-row><h3>Member Directory:</h3></v-row>
+		<v-row>
+			<v-text-field
+				v-model="search"
+				append-icon="mdi-magnify"
+				label="Search"
+				single-line
+				outlined
+			></v-text-field>
+		</v-row>
 		<v-row class="justify-space-between">
 			<member-card
-				class="mb-4"
-				v-for="member in members"
+				class="ma-2"
+				v-for="member in filter"
 				:key="member.id"
 				:data="member"
 				@click.native="
@@ -26,6 +35,7 @@ export default {
 	},
 	data() {
 		return {
+			search: "",
 			members: [
 				{
 					name: "Jason",
@@ -57,6 +67,25 @@ export default {
 				},
 			],
 		};
+	},
+	computed: {
+		filter() {
+			let data = this.members;
+
+			if (this.search !== null) {
+				data = data.filter(
+					(member) =>
+						String(member.name)
+							.toLowerCase()
+							.includes(String(this.search).toLowerCase()) ||
+						String(member.info)
+							.toLowerCase()
+							.includes(String(this.search).toLowerCase())
+				);
+			}
+
+			return data;
+		},
 	},
 	methods: {},
 	mounted() {
