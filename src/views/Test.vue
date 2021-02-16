@@ -1,6 +1,9 @@
 <template>
 	<v-container fluid>
 		<v-row>
+			<v-btn @click="createPerson()"></v-btn>
+		</v-row>
+		<v-row>
 			<confirmation-dialog ref="confirm" />
 			<v-btn
 				@click="
@@ -36,6 +39,8 @@
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import MemberCard from "@/components/MemberCard.vue";
 import { mapActions } from "vuex";
+import MemberService from "@/services/memberServices";
+import Person from "@/models/person.model";
 
 export default {
 	name: "Test",
@@ -158,6 +163,25 @@ export default {
 		},
 		printInfo(person) {
 			console.log(person);
+		},
+		createPerson() {
+			let person = new Person(
+				"test",
+				"mctesterson",
+				"333",
+				"person",
+				Date.now(),
+				Date.now()
+			);
+			console.log(person);
+
+			MemberService.create(person)
+				.then((res) => {
+					console.log("RES: ", res);
+				})
+				.catch((err) => {
+					console.log("ERR: ", err);
+				});
 		},
 	},
 };

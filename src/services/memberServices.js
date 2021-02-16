@@ -13,6 +13,18 @@ class MemberService {
     create(data) {
         return Vue.axios.post("/person", data);
     }
+
+    update(id, data) {
+        return Vue.axios.put(`/person/${id}`, data);
+    }
+
+    delete(id) {
+        return Vue.axios.delete(`/person/${id}`);
+    }
+    
+    // other unique route queries here
+    // example findByAttributeNameHere(data)
+    // return get(`/route?attrib=${param}`)
 }
 
 
