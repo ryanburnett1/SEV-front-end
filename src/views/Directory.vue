@@ -30,7 +30,7 @@
 
 <script>
 import MemberCard from "@/components/MemberCard.vue";
-import MemberService from "../services/memberServices.js";
+// import MemberService from "../services/memberServices.js";
 
 export default {
 	components: {
@@ -82,7 +82,7 @@ export default {
 			if (this.search !== null) {
 				data = data.filter(
 					(member) =>
-						String(member.f_name.concat(" " + member.l_name))
+						String(member.name)
 							.toLowerCase()
 							.includes(String(this.search).toLowerCase()) ||
 						String(member.info)
@@ -96,9 +96,9 @@ export default {
 	},
 	methods: {},
 	mounted() {
-		MemberService.getAll().then((Response) => {
-			this.members = Response.data;
-		});
+		// MemberService.getAll().then((Response) => {
+		// 	this.members = Response.data;
+		// });
 	},
 };
 </script>
