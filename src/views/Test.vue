@@ -24,6 +24,10 @@
 				@click.native="printInfo(person)"
 			></member-card>
 		</v-row>
+
+		<v-row>
+			<v-btn @click="$store.dispatch('logout')">Logout</v-btn>
+		</v-row>
 	</v-container>
 </template>
 
@@ -31,6 +35,7 @@
 // @ is an alias to /src
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import MemberCard from "@/components/MemberCard.vue";
+import { mapActions } from "vuex";
 
 export default {
 	name: "Test",
@@ -74,6 +79,9 @@ export default {
 		};
 	},
 	methods: {
+		...mapActions("account", {
+			logout: "logout",
+		}),
 		async testDialog() {
 			let message = "";
 			for (let i = 0; i < 500; i++) {

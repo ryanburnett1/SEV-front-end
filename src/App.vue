@@ -5,6 +5,8 @@
 				<v-img v-bind="props"> </v-img>
 			</template>
 			<navbar />
+			<v-spacer></v-spacer>
+			<account-button />
 		</v-app-bar>
 
 		<v-main>
@@ -21,12 +23,14 @@
 
 <script>
 import Navbar from "@/components/Navbar.vue";
+import AccountButton from "@/components/AccountButton.vue";
 
 export default {
 	name: "App",
 
 	components: {
 		Navbar,
+		AccountButton,
 	},
 
 	data: () => ({

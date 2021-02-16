@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import store from "@/store/index.js";
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,17 @@ const routes = [
 			icon: "mdi-home", // icon to display in menus
 			role: "", // used to check user roles (admin, member, etc)
 		},
+	},
+	{
+		path: "/login",
+		name: "Login",
+		meta: {
+			hide: false,
+			requiresAuth: false,
+			icon: "mdi-account",
+			role: "",
+		},
+		component: () => import(/* webpackChunkName: "home" */ "@/views/Login.vue")
 	},
 	// {
 	// 	path: "/about",
@@ -36,11 +48,11 @@ const routes = [
 		name: "Directory",
 		meta: {
 			hide: false,
-			requiresAuth: false, // can change to true later or use ternary now
+			requiresAuth: true, // can change to true later or use ternary now
 			icon: "mdi-account-group",
 			role: "",
 		},
-		component: () => import(/* webpackChunkName: "" */ "@/views/Directory.vue"),
+		component: () => import(/* webpackChunkName: "home" */ "@/views/Directory.vue"),
 	},
 	{
 		path: "/member-view/:id",
@@ -67,7 +79,7 @@ const routes = [
 	},
 	{
 		path: '*',
-		component: () => import(/* webpackChunkName: "" */ "@/views/404.vue"),
+		component: () => import(/* webpackChunkName: "home" */ "@/views/404.vue"),
 		name: "404",
 		meta: {
 			hide: true,
@@ -90,7 +102,12 @@ router.beforeEach((to, from, next) => {
 		return x.meta.requiresAuth;
 	});
 
-	if (requiresAuth /* && check user role here */) {
+	if (requiresAuth) {
+		if (store.getters.isLoggedIn /* add second check for roles here */) {
+			next()
+			return
+		}
+
 		next("/login");
 	} else {
 		next();
