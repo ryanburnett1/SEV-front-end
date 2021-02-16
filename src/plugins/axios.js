@@ -9,6 +9,16 @@ import axios from "axios";
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 let config = {
+  baseURL: process.env.NODE_ENV === "production" ? "http://team1.eaglesoftwareteam.com/"
+    : "http://localhost:3000/",
+   withCredentials: false,
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
+    crossDomain: true,
+    "Access-Control-Allow-Origin": "*",
+  },
   // baseURL: process.env.baseURL || process.env.apiUrl || ""
   // timeout: 60 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control
