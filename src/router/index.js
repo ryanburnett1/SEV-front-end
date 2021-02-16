@@ -16,20 +16,43 @@ const routes = [
 			role: "", // used to check user roles (admin, member, etc)
 		},
 	},
+	// {
+	// 	path: "/about",
+	// 	name: "About",
+	// 	meta: {
+	// 		hide: false,
+	// 		requiresAuth: false,
+	// 		icon: "",
+	// 		role: "",
+	// 	},
+	// 	// route level code-splitting
+	// 	// this generates a separate chunk (about.[hash].js) for this route
+	// 	// which is lazy-loaded when the route is visited.
+	// 	component: () =>
+	// 		import(/* webpackChunkName: "about" */ "../views/About.vue"),
+	// },
 	{
-		path: "/about",
-		name: "About",
+		path: "/directory",
+		name: "Directory",
 		meta: {
 			hide: false,
-			requiresAuth: false,
+			requiresAuth: false, // can change to true later or use ternary now
+			icon: "mdi-account-group",
+			role: "",
+		},
+		component: () => import(/* webpackChunkName: "" */ "@/views/Directory.vue"),
+	},
+	{
+		path: "/member-view/:id",
+		name: "MemberView",
+		meta: {
+			hide: true,
+			requiresAuth: false, // can change to true later or use ternary now
 			icon: "",
 			role: "",
 		},
-		// route level code-splitting
-		// this generates a separate chunk (about.[hash].js) for this route
-		// which is lazy-loaded when the route is visited.
-		component: () =>
-			import(/* webpackChunkName: "about" */ "../views/About.vue"),
+		props: true,
+		component: () => import(/**/ "@/views/Member.vue"),
 	},
 	{
 		path: "/test",

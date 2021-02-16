@@ -17,7 +17,7 @@
 						>Status / Disabled / Left
 					</v-card-title>
 				</v-img>
-				<v-card-subtitle>{{ data.name }} | id: {{ data.id }}</v-card-subtitle>
+				<v-card-subtitle>{{ data.name }} | id: {{ data.id }} </v-card-subtitle>
 				<v-divider></v-divider>
 				<v-card-text>{{ data.info }}</v-card-text>
 			</v-card>
