@@ -1,32 +1,41 @@
 <template>
 	<v-container>
-		<v-form ref="form" v-model="valid" lazy-validation>
-			<v-text-field
-				v-model="user.email"
-				:rules="emailRules"
-				label="E-mail"
-				type="email"
-				required
-			></v-text-field>
-			<v-text-field
-				v-model="user.password"
-				label="Password"
-				required
-				type="password"
-			></v-text-field>
-
-			<v-btn
-				:disabled="!valid"
-				color="success"
-				@click="
-					$store.dispatch('login', {
-						email: user.email,
-						password: user.password,
-					})
-				"
-				>Login</v-btn
-			>
-		</v-form>
+		<v-card>
+			<v-toolbar dark color="primary" dense flat>
+				<v-toolbar-title class="text-body-2 font-weight-bold white--text">
+					Login Form:
+				</v-toolbar-title>
+			</v-toolbar>
+			<v-form ref="form" v-model="valid" lazy-validation class="ma-2 pa-2">
+				<v-text-field
+					v-model="user.email"
+					:rules="emailRules"
+					label="E-mail"
+					type="email"
+					prepend-icon="mdi-email"
+					required
+				></v-text-field>
+				<v-text-field
+					v-model="user.password"
+					label="Password"
+					required
+					type="password"
+					prepend-icon="mdi-lock"
+				></v-text-field>
+				<v-divider class="mb-2"></v-divider>
+				<v-btn
+					:disabled="!valid"
+					color="success"
+					@click="
+						$store.dispatch('login', {
+							email: user.email,
+							password: user.password,
+						})
+					"
+					>Login</v-btn
+				>
+			</v-form>
+		</v-card>
 	</v-container>
 </template>
 

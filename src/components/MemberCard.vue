@@ -17,7 +17,9 @@
 						>Status / Disabled / Left
 					</v-card-title>
 				</v-img>
-				<v-card-subtitle>{{ data.name }} | id: {{ data.id }} </v-card-subtitle>
+				<v-card-subtitle
+					>{{ data.f_name + " " + data.l_name }} | id: {{ data.id }}
+				</v-card-subtitle>
 				<v-divider></v-divider>
 				<v-card-text>{{ data.info }}</v-card-text>
 			</v-card>
@@ -32,7 +34,8 @@ export default {
 			type: Object,
 			default() {
 				return {
-					name: "Default Name",
+					f_name: "Default Name",
+					l_name: "",
 					image: "https://picsum.photos/1920/1080?random",
 					info: "Default Info",
 					id: "-1",
