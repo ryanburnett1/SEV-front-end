@@ -17,10 +17,12 @@
 				></v-text-field>
 				<v-text-field
 					v-model="user.password"
+					:append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
 					label="Password"
 					required
-					type="password"
+					:type="show ? 'text' : 'password'"
 					prepend-icon="mdi-lock"
+					@click:append="show = !show"
 				></v-text-field>
 				<v-divider class="mb-2"></v-divider>
 				<v-btn
@@ -54,6 +56,7 @@ export default {
 				(v) =>
 					/.+@.+\..+/.test(v) || "Email invalid, Try: emailName@provider.com",
 			],
+			show: false,
 			valid: false,
 		};
 	},

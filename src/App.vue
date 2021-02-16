@@ -1,6 +1,14 @@
 <template>
 	<v-app>
-		<v-app-bar app dense color="primary" dark>
+		<v-app-bar
+			app
+			dense
+			color="primary"
+			dark
+			elevate-on-scroll
+			elevation="24"
+			hide-on-scroll
+		>
 			<template v-slot:img="{ props }">
 				<v-img v-bind="props"> </v-img>
 			</template>
@@ -54,4 +62,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.v-app-bar {
+	// border-bottom-left-radius: 5px !important;
+	// border-bottom-right-radius: 5px !important;
+}
 </style>
