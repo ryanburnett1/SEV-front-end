@@ -24,7 +24,7 @@
 				Can be slow with a large dataset
 			</v-tooltip>
 		</v-row>
-		<v-col>
+		<v-col v-if="usePagination">
 			<v-pagination
 				v-model="pageNumber"
 				:length="pageCount"
