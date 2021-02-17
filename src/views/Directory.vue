@@ -14,13 +14,14 @@
 				<template v-slot:activator="{ on, attrs }">
 					<span v-bind="attrs" v-on="on">
 						<v-checkbox
+							class="mt-0 pt-0"
 							v-model="usePagination"
 							label="Use Pagination"
 							@click="search = ''"
 						></v-checkbox>
 					</span>
 				</template>
-				<span>Can be slow with a large dataset</span>
+				Can be slow with a large dataset
 			</v-tooltip>
 		</v-row>
 		<v-row class="justify-space-between" v-if="members.length > 0">
@@ -46,13 +47,15 @@
 				:length="pageCount"
 				@input="nextPage"
 			></v-pagination>
-			Go To Page:
-			<v-text-field
-				v-model="pageNumber"
-				label="Go To Page: "
-				type="number"
-				solo
-			></v-text-field>
+			<v-col>
+				<span> Go To Page: </span>
+				<v-text-field
+					v-model="pageNumber"
+					label="Go To Page: "
+					type="number"
+					solo
+				></v-text-field>
+			</v-col>
 		</v-row>
 	</v-container>
 </template>
