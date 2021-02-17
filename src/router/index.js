@@ -64,7 +64,7 @@ const routes = [
 		component: () => import(/**/ "@/views/Member.vue"),
 	},
 	{
-		path: "member-edit/:id",
+		path: "/member-edit/:id",
 		name: "MemberEdit",
 		meta: {
 			hide: true,

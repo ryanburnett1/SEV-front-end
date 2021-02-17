@@ -7,18 +7,22 @@ class Person {
     createdAt = ""
     updatedAt = ""
 
-    constructor(f_name, l_name, phone, spouse, createdAt, updatedAt) {
-        this.f_name = f_name
-        this.l_name = l_name
-        this.phone = phone
-        this.spouse = spouse
-        this.createdAt = createdAt
-        this.updatedAt = updatedAt
+    constructor(person) {
+        this.f_name = person.f_name
+        this.l_name = person.l_name
+        this.phone = person.phone
+        this.spouse = person.spouse
+        this.createdAt = person.createdAt
+        this.updatedAt = person.updatedAt
     }
 
-    // toJSON() {
-    //     return JSON.stringify(this);
-    // }
+    fullName() {
+        return this.f_name + " " + this.l_name
+    }
+
+    updateDate() {
+        this.updatedAt = Date.now();
+    }
 }
 
 export default Person;

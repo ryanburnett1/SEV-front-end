@@ -9,6 +9,7 @@
 <script>
 import AdminFab from "../../components/AdminFab.vue";
 export default {
+	props: ["id"],
 	components: {
 		AdminFab,
 	},
