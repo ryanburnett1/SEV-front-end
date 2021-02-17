@@ -8,6 +8,11 @@
 				label="Search"
 				outlined
 			></v-text-field>
+			<v-pagination
+				v-model="pageNumber"
+				:length="pageCount"
+				@input="nextPage"
+			></v-pagination>
 		</v-row>
 		<v-row class="justify-space-between" v-if="members.length > 0">
 			<member-card
