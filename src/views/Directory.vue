@@ -10,12 +10,18 @@
 			></v-text-field>
 		</v-row>
 		<v-row>
-			<v-checkbox
-				v-model="usePagination"
-				label="Use Pagination"
-				hint="Can be slow with a large dataset"
-				@click="search = ''"
-			></v-checkbox>
+			<v-tooltip right>
+				<template v-slot:activator="{ on, attrs }">
+					<span v-bind="attrs" v-on="on">
+						<v-checkbox
+							v-model="usePagination"
+							label="Use Pagination"
+							@click="search = ''"
+						></v-checkbox>
+					</span>
+				</template>
+				<span>Can be slow with a large dataset</span>
+			</v-tooltip>
 		</v-row>
 		<v-row class="justify-space-between" v-if="members.length > 0">
 			<member-card
@@ -40,14 +46,12 @@
 				:length="pageCount"
 				@input="nextPage"
 			></v-pagination>
+			Go To Page:
 			<v-text-field
 				v-model="pageNumber"
-				class="mt-0 pt-0"
-				single-line
-				label="Go To Page:"
+				label="Go To Page: "
 				type="number"
-				style="width: 60px"
-				ref="gotoPage"
+				solo
 			></v-text-field>
 		</v-row>
 	</v-container>
