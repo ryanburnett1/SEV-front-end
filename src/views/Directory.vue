@@ -25,22 +25,25 @@
 			<v-row>
 				<v-col>
 					<v-text-field
-						v-model="pageNumber"
-						label="Go To Page: "
+						v-model.number="pageNumber"
 						type="number"
 						solo
 						single-line
+						dense
 						prefix="Go To Page: "
+						@change="checkGoto"
 					></v-text-field>
 				</v-col>
 				<v-col>
 					<v-select
-						v-model="size"
+						v-model.number="size"
 						:items="[10, 15, 25, 50, 100]"
+						type="number"
 						solo
 						single-line
+						dense
 						prefix="Items Per Page: "
-						type="number"
+						@change="checkPerPage"
 					></v-select>
 				</v-col>
 			</v-row>
@@ -50,6 +53,7 @@
 					:length="pageCount"
 					:total-visible="7"
 					@input="nextPage"
+					ref="pagin"
 				></v-pagination>
 			</v-col>
 		</v-col>
@@ -126,7 +130,13 @@ export default {
 	},
 	methods: {
 		nextPage(page) {
-			this.pageNumber = page;
+			this.pageNumber = parseInt(page);
+		},
+		checkPerPage() {
+			this.pageNumber = 1;
+		},
+		checkGoto() {
+			this.pageNumber = Math.max(1, Math.min(this.pageNumber, this.pageCount));
 		},
 	},
 	mounted() {
