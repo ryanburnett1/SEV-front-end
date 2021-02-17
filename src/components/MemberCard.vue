@@ -12,11 +12,17 @@
 				max-width="350"
 				:disabled="data.disabled"
 			>
-				<v-img :src="data.image" class="red--text align-end">
-					<v-card-title v-if="data.disabled"
-						>Status / Disabled / Left
-					</v-card-title>
-				</v-img>
+				<v-skeleton-loader type="image">
+					<v-img
+						:src="data.image"
+						class="red--text align-end"
+						:lazy-src="require('@/assets/images/scared-batman.jpg')"
+					>
+						<v-card-title v-if="data.disabled"
+							>Status / Disabled / Left
+						</v-card-title>
+					</v-img>
+				</v-skeleton-loader>
 				<v-card-subtitle>{{ data.name }} | id: {{ data.id }} </v-card-subtitle>
 				<v-divider></v-divider>
 				<v-card-text>{{ data.info }}</v-card-text>
