@@ -24,6 +24,14 @@
 				Can be slow with a large dataset
 			</v-tooltip>
 		</v-row>
+		<v-col>
+			<v-pagination
+				v-model="pageNumber"
+				:length="pageCount"
+				:total-visible="7"
+				@input="nextPage"
+			></v-pagination>
+		</v-col>
 		<v-row class="justify-space-between" v-if="members.length > 0">
 			<member-card
 				class="ma-2"
@@ -42,11 +50,6 @@
 		</v-row>
 
 		<v-row v-if="usePagination">
-			<v-pagination
-				v-model="pageNumber"
-				:length="pageCount"
-				@input="nextPage"
-			></v-pagination>
 			<v-col>
 				<span> Go To Page: </span>
 				<v-text-field
