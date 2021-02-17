@@ -43,7 +43,7 @@ export default {
 	},
 	data() {
 		return {
-			pageNumber: 0, // current selected page
+			pageNumber: 1, // current selected page
 			size: 10, // number per page
 			search: "",
 			members: [
@@ -130,6 +130,7 @@ export default {
 				image: "https://picsum.photos/1920/1080?random=" + i,
 			});
 		}
+		Object.freeze(this.members);
 
 		console.log(this.members);
 	},
