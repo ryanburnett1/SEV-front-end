@@ -1,31 +1,31 @@
 // import { _axios } from "@/plugins/axios.js"
 import Vue from "vue"
 
-class MemberService {
+class UserService {
     getAll() {
-        return Vue.axios.get("/person");
+        return Vue.axios.get("/user");
     }
 
     get(id) {
-        return Vue.axios.get(`/person/${id}`);
+        return Vue.axios.get(`/user/${id}`);
     }
 
     create(data) {
-        return Vue.axios.post("/person", data);
+        return Vue.axios.post("/user", data);
     }
 
     update(id, data) {
-        return Vue.axios.put(`/person/${id}`, data);
+        return Vue.axios.put(`/user/${id}`, data);
     }
 
     delete(id) {
-        return Vue.axios.delete(`/person/${id}`);
+        return Vue.axios.delete(`/user/${id}`);
     }
-
+    
     // other unique route queries here
     // example findByAttributeNameHere(data)
     // return get(`/route?attrib=${param}`)
 }
 
 
-export default new MemberService();
+export default new UserService();

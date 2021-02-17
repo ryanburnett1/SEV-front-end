@@ -21,7 +21,7 @@
 import AdminFab from "@/components/AdminFab.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import Person from "@/models/person.model";
-import MemberService from "@/services/memberServices";
+import MemberService from "@/services/memberServices.js";
 
 export default {
 	props: ["id"],
