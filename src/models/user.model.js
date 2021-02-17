@@ -13,6 +13,7 @@ class User {
         this.username = user.username
         this.password = user.password
         this.email = user.email
+        this.memberId = user.memberId
         this.person = person
     }
 

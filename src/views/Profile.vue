@@ -32,14 +32,14 @@ export default {
 	data() {
 		return {
 			profile: new Person({
-				f_name: "test",
-				l_name: "fdd",
+				f_name: "Default",
+				l_name: "Name",
 			}),
 		};
 	},
 	mounted() {
-		MemberService.get(1).then((response) => {
-			this.profile = new Person(response.data[0]);
+		MemberService.get(this.id).then((response) => {
+			this.profile = new Person(response.data.data);
 			this.profile.updateDate();
 			console.log(this.profile);
 		});
