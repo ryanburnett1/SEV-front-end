@@ -18,6 +18,12 @@
 				@input="nextPage"
 			></v-pagination>
 			</v-col></v-row></v-container>
+			<v-checkbox
+				v-model="usePagination"
+				label="Use Pagination"
+				hint="Can be slow with a large dataset"
+				@click="search = ''"
+			></v-checkbox>
 		</v-row>
 		<v-row class="justify-space-between" v-if="members.length > 0">
 			<member-card
@@ -29,6 +35,15 @@
 					$router.push({ name: 'MemberView', params: { id: member.id } })
 				"
 			/>
+
+		</v-row>
+		<v-row v-else>
+			Members Not Found.
+			<br />
+			Please Check Your Internet Connection and Try Refreshing The Page.
+		</v-row>
+
+		<v-row v-if="usePagination">
 			<v-container><v-row><v-col>
 			<v-pagination
 				v-model="pageNumber"
@@ -37,11 +52,15 @@
 				@input="nextPage"
 			></v-pagination>
 			</v-col></v-row></v-container>
-		</v-row>
-		<v-row v-else>
-			Members Not Found.
-			<br />
-			Please Check Your Internet Connection and Try Refreshing The Page.
+			<v-text-field
+				v-model="pageNumber"
+				class="mt-0 pt-0"
+				single-line
+				label="Go To Page:"
+				type="number"
+				style="width: 60px"
+				ref="gotoPage"
+			></v-text-field>
 		</v-row>
 	</v-container>
 </template>
@@ -57,47 +76,21 @@ export default {
 	data() {
 		return {
 			pageNumber: 1, // current selected page
-			size: 10, // number per page
+			size: 25, // number per page
 			search: "",
-			members: [
-				// {
-				// 	name: "Jason",
-				// 	info:
-				// 		"Subtly charming reader. Troublemaker. Social media fan. Total pop culture expert.",
-				// 	id: "-5",
-				// 	image: "https://picsum.photos/1920/1080?random=1",
-				// 	disabled: false,
-				// },
-				// {
-				// 	name: "Lane",
-				// 	info:
-				// 		"Communicator. Hipster-friendly web fanatic. Coffee aficionado. Tv advocate. Proud beer fan. Reader.",
-				// 	id: "-4",
-				// 	image: "https://picsum.photos/1920/1080?random=2",
-				// 	disabled: true,
-				// },
-				// {
-				// 	name: "Nathan",
-				// 	info:
-				// 		"Explorer. Zombie junkie. Analyst. Wannabe writer. Food trailblazer. Devoted pop culture aficionado.",
-				// 	id: "-6",
-				// 	image: "https://picsum.photos/1920/1080?random=3",
-				// 	disabled: false,
-				// },
-				// {
-				// 	name: "Ryan",
-				// 	info:
-				// 		"Music specialist. Social media expert. Alcohol fan. Travel fanatic. Student. Web advocate.",
-				// 	id: "-69",
-				// 	image: "https://picsum.photos/1920/1080?random=4",
-				// 	disabled: false,
-				// },
-			],
+			members: [],
+			usePagination: true,
 		};
 	},
 	computed: {
 		filteredData() {
-			let data = this.paginatedData;
+			let data = [];
+
+			if (this.usePagination) {
+				data = this.paginatedData;
+			} else {
+				data = this.members;
+			}
 
 			if (this.search !== null) {
 				data = data.filter(
@@ -111,7 +104,7 @@ export default {
 				);
 			}
 
-			return data;
+			return Object.freeze(data);
 		},
 		pageCount() {
 			let l = this.members.length;
@@ -144,8 +137,6 @@ export default {
 			});
 		}
 		Object.freeze(this.members);
-
-		console.log(this.members);
 	},
 };
 </script>
