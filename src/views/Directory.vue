@@ -8,11 +8,16 @@
 				label="Search"
 				outlined
 			></v-text-field>
+		</v-row>
+		<v-row>
+			<v-container><v-row><v-col>
 			<v-pagination
 				v-model="pageNumber"
 				:length="pageCount"
+				:total-visible="7"
 				@input="nextPage"
 			></v-pagination>
+			</v-col></v-row></v-container>
 		</v-row>
 		<v-row class="justify-space-between" v-if="members.length > 0">
 			<member-card
@@ -24,11 +29,14 @@
 					$router.push({ name: 'MemberView', params: { id: member.id } })
 				"
 			/>
+			<v-container><v-row><v-col>
 			<v-pagination
 				v-model="pageNumber"
 				:length="pageCount"
+				:total-visible="7"
 				@input="nextPage"
 			></v-pagination>
+			</v-col></v-row></v-container>
 		</v-row>
 		<v-row v-else>
 			Members Not Found.
