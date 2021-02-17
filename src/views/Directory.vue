@@ -9,10 +9,33 @@
 				outlined
 			></v-text-field>
 		</v-row>
+		<v-row>
+			<v-tooltip right>
+				<template v-slot:activator="{ on, attrs }">
+					<span v-bind="attrs" v-on="on">
+						<v-checkbox
+							class="mt-0 pt-0"
+							v-model="usePagination"
+							label="Use Pagination"
+							@click="search = ''"
+						></v-checkbox>
+					</span>
+				</template>
+				Can be slow with a large dataset
+			</v-tooltip>
+		</v-row>
+		<v-col>
+			<v-pagination
+				v-model="pageNumber"
+				:length="pageCount"
+				:total-visible="7"
+				@input="nextPage"
+			></v-pagination>
+		</v-col>
 		<v-row class="justify-space-between" v-if="members.length > 0">
 			<member-card
 				class="ma-2"
-				v-for="member in filter"
+				v-for="member in filteredData"
 				:key="member.id"
 				:data="member"
 				@click.native="
@@ -24,6 +47,18 @@
 			Members Not Found.
 			<br />
 			Please Check Your Internet Connection and Try Refreshing The Page.
+		</v-row>
+
+		<v-row v-if="usePagination">
+			<v-col>
+				<span> Go To Page: </span>
+				<v-text-field
+					v-model="pageNumber"
+					label="Go To Page: "
+					type="number"
+					solo
+				></v-text-field>
+			</v-col>
 		</v-row>
 	</v-container>
 </template>
@@ -38,46 +73,22 @@ export default {
 	},
 	data() {
 		return {
+			pageNumber: 1, // current selected page
+			size: 25, // number per page
 			search: "",
-			members: [
-				{
-					name: "Jason",
-					info:
-						"Subtly charming reader. Troublemaker. Social media fan. Total pop culture expert.",
-					id: "-5",
-					image: "https://picsum.photos/1920/1080?random=1",
-					disabled: false,
-				},
-				{
-					name: "Lane",
-					info:
-						"Communicator. Hipster-friendly web fanatic. Coffee aficionado. Tv advocate. Proud beer fan. Reader.",
-					id: "-4",
-					image: "https://picsum.photos/1920/1080?random=2",
-					disabled: true,
-				},
-				{
-					name: "Nathan",
-					info:
-						"Explorer. Zombie junkie. Analyst. Wannabe writer. Food trailblazer. Devoted pop culture aficionado.",
-					id: "-6",
-					image: "https://picsum.photos/1920/1080?random=3",
-					disabled: false,
-				},
-				{
-					name: "Ryan",
-					info:
-						"Music specialist. Social media expert. Alcohol fan. Travel fanatic. Student. Web advocate.",
-					id: "-69",
-					image: "https://picsum.photos/1920/1080?random=4",
-					disabled: false,
-				},
-			],
+			members: [],
+			usePagination: true,
 		};
 	},
 	computed: {
-		filter() {
-			let data = this.members;
+		filteredData() {
+			let data = [];
+
+			if (this.usePagination) {
+				data = this.paginatedData;
+			} else {
+				data = this.members;
+			}
 
 			if (this.search !== null) {
 				data = data.filter(
@@ -91,14 +102,39 @@ export default {
 				);
 			}
 
-			return data;
+			return Object.freeze(data);
+		},
+		pageCount() {
+			let l = this.members.length;
+			let s = this.size;
+			return Math.ceil(l / s);
+		},
+		paginatedData() {
+			const start = this.pageNumber * this.size - this.size;
+			const end = start + this.size;
+			return this.members.slice(start, end);
 		},
 	},
-	methods: {},
+	methods: {
+		nextPage(page) {
+			this.pageNumber = page;
+		},
+	},
 	mounted() {
 		// MemberService.getAll().then((Response) => {
 		// 	this.members = Response.data;
 		// });
+		this.members = [];
+		for (let i = 0; i < 2500; i++) {
+			this.members.push({
+				name: i,
+				id: i,
+				info: i,
+				disabled: false,
+				image: "https://picsum.photos/1920/1080?random=" + i,
+			});
+		}
+		Object.freeze(this.members);
 	},
 };
 </script>
