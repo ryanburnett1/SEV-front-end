@@ -28,21 +28,18 @@ const routes = [
 		},
 		component: () => import(/* webpackChunkName: "home" */ "@/views/Login.vue")
 	},
-	// {
-	// 	path: "/about",
-	// 	name: "About",
-	// 	meta: {
-	// 		hide: false,
-	// 		requiresAuth: false,
-	// 		icon: "",
-	// 		role: "",
-	// 	},
-	// 	// route level code-splitting
-	// 	// this generates a separate chunk (about.[hash].js) for this route
-	// 	// which is lazy-loaded when the route is visited.
-	// 	component: () =>
-	// 		import(/* webpackChunkName: "about" */ "../views/About.vue"),
-	// },
+	{
+		path: "/profile/:id",
+		name: "Profile",
+		meta: {
+			hide: true,
+			requiresAuth: true,
+			icon: "mdi-account-box",
+			role: "",
+		},
+		props: true,
+		component: () => import(/* webpackChunkName: "home" */ "@/views/Profile.vue"),
+	},
 	{
 		path: "/directory",
 		name: "Directory",
@@ -65,6 +62,18 @@ const routes = [
 		},
 		props: true,
 		component: () => import(/**/ "@/views/Member.vue"),
+	},
+	{
+		path: "member-edit/:id",
+		name: "MemberEdit",
+		meta: {
+			hide: true,
+			requiresAuth: true,
+			icon: "",
+			role: "",
+		},
+		props: true,
+		component: () => import(/**/ "@/views/edit/MemberEdit.vue"),
 	},
 	{
 		path: "/test",
