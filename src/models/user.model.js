@@ -6,6 +6,7 @@ class User {
     password = ""
     email = ""
     memberId = null
+    role = ""
     person = new Person({})
 
     constructor(user, person) {
