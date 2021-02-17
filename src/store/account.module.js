@@ -5,7 +5,7 @@ const state = {
     isLogin: false,
     token: null,
     user: null,
-    roles: [],
+    role: "",
 };
 
 const actions = {

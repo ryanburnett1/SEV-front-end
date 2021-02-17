@@ -79,7 +79,7 @@ const routes = [
 		path: "/test",
 		name: "Test",
 		meta: {
-			hide: false,
+			hide:  process.env.NODE_ENV === "production" ? true : false,
 			requiresAuth: false,
 			icon: "mdi-cog",
 			role: "",

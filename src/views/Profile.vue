@@ -38,7 +38,7 @@ export default {
 		};
 	},
 	mounted() {
-		MemberService.getAll().then((response) => {
+		MemberService.get(1).then((response) => {
 			this.profile = new Person(response.data[0]);
 			this.profile.updateDate();
 			console.log(this.profile);
