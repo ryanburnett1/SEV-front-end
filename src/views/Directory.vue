@@ -8,29 +8,50 @@
 				label="Search"
 				outlined
 			></v-text-field>
-		</v-row>
-		<v-row>
-			<v-tooltip right>
+			<v-tooltip bottom>
 				<template v-slot:activator="{ on, attrs }">
 					<span v-bind="attrs" v-on="on">
-						<v-checkbox
-							class="mt-0 pt-0"
+						<v-switch
 							v-model="usePagination"
 							label="Use Pagination"
 							@click="search = ''"
-						></v-checkbox>
+						></v-switch>
 					</span>
 				</template>
 				Can be slow with a large dataset
 			</v-tooltip>
 		</v-row>
 		<v-col v-if="usePagination">
-			<v-pagination
-				v-model="pageNumber"
-				:length="pageCount"
-				:total-visible="7"
-				@input="nextPage"
-			></v-pagination>
+			<v-row>
+				<v-col>
+					<v-text-field
+						v-model="pageNumber"
+						label="Go To Page: "
+						type="number"
+						solo
+						single-line
+						prefix="Go To Page: "
+					></v-text-field>
+				</v-col>
+				<v-col>
+					<v-select
+						v-model="size"
+						:items="[10, 15, 25, 50, 100]"
+						solo
+						single-line
+						prefix="Items Per Page: "
+						type="number"
+					></v-select>
+				</v-col>
+			</v-row>
+			<v-col>
+				<v-pagination
+					v-model="pageNumber"
+					:length="pageCount"
+					:total-visible="7"
+					@input="nextPage"
+				></v-pagination>
+			</v-col>
 		</v-col>
 		<v-row class="justify-space-between" v-if="members.length > 0">
 			<member-card
@@ -47,18 +68,6 @@
 			Members Not Found.
 			<br />
 			Please Check Your Internet Connection and Try Refreshing The Page.
-		</v-row>
-
-		<v-row v-if="usePagination">
-			<v-col>
-				<span> Go To Page: </span>
-				<v-text-field
-					v-model="pageNumber"
-					label="Go To Page: "
-					type="number"
-					solo
-				></v-text-field>
-			</v-col>
 		</v-row>
 	</v-container>
 </template>
