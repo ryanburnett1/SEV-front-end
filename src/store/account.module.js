@@ -1,5 +1,7 @@
 // import service helper here for REST calls
-import router  from "@/router/index.js";
+import router from "@/router/index.js";
+// import User from "@/models/user.model";
+import userService from "@/services/userServices";
 
 const state = {
     isLogin: false,
@@ -12,16 +14,20 @@ const actions = {
     login({ commit }, { email, password }) {
         commit('loginRequest', { email })
 
-        console.log("test")
+        userService.getUser({ email, password }).then(response => {
+            console.log(response);
 
-        let result = password //change to axios request Login(username, password)
-        if (result) {
-            // pass user object with info here
-            commit('loginSuccess', { name: "test user", id: -1});
-            console.log('login successful')
-            router.push("/")
-        }
+            if (response.data) {
+                commit('loginSuccess', response.data.data);
+                router.push("/")
+            } else {
+                console.log("Failure")
+            }
 
+            
+        }).catch(err => {
+            console.log(err)
+        });
     },
     logout({ commit }) {
         commit('resetState')
@@ -60,7 +66,7 @@ const mutations = {
 const getters = {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
-    getUserId: state => state.user.id,
+    getUserId: state => state.user.personId,
 }
 
 

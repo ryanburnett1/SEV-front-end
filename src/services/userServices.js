@@ -21,6 +21,10 @@ class UserService {
     delete(id) {
         return Vue.axios.delete(`/user/${id}`);
     }
+
+    getUser(data) {
+        return Vue.axios.post(`/user/login`, data);
+    }
     
     // other unique route queries here
     // example findByAttributeNameHere(data)

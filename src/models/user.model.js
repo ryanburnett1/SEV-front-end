@@ -5,15 +5,15 @@ class User {
     username = ""
     password = ""
     email = ""
-    memberId = null
     role = ""
+    personId = null
     person = new Person({})
 
     constructor(user, person) {
         this.username = user.username
         this.password = user.password
         this.email = user.email
-        this.memberId = user.memberId
+        this.personId = user.personId
         this.person = person
     }
 
