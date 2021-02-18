@@ -6,14 +6,18 @@ class Person {
     spouse = ""
     createdAt = ""
     updatedAt = ""
+    skill = []
 
     constructor(person) {
+        console.log("COnst: ", person)
+        this.id = person.id
         this.f_name = person.f_name
         this.l_name = person.l_name
         this.phone = person.phone
         this.spouse = person.spouse
         this.createdAt = person.createdAt
         this.updatedAt = person.updatedAt
+        this.skill = person.skill
     }
 
     fullName() {
