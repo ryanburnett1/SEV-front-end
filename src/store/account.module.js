@@ -67,6 +67,7 @@ const getters = {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     getUserId: state => state.user.personId,
+    getUserRole: state => state.user.role,
 }
 
 
