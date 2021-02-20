@@ -22,8 +22,16 @@ class UserService {
         return Vue.axios.delete(`/user/${id}`);
     }
 
-    getUser(data) {
+    login(data) {
         return Vue.axios.post(`/user/login`, data);
+    }
+
+    logout(data) {
+        return Vue.axios.post(`/user/logout`, data);
+    }
+
+    getUser(userId, token) {
+        return Vue.axios.post(`/user/auth`, { userId, token })
     }
     
     // other unique route queries here
