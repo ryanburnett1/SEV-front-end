@@ -64,6 +64,9 @@ export default {
 		...mapActions("account", {
 			login: "login",
 		}),
+		validate() {
+			this.$refs.form.validate();
+		},
 	},
 };
 </script>

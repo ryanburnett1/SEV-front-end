@@ -16,6 +16,8 @@ const actions = {
         
         userService.login({ email, password }).then(response => {
             let session = response.data.data;
+
+            console.log(session)
             
             if (session) {
                 commit('loginSuccess', session);
