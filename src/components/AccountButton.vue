@@ -40,6 +40,11 @@ export default {
 				this.$store.getters.getUserId
 			);
 
+			this.$router.push({
+				name: "Profile",
+				params: { id: this.$store.getters.getPersonId },
+			});
+
 			// go to user profile, member self edit, whatever
 		},
 	},

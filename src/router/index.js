@@ -14,7 +14,7 @@ const routes = [
 			hide: false, // used to hide from navigation menus
 			requiresAuth: false, // if requires user to be logged in
 			icon: "mdi-home", // icon to display in menus
-			role: "", // used to check user roles (admin, member, etc)
+			roles: [], // used to check user roles (admin, member, etc)
 		},
 	},
 	{
@@ -24,25 +24,22 @@ const routes = [
 			hide: false,
 			requiresAuth: false,
 			icon: "mdi-account",
-			role: "",
+			roles: [],
 		},
 		component: () => import(/* webpackChunkName: "home" */ "@/views/Login.vue")
 	},
-	// {
-	// 	path: "/about",
-	// 	name: "About",
-	// 	meta: {
-	// 		hide: false,
-	// 		requiresAuth: false,
-	// 		icon: "",
-	// 		role: "",
-	// 	},
-	// 	// route level code-splitting
-	// 	// this generates a separate chunk (about.[hash].js) for this route
-	// 	// which is lazy-loaded when the route is visited.
-	// 	component: () =>
-	// 		import(/* webpackChunkName: "about" */ "../views/About.vue"),
-	// },
+	{
+		path: "/profile/:id",
+		name: "Profile",
+		meta: {
+			hide: true,
+			requiresAuth: true,
+			icon: "mdi-account-box",
+			roles: [],
+		},
+		props: true,
+		component: () => import(/* webpackChunkName: "home" */ "@/views/Profile.vue"),
+	},
 	{
 		path: "/directory",
 		name: "Directory",
@@ -50,7 +47,7 @@ const routes = [
 			hide: false,
 			requiresAuth: true, // can change to true later or use ternary now
 			icon: "mdi-account-group",
-			role: "",
+			roles: [],
 		},
 		component: () => import(/* webpackChunkName: "home" */ "@/views/Directory.vue"),
 	},
@@ -61,19 +58,31 @@ const routes = [
 			hide: true,
 			requiresAuth: false, // can change to true later or use ternary now
 			icon: "",
-			role: "",
+			roles: [],
 		},
 		props: true,
 		component: () => import(/**/ "@/views/Member.vue"),
 	},
 	{
+		path: "/member-edit/:id",
+		name: "MemberEdit",
+		meta: {
+			hide: true,
+			requiresAuth: true,
+			icon: "",
+			roles: [],
+		},
+		props: true,
+		component: () => import(/**/ "@/views/edit/MemberEdit.vue"),
+	},
+	{
 		path: "/test",
 		name: "Test",
 		meta: {
-			hide: false,
+			hide:  process.env.NODE_ENV === "production" ? true : false,
 			requiresAuth: false,
 			icon: "mdi-cog",
-			role: "",
+			roles: ["admin"],
 		},
 		component: () => import (/* webpackChunkName: "test" */ "@/views/Test.vue"),
 	},
@@ -85,7 +94,7 @@ const routes = [
 			hide: true,
 			requiresAuth: false,
 			icon: "",
-			role: "",
+			roles: [],
 		}
 	}
 ];
@@ -101,9 +110,15 @@ router.beforeEach((to, from, next) => {
 	let requiresAuth = to.matched.some(function(x) {
 		return x.meta.requiresAuth;
 	});
+	let roles = to.meta.roles;
 
-	if (requiresAuth) {
-		if (store.getters.isLoggedIn /* add second check for roles here */) {
+	if (requiresAuth || roles.length > 0) {
+		if (store.getters.isLoggedIn) {
+			if (roles.length !== 0 && !roles.includes(store.getters.getUserRole)) {
+				console.log("User Role Not Met: Return To 404");
+				next("/*");
+				return
+			}
 			next()
 			return
 		}

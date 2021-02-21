@@ -2,23 +2,59 @@ class Person {
     id = null
     f_name = ""
     l_name = ""
-    phone = ""
-    spouse = ""
-    createdAt = ""
-    updatedAt = ""
+    phone_number = ""
+    image = ""
+    sex = ""
+    marital_status = ""
+    status = ""
+    title = ""
+    skill = []
 
-    constructor(f_name, l_name, phone, spouse, createdAt, updatedAt) {
-        this.f_name = f_name
-        this.l_name = l_name
-        this.phone = phone
-        this.spouse = spouse
-        this.createdAt = createdAt
-        this.updatedAt = updatedAt
+    constructor(person) {
+        this.id = person.id
+        this.f_name = person.f_name
+        this.l_name = person.l_name
+        this.phone_number = person.phone_number
+        this.image = person.image
+        this.sex = person.sex
+        this.marital_status = person.marital_status
+        this.status = person.status
+        this.title = person.title
+        this.skill = person.skill
     }
 
-    // toJSON() {
-    //     return JSON.stringify(this);
-    // }
+    fullName() {
+        return this.f_name + " " + this.l_name
+    }
+
+    updateDate() {
+        this.updatedAt = Date.now();
+    }
+
+    maskPhoneNumber() {
+        let phone = String(this.phone_number)
+        if (!phone)
+            return "No Phone Number Available"
+        
+        let masked = ""
+        masked += "(" + phone.substring(0, 3) + ") "
+        masked += phone.substring(3, 6) + "-"
+        masked += phone.substring(6, 10)
+
+        return masked
+    }
+
+    sexOptions() {
+        return ["m", "f", "other"]
+    }
+
+    maritalStatusOptions() {
+        return ["married", "divorced", "seperated", "unmarried", "widowed"]
+    }
+
+    statusOptions() {
+        return ['active', 'inactive', 'disabled']
+    }
 }
 
 export default Person;

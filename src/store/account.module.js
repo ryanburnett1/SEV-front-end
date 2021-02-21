@@ -1,34 +1,46 @@
 // import service helper here for REST calls
-import router  from "@/router/index.js";
+import router from "@/router/index.js";
+// import User from "@/models/user.model";
+import userService from "@/services/userServices";
 
 const state = {
     isLogin: false,
-    token: null,
+    session: null,
     user: null,
-    roles: [],
+    token: null,
 };
 
 const actions = {
     login({ commit }, { email, password }) {
         commit('loginRequest', { email })
+        
+        userService.login({ email, password }).then(response => {
+            let session = response.data.data;
 
-        console.log("test")
-
-        let result = password //change to axios request Login(username, password)
-        if (result) {
-            // pass user object with info here
-            commit('loginSuccess', { name: "test user", id: -1});
-            console.log('login successful')
-            router.push("/")
-        }
-
+            console.log(session)
+            
+            if (session) {
+                commit('loginSuccess', session);
+                router.push("/")
+            } else {
+                commit('loginFailure')
+            }
+        }).catch(err => {
+            console.log(err)
+        });
     },
-    logout({ commit }) {
+    logout({ commit, getters }) {
+        console.log(getters.getUserToken, getters.getUserId, getters.getSessionId)
+
+        userService.logout({
+            userId: getters.getUserId,
+            sessionId: getters.getSessionId,
+            token: getters.getUserToken,
+        }).then(response => {
+            console.log(response)
+        })
+        
         commit('resetState')
-
-        // sessionStorage.clear();
-
-        console.log("Logging Out")
         router.push('/')
     },
     clearState({ commit }) {
@@ -39,18 +51,21 @@ const actions = {
 const mutations = {
     resetState(state) {
         state.isLogin = false;
-        state.token = null;
+        state.session = null;
         state.user = null;
+        state.token = null;
     },
-    loginSuccess(state, user) {
+    loginSuccess(state, session) {
         state.isLoggedIn = true;
-        state.token = "A TOKEN, CHECK account.module.js";
-        state.user = user;
+        state.session = session;
+        state.user = session.user;
+        state.token = session.token
     },
-    loginRequest(state, user) {
+    loginRequest(state, email) {
         state.isLogin = true;
         state.token = null;
-        state.user = user;
+        state.user = email;
+        state.token = null;
     },
     loginFailure(state) {
         state.isLogin = false;
@@ -60,7 +75,12 @@ const mutations = {
 const getters = {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
+    getPersonId: state => state.user.personId,
     getUserId: state => state.user.id,
+    getUserRole: state => state.user.role,
+    getUserToken: state => state.token,
+    getSessionId: state => state.session.id,
+    isAdmin: state => state.user.role == "admin",
 }
 
 

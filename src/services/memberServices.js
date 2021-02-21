@@ -21,7 +21,7 @@ class MemberService {
     delete(id) {
         return Vue.axios.delete(`/person/${id}`);
     }
-    
+
     // other unique route queries here
     // example findByAttributeNameHere(data)
     // return get(`/route?attrib=${param}`)

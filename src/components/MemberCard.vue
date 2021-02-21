@@ -11,6 +11,32 @@
 				height="350"
 				max-width="350"
 				:disabled="data.disabled"
+				v-if="!!person"
+			>
+				<v-skeleton-loader type="image">
+					<v-img
+						:src="person.image"
+						class="red--text align-end"
+						:lazy-src="require('@/assets/images/scared-batman.jpg')"
+					>
+						<v-card-title v-if="data.disabled"
+							>Status / Disabled / Left
+						</v-card-title>
+					</v-img>
+				</v-skeleton-loader>
+				<v-card-subtitle
+					>{{ person.fullName() }} | id: {{ person.id }}
+				</v-card-subtitle>
+				<v-divider></v-divider>
+				<v-card-text>{{ person.createdAt }}</v-card-text>
+			</v-card>
+			<v-card
+				:elevation="hover ? 16 : 2"
+				:class="{ 'on-hover': hover, 'max-auto': true }"
+				height="350"
+				max-width="350"
+				:disabled="data.disabled"
+				v-else
 			>
 				<v-skeleton-loader type="image">
 					<v-img
@@ -32,6 +58,8 @@
 </template>
 
 <script>
+import Person from "@/models/person.model";
+
 export default {
 	props: {
 		data: {
@@ -45,6 +73,9 @@ export default {
 					disabled: false,
 				};
 			},
+		},
+		person: {
+			type: Person,
 		},
 	},
 	data() {
