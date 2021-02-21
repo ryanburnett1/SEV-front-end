@@ -31,6 +31,19 @@ class Person {
         this.updatedAt = Date.now();
     }
 
+    maskPhoneNumber() {
+        let phone = String(this.phone_number)
+        if (!phone)
+            return "No Phone Number Available"
+        
+        let masked = ""
+        masked += "(" + phone.substring(0, 3) + ") "
+        masked += phone.substring(3, 6) + "-"
+        masked += phone.substring(6, 10)
+
+        return masked
+    }
+
     sexOptions() {
         return ["m", "f", "other"]
     }

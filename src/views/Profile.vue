@@ -12,7 +12,7 @@
 				<v-col>
 					<v-subheader>Info</v-subheader>
 					<v-divider></v-divider>
-					<v-col> Phone: {{ person.phone_number }} </v-col>
+					<v-col> Phone: {{ person.maskPhoneNumber() }} </v-col>
 					<v-col> Marital Status: {{ person.marital_status }}</v-col>
 					<v-col> Sex: {{ person.sex }} </v-col>
 				</v-col>
