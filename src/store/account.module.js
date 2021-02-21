@@ -78,6 +78,7 @@ const getters = {
     getUserRole: state => state.user.role,
     getUserToken: state => state.token,
     getSessionId: state => state.session.id,
+    isAdmin: state => state.user.role == "admin",
 }
 
 

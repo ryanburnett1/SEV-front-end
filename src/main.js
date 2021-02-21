@@ -5,6 +5,9 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
+import VuetifyMask from "vuetify-mask";
+
+Vue.use(VuetifyMask)
 
 Vue.config.productionTip = false;
 
