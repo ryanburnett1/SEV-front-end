@@ -4,11 +4,13 @@
 			<v-col>
 				<v-card>
 					<v-toolbar>
-						<v-toolbar-title>{{ profile.fullName() }}</v-toolbar-title>
+						<v-toolbar-title>{{
+							profile.title + " " + profile.fullName()
+						}}</v-toolbar-title>
 					</v-toolbar>
-					<v-card-title>this</v-card-title>
-					<v-card-subtitle>is</v-card-subtitle>
-					<v-card-text>a test</v-card-text>
+					<v-card-title></v-card-title>
+					<v-card-subtitle></v-card-subtitle>
+					<v-card-text></v-card-text>
 				</v-card>
 			</v-col>
 		</v-row>

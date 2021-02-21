@@ -1,5 +1,11 @@
 <template>
-	<v-speed-dial v-model="fab" bottom right fixed v-if="isLoggedIn">
+	<v-speed-dial
+		v-model="fab"
+		bottom
+		right
+		fixed
+		v-if="isLoggedIn && $store.getters.isAdmin"
+	>
 		<template v-slot:activator>
 			<v-btn v-model="fab" fab dark color="blue darken-2" v-if="!isEmpty()">
 				<v-icon v-if="fab">mdi-close</v-icon>
