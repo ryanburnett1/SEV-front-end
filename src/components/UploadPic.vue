@@ -54,6 +54,8 @@ export default {
   data() {
     return {
       selectedFile: "",
+      filePath: "",
+      fileName: "",
     };
   },
   methods: {
@@ -64,15 +66,17 @@ export default {
     },
     //sets what data you are sending to backend
     onUploadFile() {
-      console.log("Selected file: " + this.selectedFile);
       const formData = new FormData();
       formData.append("file", this.selectedFile);  // appending file
-      console.log("Trying to upload picture");
      // sending file to the backend
       //axios
         MemberService.uploadImage(1, formData)
         .then(res => {
           console.log(res);
+          this.filePath = res.data.path;
+          this.fileName = res.data.name;
+      
+          this.$emit('onImageUpload', this.filePath)
         })
         .catch(err => {
           console.log(err);

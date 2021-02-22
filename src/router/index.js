@@ -82,7 +82,7 @@ const routes = [
 			hide:  process.env.NODE_ENV === "production" ? true : false,
 			requiresAuth: false,
 			icon: "mdi-cog",
-			roles: ["admin"],
+			roles: [],
 		},
 		component: () => import (/* webpackChunkName: "test" */ "@/views/Test.vue"),
 	},

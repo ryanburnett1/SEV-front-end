@@ -27,9 +27,11 @@
 				@click.native="printInfo(person)"
 			></member-card>
 		</v-row>
-		<UploadPic />
+		<UploadPic @onImageUpload="imagePath = $event" />
 		<v-row>
+			<v-img :src="imagePath" />
 			<v-btn @click="$store.dispatch('logout')">Logout</v-btn>
+			<v-btn @click="pr()" />
 		</v-row>
 	</v-container>
 </template>
@@ -54,6 +56,7 @@ export default {
 	data() {
 		return {
 			messages: 0,
+			imagePath: "",
 			members: [
 				{
 					name: "Jason",
@@ -139,6 +142,10 @@ export default {
 		...mapActions("account", {
 			logout: "logout",
 		}),
+		pr(ev) {
+			console.log(ev)
+			console.log(this.imagePath)
+		},
 		async testDialog() {
 			let message = "";
 			for (let i = 0; i < 500; i++) {
