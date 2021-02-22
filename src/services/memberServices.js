@@ -22,6 +22,10 @@ class MemberService {
         return Vue.axios.delete(`/person/${id}`);
     }
 
+    uploadImage(id, data) {
+        return Vue.axios.post(`/person/${id}/picture`, data);
+    }
+    
     // other unique route queries here
     // example findByAttributeNameHere(data)
     // return get(`/route?attrib=${param}`)
