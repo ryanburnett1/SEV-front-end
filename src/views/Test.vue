@@ -27,7 +27,7 @@
 				@click.native="printInfo(person)"
 			></member-card>
 		</v-row>
-
+		<UploadPic />
 		<v-row>
 			<v-btn @click="$store.dispatch('logout')">Logout</v-btn>
 		</v-row>
@@ -41,12 +41,14 @@ import MemberCard from "@/components/MemberCard.vue";
 import { mapActions } from "vuex";
 import MemberService from "@/services/memberServices";
 import Person from "@/models/person.model";
+import UploadPic from "@/components/UploadPic.vue";
 
 export default {
 	name: "Test",
 	components: {
 		ConfirmationDialog,
 		MemberCard,
+		UploadPic
 	},
 	data() {
 		return {
