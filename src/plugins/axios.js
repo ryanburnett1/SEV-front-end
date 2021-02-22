@@ -9,7 +9,7 @@ import axios from "axios";
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 let config = {
-  baseURL: process.env.NODE_ENV === "production" ? "http://team1.eaglesoftwareteam.com/"
+  baseURL: process.env.NODE_ENV === "production" ? "http://team1.eaglesoftwareteam.com/api/"
     : "http://localhost:3000/",
    withCredentials: false,
   headers: {

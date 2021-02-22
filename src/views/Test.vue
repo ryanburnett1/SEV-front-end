@@ -39,9 +39,10 @@
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import MemberCard from "@/components/MemberCard.vue";
 import { mapActions } from "vuex";
-import MemberService from "@/services/memberServices";
-import Person from "@/models/person.model";
+
 import UploadPic from "@/components/UploadPic.vue";
+import MemberService from "@/services/memberServices.js";
+import Person from "@/models/person.model.js";
 
 export default {
 	name: "Test",

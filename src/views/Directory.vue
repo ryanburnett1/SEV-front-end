@@ -57,28 +57,49 @@
 				></v-pagination>
 			</v-col>
 		</v-col>
-		<v-row class="justify-space-between" v-if="members.length > 0">
-			<member-card
-				class="ma-2"
-				v-for="member in filteredData"
-				:key="member.id"
-				:data="member"
-				@click.native="
-					$router.push({ name: 'MemberView', params: { id: member.id } })
-				"
-			/>
+		<v-row v-if="test">
+			<v-row class="justify-space-between" v-if="members.length > 0">
+				<member-card
+					class="ma-2"
+					v-for="member in filteredData"
+					:key="member.id"
+					:data="member"
+					@click.native="
+						$router.push({ name: 'MemberView', params: { id: member.id } })
+					"
+				/>
+			</v-row>
+			<v-row v-else>
+				Members Not Found.
+				<br />
+				Please Check Your Internet Connection and Try Refreshing The Page.
+			</v-row>
 		</v-row>
 		<v-row v-else>
-			Members Not Found.
-			<br />
-			Please Check Your Internet Connection and Try Refreshing The Page.
+			<v-row class="justify-space-between" v-if="members.length > 0">
+				<member-card
+					class="ma-2"
+					v-for="member in filteredData"
+					:key="member.id"
+					:person="member"
+					@click.native="
+						$router.push({ name: 'MemberView', params: { id: member.id } })
+					"
+				/>
+			</v-row>
+			<v-row v-else>
+				Members Not Found.
+				<br />
+				Please Check Your Internet Connection and Try Refreshing The Page.
+			</v-row>
 		</v-row>
 	</v-container>
 </template>
 
 <script>
 import MemberCard from "@/components/MemberCard.vue";
-// import MemberService from "../services/memberServices.js";
+import MemberService from "../services/memberServices.js";
+import Person from "@/models/person.model";
 
 export default {
 	components: {
@@ -91,6 +112,7 @@ export default {
 			search: "",
 			members: [],
 			usePagination: true,
+			test: false,
 		};
 	},
 	computed: {
@@ -104,15 +126,27 @@ export default {
 			}
 
 			if (this.search !== null) {
-				data = data.filter(
-					(member) =>
-						String(member.name)
-							.toLowerCase()
-							.includes(String(this.search).toLowerCase()) ||
-						String(member.info)
-							.toLowerCase()
-							.includes(String(this.search).toLowerCase())
-				);
+				if (this.test) {
+					data = data.filter(
+						(member) =>
+							String(member.name)
+								.toLowerCase()
+								.includes(String(this.search).toLowerCase()) ||
+							String(member.info)
+								.toLowerCase()
+								.includes(String(this.search).toLowerCase())
+					);
+				} else {
+					data = data.filter(
+						(member) =>
+							String(member.fullName())
+								.toLowerCase()
+								.includes(String(this.search).toLowerCase()) ||
+							String(member.id)
+								.toLowerCase()
+								.includes(String(this.search).toLowerCase())
+					);
+				}
 			}
 
 			return Object.freeze(data);
@@ -140,20 +174,28 @@ export default {
 		},
 	},
 	mounted() {
-		// MemberService.getAll().then((Response) => {
-		// 	this.members = Response.data;
-		// });
-		this.members = [];
-		for (let i = 0; i < 2500; i++) {
-			this.members.push({
-				name: i,
-				id: i,
-				info: i,
-				disabled: false,
-				image: "https://picsum.photos/1920/1080?random=" + i,
+		if (this.test) {
+			this.members = [];
+			for (let i = 0; i < 2500; i++) {
+				this.members.push({
+					name: i,
+					id: i,
+					info: i,
+					disabled: false,
+					image: "https://picsum.photos/1920/1080?random=" + i,
+				});
+			}
+			Object.freeze(this.members);
+		} else {
+			MemberService.getAll().then((response) => {
+				response.data.data.forEach((element) => {
+					let person = new Person(element);
+					Object.freeze(person);
+					this.members.push(person);
+				});
+				Object.freeze(this.members);
 			});
 		}
-		Object.freeze(this.members);
 	},
 };
 </script>
