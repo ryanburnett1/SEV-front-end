@@ -1,35 +1,34 @@
 // import { _axios } from "@/plugins/axios.js"
-import Vue from "vue"
+import Vue from "vue";
 
 class MemberService {
-    getAll() {
-        return Vue.axios.get("/person");
-    }
+  getAll() {
+    return Vue.axios.get("/person");
+  }
 
-    get(id) {
-        return Vue.axios.get(`/person/${id}`);
-    }
+  get(id) {
+    return Vue.axios.get(`/person/${id}`);
+  }
 
-    create(data) {
-        return Vue.axios.post("/person", data);
-    }
+  create(data) {
+    return Vue.axios.post("/person", data);
+  }
 
-    update(id, data) {
-        return Vue.axios.put(`/person/${id}`, data);
-    }
+  update(id, data) {
+    return Vue.axios.put(`/person/${id}`, data);
+  }
 
-    delete(id) {
-        return Vue.axios.delete(`/person/${id}`);
-    }
+  delete(id) {
+    return Vue.axios.delete(`/person/${id}`);
+  }
 
-    uploadImage(id, data) {
-        return Vue.axios.post(`/person/${id}/picture`, data);
-    }
-    
-    // other unique route queries here
-    // example findByAttributeNameHere(data)
-    // return get(`/route?attrib=${param}`)
+  uploadImage(id, data) {
+    return Vue.axios.post(`/person/${id}/picture`, data);
+  }
+
+  // other unique route queries here
+  // example findByAttributeNameHere(data)
+  // return get(`/route?attrib=${param}`)
 }
-
 
 export default new MemberService();
