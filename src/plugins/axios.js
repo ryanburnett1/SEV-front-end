@@ -3,7 +3,6 @@
 import Vue from "vue";
 import axios from "axios";
 
-
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
@@ -17,8 +16,8 @@ let config = {
     "Content-Type": "application/json",
     "X-Requested-With": "XMLHttpRequest",
     crossDomain: true,
-    "Access-Control-Allow-Origin": "*",
-  },
+    "Access-Control-Allow-Origin": "*"
+  }
   // baseURL: process.env.baseURL || process.env.apiUrl || ""
   // timeout: 60 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control

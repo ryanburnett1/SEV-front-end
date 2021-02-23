@@ -1,64 +1,64 @@
 <template>
-	<v-file-input
-		label="Profile Picture"
-		:rules="rules"
-		accept="image/png, image/jpeg, image/bmp, image/gif"
-		prepend-inner-icon="mdi-camera"
-		prepend-icon=""
-		show-size
-		outlined
-		dense
-		counter
-		:value="[]"
-		:clearable="false"
-		v-model="selectedFile"
-		@change="onUploadFile"
-	></v-file-input>
+  <v-file-input
+    label="Profile Picture"
+    :rules="rules"
+    accept="image/png, image/jpeg, image/bmp, image/gif"
+    prepend-inner-icon="mdi-camera"
+    prepend-icon=""
+    show-size
+    outlined
+    dense
+    counter
+    :value="[]"
+    :clearable="false"
+    v-model="selectedFile"
+    @change="onUploadFile"
+  ></v-file-input>
 </template>
 
 <script>
 import MemberService from "@/services/memberServices";
 
 export default {
-	data() {
-		return {
-			selectedFile: [],
-			rules: [
-				(value) =>
-					!value ||
-					value.size < 2000000 ||
-					"Avatar size should be less than 2 MB!",
-			],
-			filePath: "",
-			fileName: "",
-		};
-	},
-	methods: {
-		//What happens when they chooose the file
-		onFileChange(e) {
-			const selectedFile = e.target.files[0]; // Get file that use put into component
-			this.selectedFile = selectedFile; //set it to the selected file in data so that onUploadFile can use it
-		},
-		//sets what data you are sending to backend
-		onUploadFile() {
-			const formData = new FormData();
-			formData.append("file", this.selectedFile); // appending file
-			// sending file to the backend
-			//axios
-			MemberService.uploadImage(0, formData)
-				.then((res) => {
-					console.log(res);
-					// this.filePath = res.data.path;
-					this.fileName = res.data.name;
+  data() {
+    return {
+      selectedFile: [],
+      rules: [
+        value =>
+          !value ||
+          value.size < 2000000 ||
+          "Avatar size should be less than 2 MB!"
+      ],
+      filePath: "",
+      fileName: ""
+    };
+  },
+  methods: {
+    //What happens when they chooose the file
+    onFileChange(e) {
+      const selectedFile = e.target.files[0]; // Get file that use put into component
+      this.selectedFile = selectedFile; //set it to the selected file in data so that onUploadFile can use it
+    },
+    //sets what data you are sending to backend
+    onUploadFile() {
+      const formData = new FormData();
+      formData.append("file", this.selectedFile); // appending file
+      // sending file to the backend
+      //axios
+      MemberService.uploadImage(0, formData)
+        .then(res => {
+          console.log(res);
+          // this.filePath = res.data.path;
+          this.fileName = res.data.name;
 
-					this.filePath = process.env.VUE_APP_IMAGE_PATH + this.fileName;
-					this.$emit("onImageUpload", this.filePath);
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		},
-	},
+          this.filePath = process.env.VUE_APP_IMAGE_PATH + this.fileName;
+          this.$emit("onImageUpload", this.filePath);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
 };
 </script>
 
