@@ -2,7 +2,6 @@
 	<v-file-input
 		label="Profile Picture"
 		:rules="rules"
-		placeholder="Pick a new profile image"
 		accept="image/png, image/jpeg, image/bmp, image/gif"
 		prepend-inner-icon="mdi-camera"
 		prepend-icon=""
@@ -10,25 +9,20 @@
 		outlined
 		dense
 		counter
+		:value="[]"
+		:clearable="false"
 		v-model="selectedFile"
 		@change="onUploadFile"
-	/>
+	></v-file-input>
 </template>
 
 <script>
-//import axios from "axios";
 import MemberService from "@/services/memberServices";
 
 export default {
-	props: {
-		userId: {
-			type: Number,
-			default: 0,
-		},
-	},
 	data() {
 		return {
-			selectedFile: "",
+			selectedFile: [],
 			rules: [
 				(value) =>
 					!value ||
@@ -51,7 +45,7 @@ export default {
 			formData.append("file", this.selectedFile); // appending file
 			// sending file to the backend
 			//axios
-			MemberService.uploadImage(this.userId, formData)
+			MemberService.uploadImage(0, formData)
 				.then((res) => {
 					console.log(res);
 					// this.filePath = res.data.path;
