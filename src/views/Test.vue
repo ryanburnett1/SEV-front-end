@@ -27,8 +27,9 @@
 				@click.native="printInfo(person)"
 			></member-card>
 		</v-row>
-		<UploadPic />
+		<UploadPic @onImageUpload="imagePath = $event" />
 		<v-row>
+			<v-img :src="imagePath" />
 			<v-btn @click="$store.dispatch('logout')">Logout</v-btn>
 		</v-row>
 	</v-container>
@@ -49,11 +50,12 @@ export default {
 	components: {
 		ConfirmationDialog,
 		MemberCard,
-		UploadPic
+		UploadPic,
 	},
 	data() {
 		return {
 			messages: 0,
+			imagePath: "",
 			members: [
 				{
 					name: "Jason",
