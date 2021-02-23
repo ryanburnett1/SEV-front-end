@@ -4,7 +4,8 @@
 			<v-col cols="3">
 				<v-col>
 					<v-img
-						src="https://picsum.photos/200/300"
+						:src="person.picture"
+						:lazy-src="require('@/assets/images/scared-batman.jpg')"
 						max-height="300"
 						max-width="300"
 					></v-img>

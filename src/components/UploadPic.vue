@@ -1,18 +1,74 @@
 <template>
-	<div class="file-upload">
-		<input type="file" @change="onFileChange" />
-		<button
-			@click="onUploadFile"
-			class="upload-button"
-			:disabled="!this.selectedFile"
-		>
-			Upload file
-		</button>
-	</div>
+	<v-file-input
+		label="Profile Picture"
+		:rules="rules"
+		placeholder="Pick a new profile image"
+		accept="image/png, image/jpeg, image/bmp, image/gif"
+		prepend-icon="mdi-camera"
+		show-size
+		outlined
+		dense
+		counter
+		v-model="selectedFile"
+		@change="onUploadFile"
+	/>
 </template>
 
+<script>
+//import axios from "axios";
+import MemberService from "@/services/memberServices";
+
+export default {
+	props: {
+		userId: {
+			type: Number,
+			default: 0,
+		},
+	},
+	data() {
+		return {
+			selectedFile: "",
+			rules: [
+				(value) =>
+					!value ||
+					value.size < 2000000 ||
+					"Avatar size should be less than 2 MB!",
+			],
+			filePath: "",
+			fileName: "",
+		};
+	},
+	methods: {
+		//What happens when they chooose the file
+		onFileChange(e) {
+			const selectedFile = e.target.files[0]; // Get file that use put into component
+			this.selectedFile = selectedFile; //set it to the selected file in data so that onUploadFile can use it
+		},
+		//sets what data you are sending to backend
+		onUploadFile() {
+			const formData = new FormData();
+			formData.append("file", this.selectedFile); // appending file
+			// sending file to the backend
+			//axios
+			MemberService.uploadImage(this.userId, formData)
+				.then((res) => {
+					console.log(res);
+					// this.filePath = res.data.path;
+					this.fileName = res.data.name;
+
+					this.filePath = process.env.VUE_APP_IMAGE_PATH + this.fileName;
+					this.$emit("onImageUpload", this.filePath);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		},
+	},
+};
+</script>
+
 <style scoped>
-.file-upload {
+/* .file-upload {
 	box-shadow: 2px 2px 9px 2px #ccc;
 	border-radius: 1rem;
 	padding: 2rem;
@@ -48,47 +104,5 @@ button {
 .upload-button:disabled {
 	background-color: #b3bcc4;
 	cursor: no-drop;
-}
+} */
 </style>
-
-<script>
-//import axios from "axios";
-import MemberService from "@/services/memberServices";
-
-export default {
-	data() {
-		return {
-			selectedFile: "",
-			filePath: "",
-			fileName: "",
-		};
-	},
-	methods: {
-		//What happens when they chooose the file
-		onFileChange(e) {
-			const selectedFile = e.target.files[0]; // Get file that use put into component
-			this.selectedFile = selectedFile; //set it to the selected file in data so that onUploadFile can use it
-		},
-		//sets what data you are sending to backend
-		onUploadFile() {
-			const formData = new FormData();
-			formData.append("file", this.selectedFile); // appending file
-			// sending file to the backend
-			//axios
-			MemberService.uploadImage(1, formData)
-				.then((res) => {
-					console.log(res);
-					// this.filePath = res.data.path;
-					this.fileName = res.data.name;
-
-					this.filePath = process.env.VUE_APP_IMAGE_PATH + this.fileName;
-
-					this.$emit("onImageUpload", this.filePath);
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		},
-	},
-};
-</script>
