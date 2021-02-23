@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 class Person {
   id = 0;
   f_name = "";
