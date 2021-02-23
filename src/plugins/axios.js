@@ -2,6 +2,7 @@
 
 import Vue from "vue";
 import axios from "axios";
+import store from "@/store/index.js"
 
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
@@ -14,6 +15,7 @@ let config = {
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
+    'Authorization': 'Bearer ' + store.getters.getUserToken,
     "X-Requested-With": "XMLHttpRequest",
     crossDomain: true,
     "Access-Control-Allow-Origin": "*"
