@@ -3,7 +3,7 @@ class Person {
     f_name = ""
     l_name = ""
     phone_number = ""
-    image = ""
+    picture = ""
     sex = ""
     marital_status = ""
     status = ""
@@ -15,7 +15,7 @@ class Person {
         this.f_name = person.f_name
         this.l_name = person.l_name
         this.phone_number = person.phone_number
-        this.image = person.image
+        this.picture = person.picture
         this.sex = person.sex
         this.marital_status = person.marital_status
         this.status = person.status

@@ -15,7 +15,7 @@
 			>
 				<v-skeleton-loader type="image">
 					<v-img
-						:src="person.image"
+						:src="person.picture"
 						class="red--text align-end"
 						:lazy-src="require('@/assets/images/scared-batman.jpg')"
 					>

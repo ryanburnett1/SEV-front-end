@@ -4,12 +4,14 @@
 			<v-toolbar color="primary" dark>
 				<v-toolbar-title>Change Info:</v-toolbar-title>
 			</v-toolbar>
-			<v-form class="ma-2 pa-2">
+			<v-form class="ma-2 pa-2" @submit.prevent="">
 				<v-img
-					:src="person.image"
+					class="mb-2"
+					:src="person.picture"
 					:lazy-src="require('@/assets/images/scared-batman.jpg')"
+					contain
 				></v-img>
-
+				<upload-pic @onImageUpload="person.picture = $event" />
 				<v-text-field
 					v-model="person.title"
 					label="title | Ex: Mr., Dr."
@@ -75,11 +77,13 @@
 import AdminFab from "@/components/AdminFab.vue";
 import Person from "@/models/person.model";
 import memberServices from "@/services/memberServices";
+import UploadPic from "@/components/UploadPic.vue";
 
 export default {
 	props: ["id"],
 	components: {
 		AdminFab,
+		UploadPic,
 	},
 	data() {
 		return {
