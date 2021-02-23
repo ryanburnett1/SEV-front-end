@@ -4,7 +4,8 @@
 		:rules="rules"
 		placeholder="Pick a new profile image"
 		accept="image/png, image/jpeg, image/bmp, image/gif"
-		prepend-icon="mdi-camera"
+		prepend-inner-icon="mdi-camera"
+		prepend-icon=""
 		show-size
 		outlined
 		dense
