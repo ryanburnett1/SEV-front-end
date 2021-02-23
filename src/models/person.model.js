@@ -1,5 +1,5 @@
 class Person {
-  id = null;
+  id = 0;
   f_name = "";
   l_name = "";
   phone_number = "";
