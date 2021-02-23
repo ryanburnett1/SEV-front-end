@@ -31,7 +31,6 @@
 		<v-row>
 			<v-img :src="imagePath" />
 			<v-btn @click="$store.dispatch('logout')">Logout</v-btn>
-			<v-btn @click="pr()" />
 		</v-row>
 	</v-container>
 </template>
@@ -51,7 +50,7 @@ export default {
 	components: {
 		ConfirmationDialog,
 		MemberCard,
-		UploadPic
+		UploadPic,
 	},
 	data() {
 		return {
@@ -142,10 +141,6 @@ export default {
 		...mapActions("account", {
 			logout: "logout",
 		}),
-		pr(ev) {
-			console.log(ev)
-			console.log(this.imagePath)
-		},
 		async testDialog() {
 			let message = "";
 			for (let i = 0; i < 500; i++) {
