@@ -11,7 +11,7 @@
           :lazy-src="require('@/assets/images/scared-batman.jpg')"
           contain
         ></v-img>
-        <upload-pic @onImageUpload="person.picture = $event" />
+        <upload-pic @onImageUpload="person.picture = $event" :prevFileName="person.picture" />
         <v-text-field
           v-model="person.title"
           label="title | Ex: Mr., Dr."

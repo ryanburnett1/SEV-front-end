@@ -40,17 +40,27 @@ export default {
       this.selectedFile = selectedFile; //set it to the selected file in data so that onUploadFile can use it
     },
     //sets what data you are sending to backend
-    onUploadFile() {
+    async onUploadFile() {
       const formData = new FormData();
       formData.append("file", this.selectedFile); // appending file
+      console.log("PrevFileName: " + this.prevFileName);
+      if(this.prevFileName){
+        console.log("there was a previous file");
+        let prevFileNameJSON = this.prevFileName
+        MemberService.deleteImage({prevFileNameJSON})
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err =>{
+          console.log(err);
+        });
+      }
       // sending file to the backend
-      //axios
-      MemberService.uploadImage(0, formData)
+      MemberService.uploadImage(formData)
         .then(res => {
           console.log(res);
           // this.filePath = res.data.path;
           this.fileName = res.data.name;
-
           this.filePath = process.env.VUE_APP_IMAGE_PATH + this.fileName;
           this.$emit("onImageUpload", this.filePath);
         })
@@ -58,7 +68,8 @@ export default {
           console.log(err);
         });
     }
-  }
+  },
+  props:['prevFileName']
 };
 </script>
 
