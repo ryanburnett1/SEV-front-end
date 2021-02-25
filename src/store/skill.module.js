@@ -7,7 +7,7 @@ const state = {
 const actions = {
   retrieveSkillList({ commit }) {
     RESTService.getAll("skill").then((response) => { 
-      let skillList = Object.assign({}, response.data.data)
+      let skillList = response.data.data
       commit("setState", skillList)
     })
 
@@ -18,8 +18,8 @@ const actions = {
 };
 
 const mutations = {
-  setState(state) {
-    state.skills = state;
+  setState(state, skills) {
+    state.skills = skills;
   },
   resetState(state) {
     state.skills = [];

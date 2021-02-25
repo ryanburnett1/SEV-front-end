@@ -44,6 +44,7 @@ export default {
 	data: () => ({}),
 	mounted() {
 		this.$store.dispatch("retrieveSkillList");
+		// console.log("Stuff: ", this.$store.getters.getSkillList);
 	},
 };
 </script>
