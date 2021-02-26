@@ -74,7 +74,15 @@ const routes = [
       icon: "",
       roles: []
     },
-    props: true,
+    props(route) {
+      const props = { ...route.params };
+      props.id = +props.id;
+      if (typeof props.isAdd === typeof "") {
+        props.isAdd = props.isAdd == 'true'
+      }
+
+      return props;
+    },
     component: () => import(/**/ "@/views/edit/MemberEdit.vue")
   },
   {
