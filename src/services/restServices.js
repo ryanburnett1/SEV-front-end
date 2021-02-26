@@ -18,6 +18,10 @@ class RESTService {
     return Vue.axios.put(route.concat(id), data);
   }
 
+  put(route, data) {
+    return Vue.axios.put(route, data);
+  }
+
   delete(route, id) {
     return Vue.axios.delete(route.concat(id));
   }

@@ -25,6 +25,10 @@ class Person {
     this.skill = person.skill;
   }
 
+  getSkillIds() {
+    return this.skill.map(skill => skill.id)
+  }
+
   fullName() {
     return this.f_name + " " + this.l_name;
   }
