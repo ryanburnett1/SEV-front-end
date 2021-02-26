@@ -19,7 +19,7 @@ const actions = {
       .then(response => {
         let session = response.data.data;
 
-        console.log(session);
+        // console.log(session);
 
         if (session) {
           commit("loginSuccess", session);
@@ -33,7 +33,7 @@ const actions = {
       });
   },
   logout({ commit, getters }) {
-    console.log(getters.getUserToken, getters.getUserId, getters.getSessionId);
+    // console.log(getters.getUserToken, getters.getUserId, getters.getSessionId);
 
     userService
       .logout({

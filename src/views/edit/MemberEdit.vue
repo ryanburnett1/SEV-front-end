@@ -100,6 +100,13 @@
 					label="Church Status"
 					:items="person.statusOptions()"
 				></v-select>
+				<skill-select
+					v-if="!loading"
+					:id="person.id"
+					:pollDatabase="false"
+					:personSkillList="person.getSkillIds()"
+					ref="skillSelect"
+				/>
 			</v-form>
 			<v-divider></v-divider>
 			<v-card-actions>
@@ -114,12 +121,13 @@
 </template>
 
 <script>
-import AdminFab from "@/components/AdminFab.vue";
 import Person from "@/models/person.model";
 import User from "@/models/user.model";
 import MemberServices from "@/services/memberServices";
 import UserServices from "@/services/userServices";
+import AdminFab from "@/components/AdminFab.vue";
 import UploadPic from "@/components/UploadPic.vue";
+import SkillSelect from "@/components/SkillSelect.vue";
 
 export default {
 	props: {
@@ -135,9 +143,11 @@ export default {
 	components: {
 		AdminFab,
 		UploadPic,
+		SkillSelect,
 	},
 	data() {
 		return {
+			loading: true, // hack for v-select due to async props
 			person: new Person(),
 			user: new User(null, this.person),
 			emailTemp: "",
@@ -156,6 +166,7 @@ export default {
 			if (this.isAdd) {
 				MemberServices.create(this.person)
 					.then((response) => {
+						this.$refs.skillSelect.updatePersonSkill(response.data.data.id);
 						this.user.person = response.data.data;
 						this.user.personId = response.data.data.id;
 
@@ -176,6 +187,7 @@ export default {
 			} else {
 				MemberServices.update(this.id, this.person)
 					.then(() => {
+						this.$refs.skillSelect.updatePersonSkill(this.id);
 						UserServices.update(this.user.id, this.user)
 							.then(() => {
 								this.$router.back();
@@ -201,7 +213,10 @@ export default {
 			});
 			MemberServices.get(this.id).then((response) => {
 				this.person = new Person(response.data.data);
+				this.loading = false; // hack for v-select
 			});
+		} else {
+			this.loading = false;
 		}
 	},
 };
