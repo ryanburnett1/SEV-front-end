@@ -10,11 +10,17 @@ class User {
   person = new Person({});
 
   constructor(user, person) {
-    this.username = user.username;
-    this.password = user.password;
-    this.email = user.email;
-    this.personId = user.personId;
-    this.person = person;
+
+    if (user) {
+      this.username = user.username;
+      this.password = user.password;
+      this.email = user.email;
+      this.personId = user.personId;
+    }
+
+    if (person) {
+      this.person = person;
+    }
   }
 
   fullName() {

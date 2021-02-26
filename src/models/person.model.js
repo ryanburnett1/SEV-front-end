@@ -13,16 +13,18 @@ class Person {
   skill = [];
 
   constructor(person) {
-    this.id = person.id;
-    this.f_name = person.f_name;
-    this.l_name = person.l_name;
-    this.phone_number = person.phone_number;
-    this.picture = person.picture;
-    this.sex = person.sex;
-    this.marital_status = person.marital_status;
-    this.status = person.status;
-    this.title = person.title;
-    this.skill = person.skill;
+    if (person) {
+      this.id = person.id;
+      this.f_name = person.f_name;
+      this.l_name = person.l_name;
+      this.phone_number = person.phone_number;
+      this.picture = person.picture;
+      this.sex = person.sex;
+      this.marital_status = person.marital_status;
+      this.status = person.status;
+      this.title = person.title;
+      this.skill = person.skill;
+    }
   }
 
   fullName() {

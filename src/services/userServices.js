@@ -34,6 +34,10 @@ class UserService {
     return Vue.axios.post(`/user/auth`, { userId, token });
   }
 
+  getByPerson(personId) {
+    return Vue.axios.get(`/user/person/${personId}`);
+  }
+
   // other unique route queries here
   // example findByAttributeNameHere(data)
   // return get(`/route?attrib=${param}`)
