@@ -128,12 +128,18 @@
 							:items="person.sexOptions()"
 						></v-select>
 					</ValidationProvider>
-					<v-select
-						v-if="$store.getters.isAdmin"
-						v-model="person.status"
-						label="Church Status"
-						:items="person.statusOptions()"
-					></v-select>
+					<div v-if="$store.getters.isAdmin">
+						<v-select
+							v-model="user.role"
+							label="Role"
+							:items="user.getRoles()"
+						></v-select>
+						<v-select
+							v-model="person.status"
+							label="Church Status"
+							:items="person.statusOptions()"
+						></v-select>
+					</div>
 					<skill-select
 						v-if="!loading"
 						:id="person.id"
