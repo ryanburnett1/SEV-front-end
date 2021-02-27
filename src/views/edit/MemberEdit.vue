@@ -172,7 +172,7 @@ export default {
 				await MemberService.uploadImage(formData)
 					.then((res) => {
 						this.person.picture =
-							process.env.VUE_APP_IMAGE_PATH + res.data.name;
+							process.env.VUE_APP_IMAGE_PATH + res.data.data.name;
 					})
 					.catch((err) => {
 						console.log(err);
