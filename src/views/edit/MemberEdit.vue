@@ -1,123 +1,170 @@
 <template>
-	<v-container>
-		<v-card>
-			<v-toolbar color="primary" dark>
-				<v-toolbar-title>Change Info:</v-toolbar-title>
-			</v-toolbar>
-			<v-form
-				class="ma-2 pa-2"
-				@submit.prevent=""
-				v-model="valid"
-				ref="form"
-				lazy-validation
-			>
-				<v-img
-					class="mb-2"
-					:src="picture"
-					:lazy-src="require('@/assets/images/scared-batman.jpg')"
-					contain
-				></v-img>
-				<upload-pic @onFileSelected="picture = $event" ref="picker" />
-				<v-row>
-					<v-col>
-						<v-text-field
-							v-model="user.email"
-							label="User Email"
-							type="email"
-							:rules="emailRules"
-						></v-text-field>
-					</v-col>
-				</v-row>
-				<v-row>
-					<v-col>
-						<v-text-field
-							v-model="emailTemp"
-							label="Re-enter Email"
-							type="email"
-							:rules="emailRules"
-						></v-text-field>
-					</v-col>
-				</v-row>
-				<v-row v-if="isAdd">
-					<v-col>
-						<v-text-field
-							v-model="user.password"
-							label="User Password"
-							type="text"
-						></v-text-field>
-					</v-col>
-				</v-row>
-				<v-row>
-					<v-col>
-						<v-text-field
-							v-model="person.title"
-							label="title | Ex: Mr., Dr."
-							type="text"
-						></v-text-field>
-					</v-col>
-				</v-row>
-				<v-row>
-					<v-col>
-						<v-text-field
-							v-model="person.f_name"
-							label="First Name"
-							type="text"
-						></v-text-field>
-					</v-col>
-					<v-col>
-						<v-text-field
-							v-model="person.l_name"
-							label="Last Name"
-							type="text"
-						></v-text-field>
-					</v-col>
-				</v-row>
-				<v-text-field-simplemask
-					v-model="person.phone_number"
-					label="Phone Number"
-					:options="{
-						inputMask: '(###) ###-####',
-						outputMask: '##########',
-						empty: null,
-						applyAfter: false,
-						alphanumeric: true,
-						lowerCase: false,
-					}"
-				></v-text-field-simplemask>
-				<v-select
-					v-model="person.marital_status"
-					label="Marital Status"
-					:items="person.maritalStatusOptions()"
-				></v-select>
-				<v-select
-					v-model="person.sex"
-					label="Sex"
-					:items="person.sexOptions()"
-				></v-select>
-				<v-select
-					v-if="$store.getters.isAdmin"
-					v-model="person.status"
-					label="Church Status"
-					:items="person.statusOptions()"
-				></v-select>
-				<skill-select
-					v-if="!loading"
-					:id="person.id"
-					:pollDatabase="false"
-					:personSkillList="person.getSkillIds()"
-					ref="skillSelect"
-				/>
-			</v-form>
-			<v-divider></v-divider>
-			<v-card-actions>
-				<v-btn @click="save()" color="success" v-if="!isAdd">Save</v-btn>
-				<v-btn @click="save()" color="success" v-else>Create</v-btn>
-				<v-spacer></v-spacer>
-				<v-btn @click="cancel()" color="error">Cancel</v-btn>
-			</v-card-actions>
-		</v-card>
-		<admin-fab :cancelFunction="cancel" :saveFunction="save"></admin-fab>
-	</v-container>
+	<validation-observer ref="observer" v-slot="{ invalid, validated }">
+		<v-container>
+			<v-card>
+				<v-toolbar color="primary" dark>
+					<v-toolbar-title>Change Info:</v-toolbar-title>
+				</v-toolbar>
+				<v-form class="ma-2 pa-2" @submit.prevent="" ref="form" lazy-validation>
+					<v-img
+						class="mb-2"
+						:src="picture"
+						:lazy-src="require('@/assets/images/scared-batman.jpg')"
+						contain
+					></v-img>
+					<upload-pic @onFileSelected="picture = $event" ref="picker" />
+					<v-row>
+						<v-col>
+							<ValidationProvider
+								name="email"
+								rules="required|email"
+								v-slot="{ errors, valid }"
+								vid="con"
+							>
+								<v-text-field
+									v-model="user.email"
+									:error-messages="errors"
+									:success="valid"
+									label="User Email"
+									type="email"
+								></v-text-field>
+							</ValidationProvider>
+						</v-col>
+						<v-col>
+							<ValidationProvider
+								name="emailConfirm"
+								rules="required|confirmed:con"
+								v-slot="{ errors, valid }"
+							>
+								<v-text-field
+									v-model="emailTemp"
+									:error-messages="errors"
+									:success="valid"
+									label="Renter Email"
+									type="email"
+								></v-text-field>
+							</ValidationProvider>
+						</v-col>
+					</v-row>
+					<v-row v-if="isAdd">
+						<v-col>
+							<v-text-field
+								v-model="user.password"
+								label="User Password"
+								type="text"
+							></v-text-field>
+						</v-col>
+					</v-row>
+					<v-row>
+						<v-col>
+							<ValidationProvider
+								name="firstName"
+								rules="required"
+								v-slot="{ errors, valid }"
+							>
+								<v-text-field
+									v-model="person.f_name"
+									:error-messages="errors"
+									:success="valid"
+									label="First Name"
+									type="text"
+								></v-text-field>
+							</ValidationProvider>
+						</v-col>
+						<v-col>
+							<ValidationProvider
+								name="firstName"
+								rules="required"
+								v-slot="{ errors, valid }"
+							>
+								<v-text-field
+									v-model="person.l_name"
+									:error-messages="errors"
+									:success="valid"
+									label="Last Name"
+									type="text"
+								></v-text-field>
+							</ValidationProvider>
+						</v-col>
+					</v-row>
+					<v-text-field-simplemask
+						v-model="person.phone_number"
+						label="Phone Number"
+						:options="{
+							inputMask: '(###) ###-####',
+							outputMask: '##########',
+							empty: null,
+							applyAfter: false,
+							alphanumeric: true,
+							lowerCase: false,
+						}"
+					></v-text-field-simplemask>
+					<v-row>
+						<v-col>
+							<v-text-field
+								v-model="person.title"
+								label="title | Ex: Mr., Dr."
+								type="text"
+							></v-text-field>
+						</v-col>
+						<v-col>
+							<v-select
+								v-model="person.marital_status"
+								label="Marital Status"
+								:items="person.maritalStatusOptions()"
+							></v-select>
+						</v-col>
+					</v-row>
+					<ValidationProvider
+						name="sex"
+						rules="required"
+						v-slot="{ errors, valid }"
+					>
+						<v-select
+							v-model="person.sex"
+							:error-messages="errors"
+							:success="valid"
+							label="Sex"
+							:items="person.sexOptions()"
+						></v-select>
+					</ValidationProvider>
+					<v-select
+						v-if="$store.getters.isAdmin"
+						v-model="person.status"
+						label="Church Status"
+						:items="person.statusOptions()"
+					></v-select>
+					<skill-select
+						v-if="!loading"
+						:id="person.id"
+						:pollDatabase="false"
+						:personSkillList="person.getSkillIds()"
+						ref="skillSelect"
+					/>
+				</v-form>
+				<v-divider></v-divider>
+				<v-card-actions>
+					<v-btn
+						@click="save()"
+						color="success"
+						v-if="!isAdd"
+						:disabled="invalid || !validated"
+						>Save</v-btn
+					>
+					<v-btn
+						@click="save()"
+						color="success"
+						v-else
+						:disabled="invalid || !validated"
+						>Create</v-btn
+					>
+					<v-spacer></v-spacer>
+					<v-btn @click="cancel()" color="error">Cancel</v-btn>
+				</v-card-actions>
+			</v-card>
+			<admin-fab :cancelFunction="cancel" :saveFunction="save"></admin-fab>
+		</v-container>
+	</validation-observer>
 </template>
 
 <script>
@@ -128,6 +175,8 @@ import UserServices from "@/services/userServices";
 import AdminFab from "@/components/AdminFab.vue";
 import UploadPic from "@/components/UploadPic.vue";
 import SkillSelect from "@/components/SkillSelect.vue";
+
+import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 export default {
 	props: {
@@ -144,6 +193,8 @@ export default {
 		AdminFab,
 		UploadPic,
 		SkillSelect,
+		ValidationObserver,
+		ValidationProvider,
 	},
 	data() {
 		return {
@@ -152,11 +203,6 @@ export default {
 			person: new Person(),
 			user: new User(null, this.person),
 			emailTemp: "",
-			valid: true,
-			emailRules: [
-				(v) => !!v || "E-mail is required",
-				(v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-			],
 		};
 	},
 	methods: {
@@ -178,6 +224,8 @@ export default {
 						console.log(err);
 					});
 			}
+
+			console.log(this.person.picture);
 
 			if (this.isAdd) {
 				MemberService.create(this.person)
@@ -217,9 +265,6 @@ export default {
 					});
 			}
 		},
-		validate() {
-			return this.$refs.form.validate() && this.user.email === this.emailTemp;
-		},
 	},
 	mounted() {
 		if (!this.isAdd) {
@@ -232,9 +277,12 @@ export default {
 				this.picture = this.person.picture;
 				this.loading = false; // hack for v-select
 			});
+			// this.$refs.observer.validate();
 		} else {
 			this.loading = false;
 		}
+
+		this.$refs.observer.validate();
 	},
 };
 </script>
