@@ -13,11 +13,11 @@
 			>
 				<v-img
 					class="mb-2"
-					:src="person.picture"
+					:src="picture"
 					:lazy-src="require('@/assets/images/scared-batman.jpg')"
 					contain
 				></v-img>
-				<upload-pic @onImageUpload="person.picture = $event" />
+				<upload-pic @onFileSelected="picture = $event" ref="picker" />
 				<v-row>
 					<v-col>
 						<v-text-field
@@ -123,7 +123,7 @@
 <script>
 import Person from "@/models/person.model";
 import User from "@/models/user.model";
-import MemberServices from "@/services/memberServices";
+import MemberService from "@/services/memberServices";
 import UserServices from "@/services/userServices";
 import AdminFab from "@/components/AdminFab.vue";
 import UploadPic from "@/components/UploadPic.vue";
@@ -147,6 +147,7 @@ export default {
 	},
 	data() {
 		return {
+			picture: "",
 			loading: true, // hack for v-select due to async props
 			person: new Person(),
 			user: new User(null, this.person),
@@ -162,9 +163,24 @@ export default {
 		cancel() {
 			this.$router.back();
 		},
-		save() {
+		async save() {
+			let picker = this.$refs.picker;
+			if (picker.selectedFile) {
+				const formData = new FormData();
+				formData.append("file", picker.selectedFile); // appending file
+
+				await MemberService.uploadImage(formData)
+					.then((res) => {
+						this.person.picture =
+							process.env.VUE_APP_IMAGE_PATH + res.data.name;
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			}
+
 			if (this.isAdd) {
-				MemberServices.create(this.person)
+				MemberService.create(this.person)
 					.then((response) => {
 						this.$refs.skillSelect.updatePersonSkill(response.data.data.id);
 						this.user.person = response.data.data;
@@ -185,7 +201,7 @@ export default {
 						console.log("Failed to create new Person: ", err);
 					});
 			} else {
-				MemberServices.update(this.id, this.person)
+				MemberService.update(this.id, this.person)
 					.then(() => {
 						this.$refs.skillSelect.updatePersonSkill(this.id);
 						UserServices.update(this.user.id, this.user)
@@ -211,8 +227,9 @@ export default {
 				this.user = new User(response.data.data[0]);
 				this.emailTemp = this.user.email;
 			});
-			MemberServices.get(this.id).then((response) => {
+			MemberService.get(this.id).then((response) => {
 				this.person = new Person(response.data.data);
+				this.picture = this.person.picture;
 				this.loading = false; // hack for v-select
 			});
 		} else {
