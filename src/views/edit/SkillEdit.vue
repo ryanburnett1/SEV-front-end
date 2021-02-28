@@ -54,6 +54,7 @@
 														:success="valid"
 														label="Name"
 														filled
+														maxlength="255"
 													></v-text-field>
 												</validation-provider>
 											</v-col>
@@ -73,6 +74,8 @@
 														rows="4"
 														auto-grow
 														filled
+														counter
+            											maxlength="255"
 													></v-textarea>
 												</validation-provider>
 											</v-col>
