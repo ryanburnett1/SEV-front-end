@@ -22,7 +22,7 @@
 							outlined
 						></v-text-field>
 						<v-spacer></v-spacer>
-						<v-dialog v-model="dialog" max-width="500px">
+						<v-dialog v-model="dialog" max-width="38%" max-height="38%">
 							<template v-slot:activator="{ on, attrs }">
 								<v-btn
 									color="primary"
@@ -42,7 +42,7 @@
 								<v-card-text>
 									<v-container>
 										<v-row>
-											<v-col cols="12" sm="6" md="4">
+											<v-col>
 												<validation-provider
 													name="name"
 													rules="required"
@@ -52,22 +52,28 @@
 														v-model="editedItem.skill_name"
 														:error-messages="errors"
 														:success="valid"
-														label="Skill Name"
+														label="Name"
+														filled
 													></v-text-field>
 												</validation-provider>
 											</v-col>
-											<v-col cols="12" sm="6" md="4">
+										</v-row>
+										<v-row>
+											<v-col>
 												<validation-provider
 													name="description"
 													rules="required"
 													v-slot="{ errors, valid }"
 												>
-													<v-text-field
+													<v-textarea
 														v-model="editedItem.description"
 														:error-messages="errors"
 														:success="valid"
 														label="Description"
-													></v-text-field>
+														rows="4"
+														auto-grow
+														filled
+													></v-textarea>
 												</validation-provider>
 											</v-col>
 										</v-row>
@@ -147,7 +153,7 @@ export default {
 	},
 	computed: {
 		formTitle() {
-			return this.editedIndex === -1 ? "New Item" : "Edit Item";
+			return this.editedIndex === -1 ? "New Skill" : "Edit Skill";
 		},
 		headers() {
 			return [
