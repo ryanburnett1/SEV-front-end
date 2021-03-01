@@ -39,17 +39,83 @@
 						></v-text-field>
 					</validation-provider>
 					<v-divider class="mb-2"></v-divider>
-					<v-btn
-						:disabled="invalid || !validated"
-						color="success"
-						@click="
-							$store.dispatch('login', {
-								email: user.email,
-								password: user.password,
-							})
-						"
-						>Login</v-btn
-					>
+					<v-row class="ma-1 pa-1">
+						<v-btn
+							:disabled="invalid || !validated"
+							color="success"
+							@click="
+								$store.dispatch('login', {
+									email: user.email,
+									password: user.password,
+								})
+							"
+						>
+							Login
+						</v-btn>
+						<v-spacer></v-spacer>
+						<v-dialog v-model="dialog" persistent max-width="600px" eager>
+							<template v-slot:activator="{ on, attrs }">
+								<v-btn
+									color="primary"
+									dark
+									v-bind="attrs"
+									v-on="on"
+									@click.stop="validateReset()"
+								>
+									Forgot Password
+								</v-btn>
+							</template>
+							<validation-observer
+								ref="resetobserver"
+								v-slot="{ invalid, validated }"
+							>
+								<v-card>
+									<v-card-title>
+										<span class="headline">Reset Password</span>
+									</v-card-title>
+									<v-card-text>
+										<v-container>
+											<v-row>
+												<v-col cols="12">
+													<validation-provider
+														name="email"
+														rules="required|email"
+														v-slot="{ errors, valid }"
+													>
+														<v-text-field
+															v-model="resetEmail"
+															:error-messages="errors"
+															:success="valid"
+															label="E-mail"
+															type="email"
+															prepend-icon="mdi-email"
+														></v-text-field>
+													</validation-provider>
+												</v-col>
+											</v-row>
+										</v-container>
+									</v-card-text>
+									<v-card-actions>
+										<v-spacer></v-spacer>
+										<v-btn color="blue darken-1" text @click="dialog = false">
+											Cancel
+										</v-btn>
+										<v-btn
+											color="blue darken-1"
+											text
+											@click="
+												dialog = false;
+												sendResetRequest();
+											"
+											:disabled="invalid || !validated"
+										>
+											Send
+										</v-btn>
+									</v-card-actions>
+								</v-card>
+							</validation-observer>
+						</v-dialog>
+					</v-row>
 				</v-form>
 			</v-card>
 		</v-container>
@@ -59,6 +125,7 @@
 <script>
 import { mapActions } from "vuex";
 
+import rest from "@/services/restServices";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 export default {
@@ -72,13 +139,31 @@ export default {
 				email: "",
 				password: "",
 			},
+			resetEmail: "",
 			show: false,
+			dialog: false,
 		};
 	},
 	methods: {
 		...mapActions("account", {
 			login: "login",
 		}),
+		validateReset() {
+			if (this.user.email) {
+				this.resetEmail = Object.assign({}, this.user).email;
+				this.$nextTick(() => {
+					this.$refs.resetobserver.validate();
+				});
+			}
+		},
+		sendResetRequest() {
+			rest
+				.create(`/user/reset-password-request`, { email: this.user.email })
+				.then((res) => {
+					console.log(res);
+					alert("thing sent");
+				});
+		},
 	},
 };
 </script>

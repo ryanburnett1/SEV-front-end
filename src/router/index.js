@@ -106,6 +106,24 @@ const routes = [
     component: () => import(/**/ "@/views/edit/SkillEdit.vue")
   },
   {
+    path: "/password-reset/:id/:token",
+    name: "PasswordReset",
+    alias: "/reset/:id/:token",
+    meta: {
+      hide: true,
+      requiresAuth: false,
+      icon: "",
+      roles: []
+    },
+    props(route) {
+      const props = { ...route.params };
+      props.id = +props.id;
+
+      return props;
+    },
+    component: () => import(/**/ "@/views/PasswordReset.vue")
+  },
+  {
     path: "/test",
     name: "Test",
     meta: {
