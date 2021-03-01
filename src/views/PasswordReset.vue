@@ -85,8 +85,7 @@ export default {
 	methods: {
 		reset() {
 			rest
-				.create("/user/reset-password", {
-					userId: this.id,
+				.create("/user/" + this.id + "/password-reset", {
 					token: this.token,
 					password: this.password,
 				})
