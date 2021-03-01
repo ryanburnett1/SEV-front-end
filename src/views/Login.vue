@@ -157,8 +157,9 @@ export default {
 			}
 		},
 		sendResetRequest() {
+			console.log(this.user.email);
 			rest
-				.create(`/user/reset-password-request`, { email: this.user.email })
+				.create(`/user/reset-password-request`, { email: resetEmail })
 				.then((res) => {
 					console.log(res);
 					alert("thing sent");
