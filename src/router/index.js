@@ -38,8 +38,7 @@ const routes = [
       roles: []
     },
     props: true,
-    component: () =>
-      import(/* webpackChunkName: "home" */ "@/views/Profile.vue")
+    component: () => import(/* webpackChunkName: "home" */ "@/views/Profile.vue")
   },
   {
     path: "/directory",
@@ -50,8 +49,7 @@ const routes = [
       icon: "mdi-account-group",
       roles: []
     },
-    component: () =>
-      import(/* webpackChunkName: "home" */ "@/views/Directory.vue")
+    component: () => import(/* webpackChunkName: "home" */ "@/views/Directory.vue")
   },
   {
     path: "/member-view/:id",
@@ -78,7 +76,7 @@ const routes = [
       const props = { ...route.params };
       props.id = +props.id;
       if (typeof props.isAdd === typeof "") {
-        props.isAdd = props.isAdd == 'true'
+        props.isAdd = props.isAdd == "true";
       }
 
       return props;
@@ -98,7 +96,7 @@ const routes = [
       const props = { ...route.params };
       props.id = +props.id;
       if (typeof props.isAdd === typeof "") {
-        props.isAdd = props.isAdd == 'true'
+        props.isAdd = props.isAdd == "true";
       }
 
       return props;

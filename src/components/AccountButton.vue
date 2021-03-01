@@ -35,10 +35,7 @@ export default {
       logout: "logout"
     }),
     goToProfilePage() {
-      console.log(
-        "Going to Profile for user with ID: ",
-        this.$store.getters.getUserId
-      );
+      console.log("Going to Profile for user with ID: ", this.$store.getters.getUserId);
 
       this.$router.push({
         name: "Profile",

@@ -64,9 +64,7 @@
           v-for="member in filteredData"
           :key="member.id"
           :data="member"
-          @click.native="
-            $router.push({ name: 'MemberView', params: { id: member.id } })
-          "
+          @click.native="$router.push({ name: 'MemberView', params: { id: member.id } })"
         />
       </v-row>
       <v-row v-else>
@@ -82,9 +80,7 @@
           v-for="member in filteredData"
           :key="member.id"
           :person="member"
-          @click.native="
-            $router.push({ name: 'MemberView', params: { id: member.id } })
-          "
+          @click.native="$router.push({ name: 'MemberView', params: { id: member.id } })"
         />
       </v-row>
       <v-row v-else>

@@ -1,11 +1,5 @@
 <template>
-  <v-speed-dial
-    v-model="fab"
-    bottom
-    right
-    fixed
-    v-if="isLoggedIn && $store.getters.isAdmin"
-  >
+  <v-speed-dial v-model="fab" bottom right fixed v-if="isLoggedIn && $store.getters.isAdmin">
     <template v-slot:activator>
       <v-btn v-model="fab" fab dark color="blue darken-2" v-if="!isEmpty()">
         <v-icon v-if="fab">mdi-close</v-icon>
@@ -35,10 +29,7 @@ export default {
   methods: {
     isEmpty() {
       return (
-        !!this.editFunction &&
-        !!this.deleteFunction &&
-        !!this.saveFunction &&
-        !!this.cancelFunction
+        !!this.editFunction && !!this.deleteFunction && !!this.saveFunction && !!this.cancelFunction
       );
     }
   }
