@@ -1,12 +1,12 @@
 <template>
-	<validation-observer ref="observer" v-slot="{ invalid, validated }">
-		<v-container>
-			<v-card>
-				<v-toolbar dark color="primary" dense flat>
-					<v-toolbar-title class="text-body-2 font-weight-bold white--text">
-						Login Form:
-					</v-toolbar-title>
-				</v-toolbar>
+	<v-container>
+		<v-card>
+			<v-toolbar dark color="primary" dense flat>
+				<v-toolbar-title class="text-body-2 font-weight-bold white--text">
+					Login Form:
+				</v-toolbar-title>
+			</v-toolbar>
+			<validation-observer ref="observer" v-slot="{ invalid, validated }">
 				<v-form class="ma-2 pa-2">
 					<validation-provider
 						name="email"
@@ -53,73 +53,71 @@
 							Login
 						</v-btn>
 						<v-spacer></v-spacer>
-						<v-dialog v-model="dialog" persistent max-width="600px" eager>
-							<template v-slot:activator="{ on, attrs }">
-								<v-btn
-									color="primary"
-									dark
-									v-bind="attrs"
-									v-on="on"
-									@click.stop="validateReset()"
-								>
-									Forgot Password
-								</v-btn>
-							</template>
-							<validation-observer
-								ref="resetobserver"
-								v-slot="{ invalid, validated }"
-							>
-								<v-card>
-									<v-card-title>
-										<span class="headline">Reset Password</span>
-									</v-card-title>
-									<v-card-text>
-										<v-container>
-											<v-row>
-												<v-col cols="12">
-													<validation-provider
-														name="email"
-														rules="required|email"
-														v-slot="{ errors, valid }"
-													>
-														<v-text-field
-															v-model="resetEmail"
-															:error-messages="errors"
-															:success="valid"
-															label="E-mail"
-															type="email"
-															prepend-icon="mdi-email"
-														></v-text-field>
-													</validation-provider>
-												</v-col>
-											</v-row>
-										</v-container>
-									</v-card-text>
-									<v-card-actions>
-										<v-spacer></v-spacer>
-										<v-btn color="blue darken-1" text @click="dialog = false">
-											Cancel
-										</v-btn>
-										<v-btn
-											color="blue darken-1"
-											text
-											@click="
-												dialog = false;
-												sendResetRequest();
-											"
-											:disabled="invalid || !validated"
-										>
-											Send
-										</v-btn>
-									</v-card-actions>
-								</v-card>
-							</validation-observer>
-						</v-dialog>
+						<v-btn
+							color="primary"
+							dark
+							v-bind="attrs"
+							v-on="on"
+							@click.stop="
+								validateReset();
+								dialog = true;
+							"
+						>
+							Forgot Password
+						</v-btn>
 					</v-row>
 				</v-form>
-			</v-card>
-		</v-container>
-	</validation-observer>
+			</validation-observer>
+			<validation-observer ref="resetobserver" v-slot="{ invalid, validated }">
+				<v-dialog v-model="dialog" persistent max-width="600px" eager>
+					<v-card>
+						<v-card-title>
+							<span class="headline">Reset Password</span>
+						</v-card-title>
+						<v-card-text>
+							<v-container>
+								<v-row>
+									<v-col cols="12">
+										<validation-provider
+											name="email"
+											rules="required|email"
+											v-slot="{ errors, valid }"
+										>
+											<v-text-field
+												v-model="resetEmail"
+												:error-messages="errors"
+												:success="valid"
+												label="E-mail"
+												type="email"
+												prepend-icon="mdi-email"
+											></v-text-field>
+										</validation-provider>
+									</v-col>
+								</v-row>
+							</v-container>
+						</v-card-text>
+						<v-card-actions>
+							<v-spacer></v-spacer>
+							<v-btn color="blue darken-1" text @click="dialog = false">
+								Cancel
+							</v-btn>
+							<v-btn
+								color="blue darken-1"
+								text
+								@click="
+									dialog = false;
+									sendResetRequest();
+								"
+								:disabled="invalid || !validated"
+							>
+								Send
+							</v-btn>
+						</v-card-actions>
+					</v-card>
+				</v-dialog>
+			</validation-observer>
+		</v-card>
+	</v-container>
 </template>
 
 <script>
