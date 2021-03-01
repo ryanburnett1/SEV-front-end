@@ -113,7 +113,7 @@ const routes = [
       hide: true,
       requiresAuth: false,
       icon: "",
-      roles: []
+      roles: [],
     },
     props(route) {
       const props = { ...route.params };
@@ -121,7 +121,7 @@ const routes = [
 
       return props;
     },
-    component: () => import(/**/ "@/views/PasswordReset.vue")
+    component: () => import(/**/ "@/views/PasswordReset.vue"),
   },
   {
     path: "/test",
