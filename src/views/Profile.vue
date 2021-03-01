@@ -86,8 +86,8 @@
 							link
 							@click="
 								$router.push({
-									name: 'MemberEdit',
-									params: { id: 0, isAdd: true },
+									name: 'SkillEdit',
+									params: { isAdd: true },
 								})
 							"
 						>

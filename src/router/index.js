@@ -86,6 +86,26 @@ const routes = [
     component: () => import(/**/ "@/views/edit/MemberEdit.vue")
   },
   {
+    path: "/skill-edit/:id/:isAdd",
+    name: "SkillEdit",
+    meta: {
+      hide: true,
+      requiresAuth: true,
+      icon: "",
+      roles: ["admin"]
+    },
+    props(route) {
+      const props = { ...route.params };
+      props.id = +props.id;
+      if (typeof props.isAdd === typeof "") {
+        props.isAdd = props.isAdd == 'true'
+      }
+
+      return props;
+    },
+    component: () => import(/**/ "@/views/edit/SkillEdit.vue")
+  },
+  {
     path: "/test",
     name: "Test",
     meta: {
