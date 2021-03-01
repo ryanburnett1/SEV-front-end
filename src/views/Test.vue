@@ -5,11 +5,6 @@
 				:people="members"
 				@onSelectionChanged="print"
 			></member-selection-list>
-			<skill-select
-				:id="1"
-				:personSkillList="person.getSkills()"
-				:pollDatabase="true"
-			/>
 		</v-row>
 	</v-container>
 </template>
@@ -18,13 +13,11 @@
 import MemberService from "@/services/memberServices.js";
 import Person from "@/models/person.model.js";
 import MemberSelectionList from "../components/MemberSelectionList.vue";
-import SkillSelect from "../components/SkillSelect.vue";
 
 export default {
 	name: "Test",
 	components: {
 		MemberSelectionList,
-		SkillSelect,
 	},
 	data() {
 		return {
