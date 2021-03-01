@@ -24,13 +24,13 @@ export default {
   props: ["editFunction", "deleteFunction", "saveFunction", "cancelFunction"],
   data() {
     return {
-      fab: false
+      fab: false,
     };
   },
   computed: {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn;
-    }
+    },
   },
   methods: {
     isEmpty() {
@@ -40,8 +40,8 @@ export default {
         !!this.saveFunction &&
         !!this.cancelFunction
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
