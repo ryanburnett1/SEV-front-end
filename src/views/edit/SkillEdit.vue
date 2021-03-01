@@ -180,7 +180,11 @@ export default {
 			this.editedIndex = this.dbSkillList.indexOf(item);
 			this.editedItem = Object.assign({}, item);
 			this.dialog = true;
-			this.$refs.observer.validate();
+			if (this.editedIndex > -1) {
+				this.$nextTick(() => {
+					this.$refs.observer.validate();
+				});
+			}
 		},
 		deleteItem(item) {
 			this.editedIndex = this.dbSkillList.indexOf(item);
