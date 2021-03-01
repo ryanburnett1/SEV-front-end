@@ -5,12 +5,11 @@ class User {
   username = null;
   password = null;
   email = null;
-  role = null
+  role = null;
   personId = null;
   person = new Person({});
 
   constructor(user, person) {
-
     if (user) {
       this.username = user.username;
       this.password = user.password;

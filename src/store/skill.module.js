@@ -1,20 +1,19 @@
 import RESTService from "@/services/restServices";
 
 const state = {
-  skills: []
+  skills: [],
 };
 
 const actions = {
   retrieveSkillList({ commit }) {
-    RESTService.getAll("skill").then((response) => { 
-      let skillList = response.data.data
-      commit("setState", skillList)
-    })
-
+    RESTService.getAll("skill").then(response => {
+      let skillList = response.data.data;
+      commit("setState", skillList);
+    });
   },
   clearState({ commit }) {
     commit("resetState");
-  }
+  },
 };
 
 const mutations = {
@@ -24,7 +23,6 @@ const mutations = {
   resetState(state) {
     state.skills = [];
   },
-  
 };
 
 const getters = {
@@ -36,5 +34,5 @@ export const skill = {
   state,
   actions,
   mutations,
-  getters
+  getters,
 };

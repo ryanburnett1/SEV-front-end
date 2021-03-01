@@ -57,8 +57,8 @@ export default {
         cancelColor: "error",
         confirmText: "Confirm",
         confirmColor: "success",
-        persistent: false
-      }
+        persistent: false,
+      },
     };
   },
   methods: {
@@ -79,8 +79,8 @@ export default {
     cancel() {
       this.resolve(false);
       this.dialog = false;
-    }
-  }
+    },
+  },
 };
 </script>
 
