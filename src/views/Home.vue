@@ -31,11 +31,11 @@ export default {
         { id: 6, url: "https://picsum.photos/200/300?random=7" },
         { id: 7, url: "https://picsum.photos/200/300?random=8" },
         { id: 8, url: "https://picsum.photos/200/300?random=9" },
-        { id: 9, url: "https://picsum.photos/200/300?random=10" }
-      ]
+        { id: 9, url: "https://picsum.photos/200/300?random=10" },
+      ],
     };
   },
   methods: {},
-  mounted() {}
+  mounted() {},
 };
 </script>

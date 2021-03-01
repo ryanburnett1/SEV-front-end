@@ -18,8 +18,8 @@ let config = {
     Authorization: "Bearer " + store.getters.getUserToken,
     "X-Requested-With": "XMLHttpRequest",
     crossDomain: true,
-    "Access-Control-Allow-Origin": "*"
-  }
+    "Access-Control-Allow-Origin": "*",
+  },
   // baseURL: process.env.baseURL || process.env.apiUrl || ""
   // timeout: 60 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control
@@ -58,13 +58,13 @@ Plugin.install = function(Vue, options) {
     axios: {
       get() {
         return _axios;
-      }
+      },
     },
     $axios: {
       get() {
         return _axios;
-      }
-    }
+      },
+    },
   });
 };
 

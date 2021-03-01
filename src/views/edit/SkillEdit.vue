@@ -24,7 +24,13 @@
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="38%" max-height="38%">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
+                <v-btn
+                  color="primary"
+                  dark
+                  class="mb-2"
+                  v-bind="attrs"
+                  v-on="on"
+                >
                   New Skill
                 </v-btn>
               </template>
@@ -82,7 +88,12 @@
                   <v-btn color="blue darken-1" text @click="close">
                     Cancel
                   </v-btn>
-                  <v-btn color="blue darken-1" text @click="save" :disabled="invalid || !validated">
+                  <v-btn
+                    color="blue darken-1"
+                    text
+                    @click="save"
+                    :disabled="invalid || !validated"
+                  >
                     Save
                   </v-btn>
                 </v-card-actions>
@@ -95,8 +106,12 @@
                 >
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-                  <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+                  <v-btn color="blue darken-1" text @click="closeDelete"
+                    >Cancel</v-btn
+                  >
+                  <v-btn color="blue darken-1" text @click="deleteItemConfirm"
+                    >OK</v-btn
+                  >
                   <v-spacer></v-spacer>
                 </v-card-actions>
               </v-card>
@@ -123,7 +138,7 @@ export default {
   props: [],
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
   },
   data() {
     return {
@@ -134,9 +149,9 @@ export default {
       editedItem: { skill_name: "", description: "" },
       defaultItem: {
         skill_name: "",
-        description: ""
+        description: "",
       },
-      search: ""
+      search: "",
     };
   },
   computed: {
@@ -147,18 +162,18 @@ export default {
       return [
         {
           text: "Name",
-          value: "skill_name"
+          value: "skill_name",
         },
         {
           text: "Description",
-          value: "description"
+          value: "description",
         },
         {
           text: "Actions",
-          value: "actions"
-        }
+          value: "actions",
+        },
       ];
-    }
+    },
   },
   methods: {
     editItem(item) {
@@ -208,7 +223,7 @@ export default {
         this.dbSkillList.push(this.editedItem);
       }
       this.close();
-    }
+    },
   },
   watch: {
     dialog(val) {
@@ -216,13 +231,13 @@ export default {
     },
     dialogDelete(val) {
       val || this.closeDelete();
-    }
+    },
   },
   mounted() {
     RESTService.getAll("/skill").then(response => {
       this.dbSkillList = response.data.data;
     });
-  }
+  },
 };
 </script>
 

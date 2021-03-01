@@ -8,7 +8,11 @@
           </v-toolbar-title>
         </v-toolbar>
         <v-form class="ma-2 pa-2">
-          <validation-provider name="email" rules="required|email" v-slot="{ errors, valid }">
+          <validation-provider
+            name="email"
+            rules="required|email"
+            v-slot="{ errors, valid }"
+          >
             <v-text-field
               v-model="user.email"
               :error-messages="errors"
@@ -18,7 +22,11 @@
               prepend-icon="mdi-email"
             ></v-text-field>
           </validation-provider>
-          <validation-provider name="password" rules="required" v-slot="{ errors, valid }">
+          <validation-provider
+            name="password"
+            rules="required"
+            v-slot="{ errors, valid }"
+          >
             <v-text-field
               v-model="user.password"
               :error-messages="errors"
@@ -37,7 +45,7 @@
             @click="
               $store.dispatch('login', {
                 email: user.email,
-                password: user.password
+                password: user.password,
               })
             "
             >Login</v-btn
@@ -56,22 +64,22 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
 export default {
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
   },
   data() {
     return {
       user: {
         email: "",
-        password: ""
+        password: "",
       },
-      show: false
+      show: false,
     };
   },
   methods: {
     ...mapActions("account", {
-      login: "login"
-    })
-  }
+      login: "login",
+    }),
+  },
 };
 </script>
 

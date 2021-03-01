@@ -2,10 +2,20 @@
   <v-container fluid>
     <v-row>
       <v-col :cols="$vuetify.breakpoint.mdAndUp ? 3 : 1">
-        <v-navigation-drawer v-model="open" :permanent="$vuetify.breakpoint.mdAndUp" absolute>
+        <v-navigation-drawer
+          v-model="open"
+          :permanent="$vuetify.breakpoint.mdAndUp"
+          absolute
+        >
           <v-list dense>
             <v-list-item dense flat>
-              <v-btn v-if="$vuetify.breakpoint.smAndDown" @click="open = !open" fixed right flat>
+              <v-btn
+                v-if="$vuetify.breakpoint.smAndDown"
+                @click="open = !open"
+                fixed
+                right
+                flat
+              >
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </v-list-item>
@@ -33,11 +43,15 @@
                     <v-expansion-panel-header>Info</v-expansion-panel-header>
                     <v-expansion-panel-content>
                       <v-row> Phone: {{ person.maskPhoneNumber() }} </v-row>
-                      <v-row> Marital Status: {{ person.marital_status }}</v-row>
+                      <v-row>
+                        Marital Status: {{ person.marital_status }}</v-row
+                      >
                       <v-row> Sex: {{ person.sex }} </v-row>
                     </v-expansion-panel-content>
                   </v-expansion-panel>
-                  <v-expansion-panel v-if="!!person.skill && person.skill.length > 0">
+                  <v-expansion-panel
+                    v-if="!!person.skill && person.skill.length > 0"
+                  >
                     <v-expansion-panel-header>Skills</v-expansion-panel-header>
                     <v-expansion-panel-content>
                       <div v-for="skill in person.skill" :key="skill.id">
@@ -58,7 +72,7 @@
               @click="
                 $router.push({
                   name: 'MemberEdit',
-                  params: { id: 0, isAdd: true }
+                  params: { id: 0, isAdd: true },
                 })
               "
             >
@@ -73,7 +87,7 @@
               @click="
                 $router.push({
                   name: 'SkillEdit',
-                  params: { isAdd: true }
+                  params: { isAdd: true },
                 })
               "
             >
@@ -86,7 +100,9 @@
         </v-navigation-drawer>
       </v-col>
       <v-col>
-        <v-btn v-if="$vuetify.breakpoint.smAndDown" @click="open = !open">Open Side Menu</v-btn>
+        <v-btn v-if="$vuetify.breakpoint.smAndDown" @click="open = !open"
+          >Open Side Menu</v-btn
+        >
         <v-col>
           <h1>{{ person.fullName() }}</h1>
           <v-subheader>{{ person.title }}</v-subheader>
@@ -97,7 +113,7 @@
               @click="
                 $router.push({
                   name: 'MemberEdit',
-                  params: { id: 0, isAdd: true }
+                  params: { id: 0, isAdd: true },
                 })
               "
               >Create User</v-btn
@@ -144,16 +160,16 @@ export default {
   props: ["id"],
   components: {
     AdminFab,
-    ConfirmationDialog
+    ConfirmationDialog,
   },
   data() {
     return {
       tab: null,
       person: new Person({
         f_name: "Default",
-        l_name: "Name"
+        l_name: "Name",
       }),
-      open: false
+      open: false,
     };
   },
   mounted() {
@@ -170,7 +186,7 @@ export default {
           color: "error",
           confirmText: "Delete",
           confirmColor: "error",
-          cancelColor: "success"
+          cancelColor: "success",
         })
       ) {
         this.deleteM();
@@ -184,10 +200,10 @@ export default {
     edit() {
       this.$router.push({
         name: "MemberEdit",
-        params: { id: this.id, isAdd: false }
+        params: { id: this.id, isAdd: false },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

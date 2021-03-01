@@ -11,7 +11,11 @@
           {{ title }}
         </v-toolbar-title>
       </v-toolbar>
-      <v-card-text v-show="!!message" class="pa-4 black--text" v-html="message"></v-card-text>
+      <v-card-text
+        v-show="!!message"
+        class="pa-4 black--text"
+        v-html="message"
+      ></v-card-text>
       <v-card-actions class="pt-3">
         <v-spacer></v-spacer>
         <v-btn
@@ -53,8 +57,8 @@ export default {
         cancelColor: "error",
         confirmText: "Confirm",
         confirmColor: "success",
-        persistent: false
-      }
+        persistent: false,
+      },
     };
   },
   methods: {
@@ -75,8 +79,8 @@ export default {
     cancel() {
       this.resolve(false);
       this.dialog = false;
-    }
-  }
+    },
+  },
 };
 </script>
 

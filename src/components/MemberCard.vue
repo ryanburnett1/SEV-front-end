@@ -23,10 +23,14 @@
             contain
             :lazy-src="require('@/assets/images/scared-batman.jpg')"
           >
-            <v-card-title v-if="data.disabled">Status / Disabled / Left </v-card-title>
+            <v-card-title v-if="data.disabled"
+              >Status / Disabled / Left
+            </v-card-title>
           </v-img>
         </v-skeleton-loader>
-        <v-card-subtitle>{{ person.fullName() }} | id: {{ person.id }} </v-card-subtitle>
+        <v-card-subtitle
+          >{{ person.fullName() }} | id: {{ person.id }}
+        </v-card-subtitle>
         <v-divider></v-divider>
         <v-card-text>{{ person.skill }}</v-card-text>
       </v-card>
@@ -44,7 +48,9 @@
             class="red--text align-end"
             :lazy-src="require('@/assets/images/scared-batman.jpg')"
           >
-            <v-card-title v-if="data.disabled">Status / Disabled / Left </v-card-title>
+            <v-card-title v-if="data.disabled"
+              >Status / Disabled / Left
+            </v-card-title>
           </v-img>
         </v-skeleton-loader>
         <v-card-subtitle>{{ data.name }} | id: {{ data.id }} </v-card-subtitle>
@@ -68,20 +74,20 @@ export default {
           image: "https://picsum.photos/1920/1080?random",
           info: "Default Info",
           id: "-1",
-          disabled: false
+          disabled: false,
         };
-      }
+      },
     },
     person: {
-      type: Person
-    }
+      type: Person,
+    },
   },
   data() {
     return {
-      hover: false
+      hover: false,
     };
   },
-  methods: {}
+  methods: {},
 };
 </script>
 

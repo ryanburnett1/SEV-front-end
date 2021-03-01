@@ -6,7 +6,11 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-checkbox dark class="pt-5 align-center justify-center" v-model="selectAll"></v-checkbox>
+        <v-checkbox
+          dark
+          class="pt-5 align-center justify-center"
+          v-model="selectAll"
+        ></v-checkbox>
       </v-toolbar-items>
     </v-toolbar>
     <v-list
@@ -15,7 +19,11 @@
       :max-height="isScroll ? maxHeight : ''"
       :class="isScroll ? 'overflow-y-auto' : ''"
     >
-      <v-list-item-group multiple v-model="selected" @change="emitSelectionChanged">
+      <v-list-item-group
+        multiple
+        v-model="selected"
+        @change="emitSelectionChanged"
+      >
         <template v-for="(person, index) in people">
           <v-divider :key="`divider-${index}`"></v-divider>
           <v-list-item
@@ -29,12 +37,17 @@
               </v-list-item-avatar>
 
               <v-list-item-content>
-                <v-list-item-title v-html="person.fullName()"></v-list-item-title>
+                <v-list-item-title
+                  v-html="person.fullName()"
+                ></v-list-item-title>
                 <v-list-item-subtitle v-html="'other'"></v-list-item-subtitle>
               </v-list-item-content>
 
               <v-list-item-action>
-                <v-checkbox :input-value="active" color="light-blue accent-4"></v-checkbox>
+                <v-checkbox
+                  :input-value="active"
+                  color="light-blue accent-4"
+                ></v-checkbox>
               </v-list-item-action>
             </template>
           </v-list-item>
@@ -50,12 +63,12 @@ export default {
     people: Array,
     maxHeight: {
       type: Number,
-      default: 600
-    }
+      default: 600,
+    },
   },
   data() {
     return {
-      selected: []
+      selected: [],
     };
   },
   computed: {
@@ -76,15 +89,15 @@ export default {
 
         this.selected = selected;
         this.emitSelectionChanged(this.selected);
-      }
-    }
+      },
+    },
   },
   methods: {
     emitSelectionChanged(event) {
       this.$emit("onSelectionChanged", event);
-    }
+    },
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 

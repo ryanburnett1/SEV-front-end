@@ -22,20 +22,20 @@ export default {
   props: {
     personId: {
       type: Number,
-      default: 0
+      default: 0,
     },
     pollDatabase: {
       type: Boolean,
-      default: false
+      default: false,
     },
     personSkillList: {
       type: Array,
-      default: () => ["this is default"]
-    }
+      default: () => ["this is default"],
+    },
   },
   data() {
     return {
-      selected: []
+      selected: [],
     };
   },
   mounted() {
@@ -51,8 +51,8 @@ export default {
     },
     onSkillSelected() {
       this.$emit("onSkillsChanged", this.selected);
-    }
-  }
+    },
+  },
 };
 </script>
 

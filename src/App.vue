@@ -1,6 +1,14 @@
 <template>
   <v-app>
-    <v-app-bar app dense color="primary" dark elevate-on-scroll elevation="24" hide-on-scroll>
+    <v-app-bar
+      app
+      dense
+      color="primary"
+      dark
+      elevate-on-scroll
+      elevation="24"
+      hide-on-scroll
+    >
       <template v-slot:img="{ props }">
         <v-img v-bind="props"> </v-img>
       </template>
@@ -30,14 +38,14 @@ export default {
 
   components: {
     Navbar,
-    AccountButton
+    AccountButton,
   },
 
   data: () => ({}),
   mounted() {
     this.$store.dispatch("retrieveSkillList");
     // console.log("Stuff: ", this.$store.getters.getSkillList);
-  }
+  },
 };
 </script>
 

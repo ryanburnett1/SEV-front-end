@@ -64,7 +64,9 @@
           v-for="member in filteredData"
           :key="member.id"
           :data="member"
-          @click.native="$router.push({ name: 'MemberView', params: { id: member.id } })"
+          @click.native="
+            $router.push({ name: 'MemberView', params: { id: member.id } })
+          "
         />
       </v-row>
       <v-row v-else>
@@ -80,7 +82,9 @@
           v-for="member in filteredData"
           :key="member.id"
           :person="member"
-          @click.native="$router.push({ name: 'MemberView', params: { id: member.id } })"
+          @click.native="
+            $router.push({ name: 'MemberView', params: { id: member.id } })
+          "
         />
       </v-row>
       <v-row v-else>
@@ -99,7 +103,7 @@ import Person from "@/models/person.model";
 
 export default {
   components: {
-    MemberCard
+    MemberCard,
   },
   data() {
     return {
@@ -108,7 +112,7 @@ export default {
       search: "",
       members: [],
       usePagination: true,
-      test: false
+      test: false,
     };
   },
   computed: {
@@ -156,7 +160,7 @@ export default {
       const start = this.pageNumber * this.size - this.size;
       const end = start + this.size;
       return this.members.slice(start, end);
-    }
+    },
   },
   methods: {
     nextPage(page) {
@@ -167,7 +171,7 @@ export default {
     },
     checkGoto() {
       this.pageNumber = Math.max(1, Math.min(this.pageNumber, this.pageCount));
-    }
+    },
   },
   mounted() {
     if (this.test) {
@@ -178,7 +182,7 @@ export default {
           id: i,
           info: i,
           disabled: false,
-          image: "https://picsum.photos/1920/1080?random=" + i
+          image: "https://picsum.photos/1920/1080?random=" + i,
         });
       }
       Object.freeze(this.members);
@@ -192,7 +196,7 @@ export default {
         Object.freeze(this.members);
       });
     }
-  }
+  },
 };
 </script>
 

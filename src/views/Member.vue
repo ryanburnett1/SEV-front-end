@@ -10,14 +10,14 @@ export default {
   props: ["id"],
   data() {
     return {
-      person: new Person()
+      person: new Person(),
     };
   },
   mounted() {
     MemberService.get(this.id).then(response => {
       this.person = response.data.data;
     });
-  }
+  },
 };
 </script>
 

@@ -1,8 +1,15 @@
 <template>
   <v-container fluid>
     <v-row>
-      <member-selection-list :people="members" @onSelectionChanged="print"></member-selection-list>
-      <skill-select :id="1" :personSkillList="person.getSkills()" :pollDatabase="true" />
+      <member-selection-list
+        :people="members"
+        @onSelectionChanged="print"
+      ></member-selection-list>
+      <skill-select
+        :id="1"
+        :personSkillList="person.getSkills()"
+        :pollDatabase="true"
+      />
     </v-row>
   </v-container>
 </template>
@@ -17,11 +24,11 @@ export default {
   name: "Test",
   components: {
     MemberSelectionList,
-    SkillSelect
+    SkillSelect,
   },
   data() {
     return {
-      members: []
+      members: [],
     };
   },
   mounted() {
@@ -38,8 +45,8 @@ export default {
   methods: {
     print(selected) {
       console.log(selected);
-    }
-  }
+    },
+  },
 };
 </script>
 

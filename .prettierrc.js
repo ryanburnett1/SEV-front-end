@@ -4,7 +4,7 @@ module.exports = {
   tabWidth: 2,
   useTabs: false,
   semi: true,
-  arrowParens: "avoid"
+  arrowParens: "avoid",
 };
 
 // https://prettier.io/docs/en/configuration.html

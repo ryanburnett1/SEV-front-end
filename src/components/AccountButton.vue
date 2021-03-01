@@ -32,24 +32,27 @@ export default {
   },
   methods: {
     ...mapActions("account", {
-      logout: "logout"
+      logout: "logout",
     }),
     goToProfilePage() {
-      console.log("Going to Profile for user with ID: ", this.$store.getters.getUserId);
+      console.log(
+        "Going to Profile for user with ID: ",
+        this.$store.getters.getUserId
+      );
 
       this.$router.push({
         name: "Profile",
-        params: { id: this.$store.getters.getPersonId }
+        params: { id: this.$store.getters.getPersonId },
       });
 
       // go to user profile, member self edit, whatever
-    }
+    },
   },
   computed: {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn;
-    }
-  }
+    },
+  },
 };
 </script>
 

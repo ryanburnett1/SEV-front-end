@@ -57,7 +57,11 @@
           </v-row>
           <v-row>
             <v-col>
-              <ValidationProvider name="firstName" rules="required" v-slot="{ errors, valid }">
+              <ValidationProvider
+                name="firstName"
+                rules="required"
+                v-slot="{ errors, valid }"
+              >
                 <v-text-field
                   v-model="person.f_name"
                   :error-messages="errors"
@@ -68,7 +72,11 @@
               </ValidationProvider>
             </v-col>
             <v-col>
-              <ValidationProvider name="firstName" rules="required" v-slot="{ errors, valid }">
+              <ValidationProvider
+                name="firstName"
+                rules="required"
+                v-slot="{ errors, valid }"
+              >
                 <v-text-field
                   v-model="person.l_name"
                   :error-messages="errors"
@@ -88,7 +96,7 @@
               empty: null,
               applyAfter: false,
               alphanumeric: true,
-              lowerCase: false
+              lowerCase: false,
             }"
           ></v-text-field-simplemask>
           <v-row>
@@ -107,7 +115,11 @@
               ></v-select>
             </v-col>
           </v-row>
-          <ValidationProvider name="sex" rules="required" v-slot="{ errors, valid }">
+          <ValidationProvider
+            name="sex"
+            rules="required"
+            v-slot="{ errors, valid }"
+          >
             <v-select
               v-model="person.sex"
               :error-messages="errors"
@@ -117,7 +129,11 @@
             ></v-select>
           </ValidationProvider>
           <div v-if="$store.getters.isAdmin">
-            <v-select v-model="user.role" label="Role" :items="user.getRoles()"></v-select>
+            <v-select
+              v-model="user.role"
+              label="Role"
+              :items="user.getRoles()"
+            ></v-select>
             <v-select
               v-model="person.status"
               label="Church Status"
@@ -134,10 +150,18 @@
         </v-form>
         <v-divider></v-divider>
         <v-card-actions>
-          <v-btn @click="save()" color="success" v-if="!isAdd" :disabled="invalid || !validated"
+          <v-btn
+            @click="save()"
+            color="success"
+            v-if="!isAdd"
+            :disabled="invalid || !validated"
             >Save</v-btn
           >
-          <v-btn @click="save()" color="success" v-else :disabled="invalid || !validated"
+          <v-btn
+            @click="save()"
+            color="success"
+            v-else
+            :disabled="invalid || !validated"
             >Create</v-btn
           >
           <v-spacer></v-spacer>
@@ -164,19 +188,19 @@ export default {
   props: {
     id: {
       type: Number,
-      default: 0
+      default: 0,
     },
     isAdd: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   components: {
     AdminFab,
     UploadPic,
     SkillSelect,
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
   },
   data() {
     return {
@@ -184,7 +208,7 @@ export default {
       loading: true, // hack for v-select due to async props
       person: new Person(),
       user: new User(null, this.person),
-      emailTemp: ""
+      emailTemp: "",
     };
   },
   methods: {
@@ -199,7 +223,8 @@ export default {
 
         await MemberService.uploadImage(formData)
           .then(res => {
-            this.person.picture = process.env.VUE_APP_IMAGE_PATH + res.data.name;
+            this.person.picture =
+              process.env.VUE_APP_IMAGE_PATH + res.data.name;
           })
           .catch(err => {
             console.log(err);
@@ -220,7 +245,10 @@ export default {
                 this.$router.back();
               })
               .catch(err => {
-                console.log(`Failed to create new User for Person: ${this.person.id}`, err);
+                console.log(
+                  `Failed to create new User for Person: ${this.person.id}`,
+                  err
+                );
               });
           })
           .catch(err => {
@@ -242,7 +270,7 @@ export default {
             console.log("Update Person Failed: ", err);
           });
       }
-    }
+    },
   },
   mounted() {
     if (!this.isAdd) {
@@ -261,7 +289,7 @@ export default {
     }
 
     this.$refs.observer.validate();
-  }
+  },
 };
 </script>
 

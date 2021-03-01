@@ -1,7 +1,7 @@
 import RESTService from "@/services/restServices";
 
 const state = {
-  skills: []
+  skills: [],
 };
 
 const actions = {
@@ -13,7 +13,7 @@ const actions = {
   },
   clearState({ commit }) {
     commit("resetState");
-  }
+  },
 };
 
 const mutations = {
@@ -22,11 +22,11 @@ const mutations = {
   },
   resetState(state) {
     state.skills = [];
-  }
+  },
 };
 
 const getters = {
-  getSkillList: state => state.skills
+  getSkillList: state => state.skills,
 };
 
 export const skill = {
@@ -34,5 +34,5 @@ export const skill = {
   state,
   actions,
   mutations,
-  getters
+  getters,
 };

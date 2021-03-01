@@ -23,9 +23,14 @@ export default {
   data() {
     return {
       selectedFile: null,
-      rules: [value => !value || value.size < 2000000 || "Avatar size should be less than 2 MB!"],
+      rules: [
+        value =>
+          !value ||
+          value.size < 2000000 ||
+          "Avatar size should be less than 2 MB!",
+      ],
       filePath: null,
-      fileName: ""
+      fileName: "",
     };
   },
   methods: {
@@ -50,8 +55,8 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
