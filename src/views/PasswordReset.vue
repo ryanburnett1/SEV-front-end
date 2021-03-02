@@ -20,11 +20,17 @@
               :success="valid"
               label="Password"
               :type="show ? 'text' : 'password'"
-              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               prepend-icon="mdi-lock"
-              @click:append="show = !show"
+              tabindex="1"
               autofocus
-            ></v-text-field>
+            >
+              <template v-slot:append>
+                <v-btn icon @click="show = !show" tabindex="3">
+                  <v-icon v-if="show">mdi-eye</v-icon>
+                  <v-icon v-else>mdi-eye-off</v-icon>
+                </v-btn>
+              </template>
+            </v-text-field>
           </validation-provider>
           <validation-provider
             name="passwordConfirm"
@@ -37,17 +43,24 @@
               :success="valid"
               label="Renter Password"
               :type="show ? 'text' : 'password'"
-              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               prepend-icon="mdi-lock"
-              @click:append="show = !show"
               @keydown.enter="reset()"
-            ></v-text-field>
+              tabindex="2"
+            >
+              <template v-slot:append>
+                <v-btn icon @click="show = !show" tabindex="4">
+                  <v-icon v-if="show">mdi-eye</v-icon>
+                  <v-icon v-else>mdi-eye-off</v-icon>
+                </v-btn>
+              </template>
+            </v-text-field>
           </validation-provider>
           <v-divider class="mb-2"></v-divider>
           <v-btn
             :disabled="invalid || !validated"
             color="success"
             @click="reset()"
+            tabindex="5"
             >Reset</v-btn
           >
         </v-form>
