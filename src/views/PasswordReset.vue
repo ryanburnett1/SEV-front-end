@@ -20,10 +20,18 @@
               :success="valid"
               label="Password"
               :type="show ? 'text' : 'password'"
-              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               prepend-icon="mdi-lock"
-              @click:append="show = !show"
-            ></v-text-field>
+              tabindex="1"
+              autofocus
+              @keydown.enter="$refs.confirmField.focus"
+            >
+              <template v-slot:append>
+                <v-btn icon @click="show = !show" tabindex="3">
+                  <v-icon v-if="show">mdi-eye</v-icon>
+                  <v-icon v-else>mdi-eye-off</v-icon>
+                </v-btn>
+              </template>
+            </v-text-field>
           </validation-provider>
           <validation-provider
             name="passwordConfirm"
@@ -31,21 +39,31 @@
             v-slot="{ errors, valid }"
           >
             <v-text-field
+              ref="confirmField"
               v-model="passwordConfirm"
               :error-messages="errors"
               :success="valid"
               label="Renter Password"
-              :type="showConfirm ? 'text' : 'password'"
-              :append-icon="showConfirm ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show ? 'text' : 'password'"
               prepend-icon="mdi-lock"
-              @click:append="showConfirm = !showConfirm"
-            ></v-text-field>
+              @keydown.enter="$refs.resetButton.$el.click"
+              tabindex="2"
+            >
+              <template v-slot:append>
+                <v-btn icon @click="show = !show" tabindex="4">
+                  <v-icon v-if="show">mdi-eye</v-icon>
+                  <v-icon v-else>mdi-eye-off</v-icon>
+                </v-btn>
+              </template>
+            </v-text-field>
           </validation-provider>
           <v-divider class="mb-2"></v-divider>
           <v-btn
+            ref="resetButton"
             :disabled="invalid || !validated"
             color="success"
-            @click="reset"
+            @click="reset()"
+            tabindex="5"
             >Reset</v-btn
           >
         </v-form>
@@ -77,7 +95,6 @@ export default {
   data() {
     return {
       show: false,
-      showConfirm: false,
       password: "",
       passwordConfirm: "",
     };
