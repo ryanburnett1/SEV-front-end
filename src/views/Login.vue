@@ -20,6 +20,7 @@
               label="E-mail"
               type="email"
               prepend-icon="mdi-email"
+              @keydown.enter="$refs.passwordField.focus"
               autofocus
             ></v-text-field>
           </validation-provider>
@@ -29,6 +30,7 @@
             v-slot="{ errors, valid }"
           >
             <v-text-field
+              ref="passwordField"
               v-model="user.password"
               :error-messages="errors"
               :success="valid"

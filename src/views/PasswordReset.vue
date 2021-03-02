@@ -23,6 +23,7 @@
               prepend-icon="mdi-lock"
               tabindex="1"
               autofocus
+              @keydown.enter="$refs.confirmField.focus"
             >
               <template v-slot:append>
                 <v-btn icon @click="show = !show" tabindex="3">
@@ -38,6 +39,7 @@
             v-slot="{ errors, valid }"
           >
             <v-text-field
+              ref="confirmField"
               v-model="passwordConfirm"
               :error-messages="errors"
               :success="valid"
