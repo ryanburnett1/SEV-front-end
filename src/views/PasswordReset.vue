@@ -36,10 +36,10 @@
               :error-messages="errors"
               :success="valid"
               label="Renter Password"
-              :type="showConfirm ? 'text' : 'password'"
-              :append-icon="showConfirm ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show ? 'text' : 'password'"
+              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               prepend-icon="mdi-lock"
-              @click:append="showConfirm = !showConfirm"
+              @click:append="show = !show"
               @keydown.enter="reset()"
             ></v-text-field>
           </validation-provider>
@@ -79,7 +79,6 @@ export default {
   data() {
     return {
       show: false,
-      showConfirm: false,
       password: "",
       passwordConfirm: "",
     };
