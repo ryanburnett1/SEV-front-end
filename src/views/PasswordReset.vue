@@ -44,7 +44,7 @@
               label="Renter Password"
               :type="show ? 'text' : 'password'"
               prepend-icon="mdi-lock"
-              @keydown.enter="reset()"
+              @keydown.enter="$refs.resetButton.$el.click"
               tabindex="2"
             >
               <template v-slot:append>
@@ -57,6 +57,7 @@
           </validation-provider>
           <v-divider class="mb-2"></v-divider>
           <v-btn
+            ref="resetButton"
             :disabled="invalid || !validated"
             color="success"
             @click="reset()"

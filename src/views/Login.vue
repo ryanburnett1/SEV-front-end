@@ -37,12 +37,13 @@
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               prepend-icon="mdi-lock"
               @click:append="show = !show"
-              @keydown.enter="login()"
+              @keydown.enter="$refs.loginButton.$el.click"
             ></v-text-field>
           </validation-provider>
           <v-divider class="mb-2"></v-divider>
           <v-row class="ma-1 pa-1">
             <v-btn
+              ref="loginButton"
               :disabled="invalid || !validated"
               color="success"
               @click="login()"
