@@ -88,6 +88,7 @@
                         label="E-mail"
                         type="email"
                         prepend-icon="mdi-email"
+                        @keydown.enter="$refs.resetButton.$el.click"
                       ></v-text-field>
                     </validation-provider>
                   </v-col>
@@ -100,6 +101,7 @@
                 Cancel
               </v-btn>
               <v-btn
+                ref="resetButton"
                 color="blue darken-1"
                 text
                 @click="
