@@ -20,6 +20,7 @@
               label="E-mail"
               type="email"
               prepend-icon="mdi-email"
+              autofocus
             ></v-text-field>
           </validation-provider>
           <validation-provider
@@ -36,6 +37,7 @@
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               prepend-icon="mdi-lock"
               @click:append="show = !show"
+              @keydown.enter="login()"
             ></v-text-field>
           </validation-provider>
           <v-divider class="mb-2"></v-divider>
@@ -43,12 +45,7 @@
             <v-btn
               :disabled="invalid || !validated"
               color="success"
-              @click="
-                $store.dispatch('login', {
-                  email: user.email,
-                  password: user.password,
-                })
-              "
+              @click="login()"
             >
               Login
             </v-btn>
@@ -56,8 +53,6 @@
             <v-btn
               color="primary"
               dark
-              v-bind="attrs"
-              v-on="on"
               @click.stop="
                 validateReset();
                 dialog = true;
@@ -162,6 +157,12 @@ export default {
           console.log(res);
           alert("thing sent");
         });
+    },
+    login() {
+      this.$store.dispatch("login", {
+        email: this.user.email,
+        password: this.user.password,
+      });
     },
   },
 };

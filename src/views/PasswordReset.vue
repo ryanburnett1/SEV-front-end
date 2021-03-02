@@ -23,6 +23,7 @@
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               prepend-icon="mdi-lock"
               @click:append="show = !show"
+              autofocus
             ></v-text-field>
           </validation-provider>
           <validation-provider
@@ -39,13 +40,14 @@
               :append-icon="showConfirm ? 'mdi-eye' : 'mdi-eye-off'"
               prepend-icon="mdi-lock"
               @click:append="showConfirm = !showConfirm"
+              @keydown.enter="reset()"
             ></v-text-field>
           </validation-provider>
           <v-divider class="mb-2"></v-divider>
           <v-btn
             :disabled="invalid || !validated"
             color="success"
-            @click="reset"
+            @click="reset()"
             >Reset</v-btn
           >
         </v-form>
