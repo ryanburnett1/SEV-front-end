@@ -63,7 +63,7 @@
 								v-slot="{ errors, valid }"
 							>
 								<v-text-field
-									v-model="person.f_name"
+									v-model="person.firstName"
 									:error-messages="errors"
 									:success="valid"
 									label="First Name"
@@ -78,7 +78,7 @@
 								v-slot="{ errors, valid }"
 							>
 								<v-text-field
-									v-model="person.l_name"
+									v-model="person.lastName"
 									:error-messages="errors"
 									:success="valid"
 									label="Last Name"
@@ -255,6 +255,7 @@ export default {
 						console.log("Failed to create new Person: ", err);
 					});
 			} else {
+				console.log(this.person);
 				MemberService.update(this.id, this.person)
 					.then(() => {
 						this.$refs.skillSelect.updatePersonSkill(this.id);
