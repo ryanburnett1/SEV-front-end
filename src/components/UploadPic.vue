@@ -12,7 +12,7 @@
     :value="[]"
     :clearable="false"
     v-model="selectedFile"
-    @change="onUploadFile"
+    @change="onFileSelected"
   ></v-file-input>
 </template>
 
@@ -22,22 +22,23 @@ import MemberService from "@/services/memberServices";
 export default {
   data() {
     return {
-      selectedFile: [],
+      selectedFile: null,
       rules: [
         value =>
           !value ||
           value.size < 2000000 ||
-          "Avatar size should be less than 2 MB!"
+          "Avatar size should be less than 2 MB!",
       ],
-      filePath: "",
-      fileName: ""
+      filePath: null,
+      fileName: "",
     };
   },
   methods: {
     //What happens when they chooose the file
-    onFileChange(e) {
-      const selectedFile = e.target.files[0]; // Get file that use put into component
-      this.selectedFile = selectedFile; //set it to the selected file in data so that onUploadFile can use it
+    onFileSelected() {
+      let reader = new FileReader();
+      reader.onload = e => this.$emit("onFileSelected", e.target.result);
+      reader.readAsDataURL(this.selectedFile);
     },
     //sets what data you are sending to backend
     onUploadFile() {
@@ -45,20 +46,17 @@ export default {
       formData.append("file", this.selectedFile); // appending file
       // sending file to the backend
       //axios
-      MemberService.uploadImage(0, formData)
+      MemberService.uploadImage(formData)
         .then(res => {
-          console.log(res);
-          // this.filePath = res.data.path;
-          this.fileName = res.data.name;
-
+          this.fileName = res.data.data.name;
           this.filePath = process.env.VUE_APP_IMAGE_PATH + this.fileName;
-          this.$emit("onImageUpload", this.filePath);
+          console.log("test");
         })
         .catch(err => {
           console.log(err);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

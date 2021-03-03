@@ -14,8 +14,8 @@ const routes = [
       hide: false, // used to hide from navigation menus
       requiresAuth: false, // if requires user to be logged in
       icon: "mdi-home", // icon to display in menus
-      roles: [] // used to check user roles (admin, member, etc)
-    }
+      roles: [], // used to check user roles (admin, member, etc)
+    },
   },
   {
     path: "/login",
@@ -24,9 +24,9 @@ const routes = [
       hide: false,
       requiresAuth: false,
       icon: "mdi-account",
-      roles: []
+      roles: [],
     },
-    component: () => import(/* webpackChunkName: "home" */ "@/views/Login.vue")
+    component: () => import(/* webpackChunkName: "home" */ "@/views/Login.vue"),
   },
   {
     path: "/profile/:id",
@@ -35,11 +35,11 @@ const routes = [
       hide: true,
       requiresAuth: true,
       icon: "mdi-account-box",
-      roles: []
+      roles: [],
     },
     props: true,
     component: () =>
-      import(/* webpackChunkName: "home" */ "@/views/Profile.vue")
+      import(/* webpackChunkName: "home" */ "@/views/Profile.vue"),
   },
   {
     path: "/directory",
@@ -48,10 +48,10 @@ const routes = [
       hide: false,
       requiresAuth: true, // can change to true later or use ternary now
       icon: "mdi-account-group",
-      roles: []
+      roles: [],
     },
     component: () =>
-      import(/* webpackChunkName: "home" */ "@/views/Directory.vue")
+      import(/* webpackChunkName: "home" */ "@/views/Directory.vue"),
   },
   {
     path: "/member-view/:id",
@@ -60,22 +60,68 @@ const routes = [
       hide: true,
       requiresAuth: false, // can change to true later or use ternary now
       icon: "",
-      roles: []
+      roles: [],
     },
     props: true,
-    component: () => import(/**/ "@/views/Member.vue")
+    component: () => import(/**/ "@/views/Member.vue"),
   },
   {
-    path: "/member-edit/:id",
+    path: "/member-edit/:id/:isAdd",
     name: "MemberEdit",
     meta: {
       hide: true,
       requiresAuth: true,
       icon: "",
-      roles: []
+      roles: [],
     },
-    props: true,
-    component: () => import(/**/ "@/views/edit/MemberEdit.vue")
+    props(route) {
+      const props = { ...route.params };
+      props.id = +props.id;
+      if (typeof props.isAdd === typeof "") {
+        props.isAdd = props.isAdd == "true";
+      }
+
+      return props;
+    },
+    component: () => import(/**/ "@/views/edit/MemberEdit.vue"),
+  },
+  {
+    path: "/skill-edit/:id/:isAdd",
+    name: "SkillEdit",
+    meta: {
+      hide: true,
+      requiresAuth: true,
+      icon: "",
+      roles: ["admin"],
+    },
+    props(route) {
+      const props = { ...route.params };
+      props.id = +props.id;
+      if (typeof props.isAdd === typeof "") {
+        props.isAdd = props.isAdd == "true";
+      }
+
+      return props;
+    },
+    component: () => import(/**/ "@/views/edit/SkillEdit.vue"),
+  },
+  {
+    path: "/password-reset/:id/:token",
+    name: "PasswordReset",
+    alias: "/reset/:id/:token",
+    meta: {
+      hide: true,
+      requiresAuth: false,
+      icon: "",
+      roles: [],
+    },
+    props(route) {
+      const props = { ...route.params };
+      props.id = +props.id;
+
+      return props;
+    },
+    component: () => import(/**/ "@/views/PasswordReset.vue"),
   },
   {
     path: "/test",
@@ -84,9 +130,9 @@ const routes = [
       hide: process.env.NODE_ENV === "production" ? true : false,
       requiresAuth: false,
       icon: "mdi-cog",
-      roles: []
+      roles: [],
     },
-    component: () => import(/* webpackChunkName: "test" */ "@/views/Test.vue")
+    component: () => import(/* webpackChunkName: "test" */ "@/views/Test.vue"),
   },
   {
     path: "*",
@@ -96,15 +142,15 @@ const routes = [
       hide: true,
       requiresAuth: false,
       icon: "",
-      roles: []
-    }
-  }
+      roles: [],
+    },
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {

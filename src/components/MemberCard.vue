@@ -8,8 +8,10 @@
       <v-card
         :elevation="hover ? 16 : 2"
         :class="{ 'on-hover': hover, 'max-auto': true }"
-        height="350"
-        max-width="350"
+        min-width="20vw"
+        max-width="35vw"
+        min-height="20vh"
+        max-height="35vh"
         :disabled="data.disabled"
         v-if="!!person"
       >
@@ -17,6 +19,8 @@
           <v-img
             :src="person.picture"
             class="red--text align-end"
+            aspect-ratio="1920/1080"
+            contain
             :lazy-src="require('@/assets/images/scared-batman.jpg')"
           >
             <v-card-title v-if="data.disabled"
@@ -28,7 +32,7 @@
           >{{ person.fullName() }} | id: {{ person.id }}
         </v-card-subtitle>
         <v-divider></v-divider>
-        <v-card-text>{{ person.createdAt }}</v-card-text>
+        <v-card-text>{{ person.skill }}</v-card-text>
       </v-card>
       <v-card
         :elevation="hover ? 16 : 2"
@@ -70,20 +74,20 @@ export default {
           image: "https://picsum.photos/1920/1080?random",
           info: "Default Info",
           id: "-1",
-          disabled: false
+          disabled: false,
         };
-      }
+      },
     },
     person: {
-      type: Person
-    }
+      type: Person,
+    },
   },
   data() {
     return {
-      hover: false
+      hover: false,
     };
   },
-  methods: {}
+  methods: {},
 };
 </script>
 

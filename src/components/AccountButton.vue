@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     ...mapActions("account", {
-      logout: "logout"
+      logout: "logout",
     }),
     goToProfilePage() {
       console.log(
@@ -42,17 +42,17 @@ export default {
 
       this.$router.push({
         name: "Profile",
-        params: { id: this.$store.getters.getPersonId }
+        params: { id: this.$store.getters.getPersonId },
       });
 
       // go to user profile, member self edit, whatever
-    }
+    },
   },
   computed: {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn;
-    }
-  }
+    },
+  },
 };
 </script>
 

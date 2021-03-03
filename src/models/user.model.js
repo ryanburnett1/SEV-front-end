@@ -2,19 +2,25 @@ import Person from "@/models/person.model";
 
 class User {
   id = null;
-  username = "";
-  password = "";
-  email = "";
-  role = "";
+  username = null;
+  password = null;
+  email = null;
+  role = null;
   personId = null;
   person = new Person({});
 
   constructor(user, person) {
-    this.username = user.username;
-    this.password = user.password;
-    this.email = user.email;
-    this.personId = user.personId;
-    this.person = person;
+    if (user) {
+      this.username = user.username;
+      this.password = user.password;
+      this.email = user.email;
+      this.personId = user.personId;
+      this.role = user.role;
+    }
+
+    if (person) {
+      this.person = person;
+    }
   }
 
   fullName() {
@@ -23,6 +29,10 @@ class User {
 
   updateDate() {
     this.person.updatedAt = Date.now();
+  }
+
+  getRoles() {
+    return ["none", "admin"];
   }
 }
 

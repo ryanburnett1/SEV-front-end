@@ -54,8 +54,8 @@ export default {
 
       // hide if meta says so in @/router/index.js
       return !route.meta.hide;
-    }
-  }
+    },
+  },
 };
 </script>
 

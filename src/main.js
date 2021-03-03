@@ -6,6 +6,7 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import VuetifyMask from "vuetify-mask";
+import "./plugins/vee-validate";
 
 Vue.use(VuetifyMask);
 
@@ -15,5 +16,5 @@ new Vue({
   router,
   store,
   vuetify,
-  render: h => h(App)
+  render: h => h(App),
 }).$mount("#app");
