@@ -52,15 +52,15 @@ class Person {
   }
 
   sexOptions() {
-    return ["m", "f", "other"];
+    return ["Male", "Female", "other"];
   }
 
   maritalStatusOptions() {
-    return ["married", "divorced", "seperated", "unmarried", "widowed"];
+    return ["Married", "Divorced", "Seperated", "Unmarried", "Widowed"];
   }
 
   statusOptions() {
-    return ["active", "inactive", "disabled"];
+    return ["Active", "Inactive", "Disabled"];
   }
 }
 
