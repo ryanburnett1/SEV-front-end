@@ -63,7 +63,7 @@ const routes = [
       roles: []
     },
     props: true,
-    component: () => import(/**/ "@views/Group.vue")
+    component: () => import(/**/ "@/views/Group.vue")
   },
   {
     path: "/group-edit:/id/:isAdd",
@@ -83,7 +83,7 @@ const routes = [
       return props;
     },
     component: () =>
-      import(/* webpackChunkName: "home" */ "@views/GroupEdit.vue")
+      import(/* webpackChunkName: "home" */ "@/views/GroupEdit.vue")
   },
   {
     path: "grouptype-view/:id",
@@ -95,7 +95,7 @@ const routes = [
       roles: []
     },
     props: true,
-    component: () => import(/**/ "@views/GroupType.vue")
+    component: () => import(/**/ "@/views/GroupType.vue")
   },
   {
     path: "/grouptype-edit:/id/:isAdd",
@@ -115,7 +115,7 @@ const routes = [
       return props;
     },
     component: () => 
-      import(/* webpackChunkName: "home" */ "@views/GroupType.vue")
+      import(/* webpackChunkName: "home" */ "@/views/GroupType.vue")
   },
   {
     path: "/member-view/:id",

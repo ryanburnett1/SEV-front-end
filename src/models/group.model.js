@@ -1,4 +1,4 @@
-import Group from "@/models/group.model";
+// import Group from "@/models/group.model";
 
 class Group {
     id = null;
@@ -23,7 +23,7 @@ class Group {
 
     group_people() {
         //how to return all people in the group?
-        return person_arr.map(x => x.id);
+        return this.person_arr.map(x => x.id);
     }
 
     group_leader() {
@@ -32,3 +32,5 @@ class Group {
         //return person_arr[leader_index];
     }
 }
+
+export default Group;
