@@ -71,7 +71,9 @@ export default {
 
 <style lang="scss">
 /* global theme changes here  */
-.v-card {
-	background: red !important;
-}
+@import "~/src/assets/scss/variables.scss";
+
+// .v-card {
+// 	background-color: $card-background !important;
+// }
 </style>
