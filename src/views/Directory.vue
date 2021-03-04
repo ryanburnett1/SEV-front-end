@@ -8,18 +8,18 @@
 				label="Search"
 				outlined
 			></v-text-field>
-			<v-tooltip bottom>
-				<template v-slot:activator="{ on, attrs }">
-					<span v-bind="attrs" v-on="on">
-						<!-- <v-switch
+			<!-- <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <span v-bind="attrs" v-on="on">
+            <v-switch
               v-model="usePagination"
               label="Use Pagination"
               @click="search = ''"
-            ></v-switch> -->
-					</span>
-				</template>
-				Can be slow with a large dataset
-			</v-tooltip>
+            ></v-switch>
+          </span>
+        </template>
+        Can be slow with a large dataset
+      </v-tooltip> -->
 		</v-row>
 		<v-col v-if="usePagination">
 			<v-row>
