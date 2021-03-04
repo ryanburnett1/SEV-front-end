@@ -106,17 +106,17 @@ export default {
 .v-card {
 	background: var(--v-background-lighten1);
 
-	.v-divider {
-		background-color: blue !important;
-	}
+	// .v-divider {
+	// 	background-color: blue !important;
+	// }
 
-	.v-card__subtitle {
-		color: blue !important;
-	}
+	// .v-card__subtitle {
+	// 	color: blue !important;
+	// }
 
-	.v-card__text {
-		color: green !important;
-	}
+	// .v-card__text {
+	// 	color: green !important;
+	// }
 }
 // .v-card {
 // 	padding: 150px;
