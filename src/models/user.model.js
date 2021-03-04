@@ -32,7 +32,7 @@ class User {
   }
 
   getRoles() {
-    return ["None", "Admin"];
+    return ["None", "Admin", "User"];
   }
 }
 

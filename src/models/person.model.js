@@ -14,16 +14,10 @@ class Person {
 
   constructor(person) {
     if (person) {
-      this.id = person.id;
-      this.firstName = person.firstName;
-      this.lastName = person.lastName;
-      this.phone_number = person.phone_number;
-      this.picture = person.picture;
-      this.sex = person.sex;
-      this.marital_status = person.marital_status;
-      this.status = person.status;
-      this.title = person.title;
-      this.skill = person.skill;
+      // just take all variables from person json
+      for (let v in person) {
+        this[String(v)] = person[v]; 
+      }
     }
   }
 

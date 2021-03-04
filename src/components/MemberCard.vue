@@ -8,7 +8,7 @@
 			<v-card
 				:elevation="hover ? 16 : 2"
 				:class="{ 'on-hover': hover, 'max-auto': true }"
-				min-width="20vw"
+				min-width="15vw"
 				max-width="35vw"
 				min-height="20vh"
 				max-height="35vh"
@@ -33,7 +33,7 @@
 					<div v-if="$store.getters.isAdmin">| id: {{ person.id }}</div>
 				</v-card-subtitle>
 				<!-- <v-divider></v-divider> -->
-				<!-- <v-card-text>{{ person.skill }}</v-card-text> -->
+				<v-card-text></v-card-text>
 			</v-card>
 		</v-skeleton-loader>
 	</v-hover>
