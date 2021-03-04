@@ -1,4 +1,5 @@
 <template>
+<v-app id="main" :style="{background: $vuetify.theme.themes[theme].background}">
   <v-container>
     <v-card>
       <v-toolbar dark color="primary" dense flat>
@@ -118,6 +119,7 @@
       </validation-observer>
     </v-card>
   </v-container>
+</v-app>
 </template>
 
 <script>
@@ -127,6 +129,12 @@ import rest from "@/services/restServices";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 export default {
+  name: 'App',
+  computed:{
+    theme(){
+      return (this.$vuetify.theme.dark) ? 'dark' : 'light'
+    }
+  },
   components: {
     ValidationObserver,
     ValidationProvider,
