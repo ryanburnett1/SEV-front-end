@@ -92,7 +92,7 @@ const routes = [
       hide: true,
       requiresAuth: true,
       icon: "",
-      roles: ["admin"],
+      roles: ["Admin"],
     },
     props(route) {
       const props = { ...route.params };

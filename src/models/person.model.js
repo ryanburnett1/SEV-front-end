@@ -2,8 +2,8 @@
 
 class Person {
   id = 0;
-  f_name = "";
-  l_name = "";
+  firstName = "";
+  lastName = "";
   phone_number = "";
   picture = "";
   sex = "";
@@ -15,8 +15,8 @@ class Person {
   constructor(person) {
     if (person) {
       this.id = person.id;
-      this.f_name = person.f_name;
-      this.l_name = person.l_name;
+      this.firstName = person.firstName;
+      this.lastName = person.lastName;
       this.phone_number = person.phone_number;
       this.picture = person.picture;
       this.sex = person.sex;
@@ -32,7 +32,7 @@ class Person {
   }
 
   fullName() {
-    return this.f_name + " " + this.l_name;
+    return this.firstName + " " + this.lastName;
   }
 
   updateDate() {
@@ -52,15 +52,15 @@ class Person {
   }
 
   sexOptions() {
-    return ["m", "f", "other"];
+    return ["Male", "Female", "other"];
   }
 
   maritalStatusOptions() {
-    return ["married", "divorced", "seperated", "unmarried", "widowed"];
+    return ["Married", "Divorced", "Seperated", "Unmarried", "Widowed"];
   }
 
   statusOptions() {
-    return ["active", "inactive", "disabled"];
+    return ["Active", "Inactive", "Disabled"];
   }
 }
 

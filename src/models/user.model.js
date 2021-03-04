@@ -24,7 +24,7 @@ class User {
   }
 
   fullName() {
-    return this.person.f_name + " " + this.person.l_name;
+    return this.person.firstName + " " + this.person.lastName;
   }
 
   updateDate() {
@@ -32,7 +32,7 @@ class User {
   }
 
   getRoles() {
-    return ["none", "admin"];
+    return ["None", "Admin"];
   }
 }
 
