@@ -1,6 +1,6 @@
 <template>
 	<v-app
-		id="main"
+		id="app"
 		:style="{ background: $vuetify.theme.themes[theme].background }"
 	>
 		<v-app-bar
@@ -20,7 +20,7 @@
 			<account-button />
 		</v-app-bar>
 
-		<v-main>
+		<v-main id="main">
 			<v-container fluid>
 				<router-view></router-view>
 			</v-container>
