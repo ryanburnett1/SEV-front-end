@@ -7,7 +7,7 @@
 			app
 			dense
 			color="primary"
-			dark
+			:dark="theme ? true : false"
 			elevate-on-scroll
 			elevation="24"
 			hide-on-scroll
