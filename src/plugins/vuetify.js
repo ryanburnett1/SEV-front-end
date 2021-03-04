@@ -11,9 +11,14 @@ export default new Vuetify({
       light: {
         primary: colors.blue.darken4, // #E53935
         //secondary: colors.red.lighten4, // #FFCDD2
+        // error: #000
+        // ifno: #000
+        // success: #000
+        // warning: #000
         accent: colors.indigo.base, // #3F51B5
         background: colors.indigo.lighten4,
       },
     },
+    options: { customProperties: true },
   },
 });
