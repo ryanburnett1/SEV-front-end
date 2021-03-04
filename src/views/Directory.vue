@@ -57,25 +57,7 @@
 				></v-pagination>
 			</v-col>
 		</v-col>
-		<v-row v-if="test">
-			<v-row class="justify-space-between" v-if="members.length > 0">
-				<member-card
-					class="ma-2"
-					v-for="member in filteredData"
-					:key="member.id"
-					:data="member"
-					@click.native="
-						$router.push({ name: 'MemberView', params: { id: member.id } })
-					"
-				/>
-			</v-row>
-			<v-row v-else>
-				Members Not Found.
-				<br />
-				Please Check Your Internet Connection and Try Refreshing The Page.
-			</v-row>
-		</v-row>
-		<v-row v-else>
+		<v-row>
 			<v-row class="justify-space-between" v-if="members.length > 0">
 				<member-card
 					class="ma-2"
@@ -126,30 +108,18 @@ export default {
 			}
 
 			if (this.search !== null) {
-				if (this.test) {
-					data = data.filter(
-						member =>
-							String(member.name)
-								.toLowerCase()
-								.includes(String(this.search).toLowerCase()) ||
-							String(member.info)
-								.toLowerCase()
-								.includes(String(this.search).toLowerCase())
-					);
-				} else {
-					data = data.filter(
-						member =>
-							String(member.fullName())
-								.toLowerCase()
-								.includes(String(this.search).toLowerCase()) ||
-							String(member.id)
-								.toLowerCase()
-								.includes(String(this.search).toLowerCase())
-					);
-				}
+				data = data.filter(
+					member =>
+						String(member.fullName())
+							.toLowerCase()
+							.includes(String(this.search).toLowerCase()) ||
+						String(member.id)
+							.toLowerCase()
+							.includes(String(this.search).toLowerCase())
+				);
 			}
 
-			return Object.freeze(data);
+			return data;
 		},
 		pageCount() {
 			let l = this.members.length;
@@ -174,26 +144,28 @@ export default {
 		},
 	},
 	mounted() {
+		if (this.$store.getters.getUserEmail === "jason.lonsinger@email.com") {
+			this.test = true;
+		}
 		if (this.test) {
 			this.members = [];
 			for (let i = 0; i < 2500; i++) {
-				this.members.push({
-					name: i,
+				const status = i % 3 == 0 ? "Active" : "Inactive";
+				const person = new Person({
+					firstName: "First",
+					lastName: "Last",
 					id: i,
-					info: i,
-					disabled: false,
-					image: "https://picsum.photos/1920/1080?random=" + i,
+					status,
+					picture: "https://picsum.photos/1920/1080?random=" + i,
 				});
+				this.members.push(person);
 			}
-			Object.freeze(this.members);
 		} else {
 			MemberService.getAll().then(response => {
 				response.data.data.forEach(element => {
 					let person = new Person(element);
-					Object.freeze(person);
 					this.members.push(person);
 				});
-				Object.freeze(this.members);
 			});
 		}
 	},

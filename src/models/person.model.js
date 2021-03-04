@@ -15,8 +15,9 @@ class Person {
   constructor(person) {
     if (person) {
       // just take all variables from person json
+      // change later -- just got tired of all fields not showing
       for (let v in person) {
-        this[String(v)] = person[v]; 
+        this[v] = person[v]; 
       }
     }
   }
