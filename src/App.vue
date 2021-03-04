@@ -22,7 +22,9 @@
 
 		<v-main id="main">
 			<v-container fluid>
-				<router-view></router-view>
+				<v-theme-provider root>
+					<router-view></router-view>
+				</v-theme-provider>
 			</v-container>
 		</v-main>
 
