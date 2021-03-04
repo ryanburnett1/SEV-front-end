@@ -59,10 +59,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// local theme changes here
 .v-app {
 }
 .v-app-bar {
 	// border-bottom-left-radius: 5px !important;
 	// border-bottom-right-radius: 5px !important;
+}
+</style>
+
+
+<style lang="scss">
+/* global theme changes here  */
+.v-card {
+	background: red !important;
 }
 </style>
