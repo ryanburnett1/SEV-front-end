@@ -2,8 +2,10 @@
 
 class Person {
   id = 0;
-  firstName = "";
-  lastName = "";
+  firstName = "None";
+  lastName = "None";
+  middleName = "None";
+  preferredName = "None";
   phone_number = "";
   picture = "";
   sex = "";
@@ -14,16 +16,13 @@ class Person {
 
   constructor(person) {
     if (person) {
-      this.id = person.id;
-      this.firstName = person.firstName;
-      this.lastName = person.lastName;
-      this.phone_number = person.phone_number;
-      this.picture = person.picture;
-      this.sex = person.sex;
-      this.marital_status = person.marital_status;
-      this.status = person.status;
-      this.title = person.title;
-      this.skill = person.skill;
+      // just take all variables from person json
+      // change later -- just got tired of all fields not showing
+      for (let v in person) {
+        if (person[v]) {
+          this[v] = person[v]; 
+        }
+      }
     }
   }
 

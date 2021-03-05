@@ -12,7 +12,7 @@ const routes = [
     component: Home,
     meta: {
       hide: false, // used to hide from navigation menus
-      requiresAuth: false, // if requires user to be logged in
+      requiresAuth: true, // if requires user to be logged in
       icon: "mdi-home", // icon to display in menus
       roles: [], // used to check user roles (admin, member, etc)
     },
@@ -51,19 +51,19 @@ const routes = [
       roles: [],
     },
     component: () =>
-      import(/* webpackChunkName: "home" */ "@/views/Directory.vue"),
+      import(/* webpackChunkName: "directory" */ "@/views/Directory.vue"),
   },
   {
     path: "/member-view/:id",
     name: "MemberView",
     meta: {
       hide: true,
-      requiresAuth: false, // can change to true later or use ternary now
+      requiresAuth: true, // can change to true later or use ternary now
       icon: "",
       roles: [],
     },
     props: true,
-    component: () => import(/**/ "@/views/Member.vue"),
+    component: () => import(/* webpackChunkName: "directory" */ "@/views/Member.vue"),
   },
   {
     path: "/member-edit/:id/:isAdd",
@@ -83,7 +83,7 @@ const routes = [
 
       return props;
     },
-    component: () => import(/**/ "@/views/edit/MemberEdit.vue"),
+    component: () => import(/* webpackChunkName: "directory" */ "@/views/edit/MemberEdit.vue"),
   },
   {
     path: "/skill-edit/:id/:isAdd",
@@ -151,6 +151,12 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    }
+    return { x: 0, y: 0 }
+  } 
 });
 
 router.beforeEach((to, from, next) => {
@@ -176,5 +182,6 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+
 
 export default router;

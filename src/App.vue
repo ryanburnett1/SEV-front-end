@@ -23,7 +23,7 @@
 		<v-main id="main">
 			<v-container fluid>
 				<v-theme-provider root>
-					<router-view></router-view>
+					<router-view :key="$route.fullPath"></router-view>
 				</v-theme-provider>
 			</v-container>
 		</v-main>
