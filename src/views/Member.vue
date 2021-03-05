@@ -14,7 +14,7 @@
 					<v-container fluid>
 						<v-row>
 							<v-col cols="0" xl="2" lg="2" md="3" sm="3" xs="3">
-								<v-avatar size="150">
+								<v-avatar size="150" color="primary">
 									<v-img :src="person.picture"></v-img>
 								</v-avatar>
 							</v-col>
@@ -58,8 +58,8 @@
 									<v-container fluid>
 										<v-row>
 											<v-col cols="3">
-												<v-avatar rounded>
-													<v-img :lazy-src="person.picture"></v-img>
+												<v-avatar color="primary">
+													<v-img :src="person.picture"></v-img>
 												</v-avatar>
 											</v-col>
 											<v-col>
