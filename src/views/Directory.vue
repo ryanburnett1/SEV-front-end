@@ -39,6 +39,8 @@
 				<v-col>
 					<v-select
 						v-model.number="size"
+						color="secondary"
+						item-color="secondary"
 						:items="[10, 15, 25, 50, 100]"
 						type="number"
 						solo

@@ -117,6 +117,8 @@
 						<v-col>
 							<v-select
 								v-model="person.marital_status"
+								color="secondary"
+								item-color="secondary"
 								label="Marital Status"
 								:items="person.maritalStatusOptions()"
 							></v-select>
@@ -129,6 +131,8 @@
 					>
 						<v-select
 							v-model="person.sex"
+							color="secondary"
+							item-color="secondary"
 							:error-messages="errors"
 							:success="valid"
 							label="Sex"
@@ -138,17 +142,22 @@
 					<div v-if="$store.getters.isAdmin">
 						<v-select
 							v-model="user.role"
+							color="secondary"
+							item-color="secondary"
 							label="Role"
 							:items="user.getRoles()"
 						></v-select>
 						<v-select
 							v-model="person.status"
+							color="secondary"
+							item-color="secondary"
 							label="Church Status"
 							:items="person.statusOptions()"
 						></v-select>
 					</div>
 					<skill-select
 						v-if="!loading"
+						color="secondary"
 						:id="person.id"
 						:pollDatabase="false"
 						:personSkillList="person.getSkillIds()"
