@@ -48,11 +48,12 @@
 				<v-container fluid>
 					<v-row no-gutters>
 						<v-col cols="6" v-for="i in 10" :key="i">
-							<!-- <v-btn tile block text>test</v-btn> -->
 							<v-hover v-slot="{ hover }">
 								<v-card
 									:elevation="hover ? 6 : 0"
-									@click="true"
+									@click="
+										$router.push({ name: 'MemberView', params: { id: i } })
+									"
 									style="border-radius: 0"
 								>
 									<v-container fluid>
@@ -93,6 +94,7 @@ export default {
 		};
 	},
 	computed: {},
+	methods: {},
 	mounted() {
 		MemberService.get(this.id).then(response => {
 			this.person = new Person(response.data.data);
