@@ -15,6 +15,7 @@
 					>
 						<v-text-field
 							v-model="user.email"
+							color="secondary"
 							:error-messages="errors"
 							:success="valid"
 							label="E-mail"
@@ -32,6 +33,7 @@
 						<v-text-field
 							ref="passwordField"
 							v-model="user.password"
+							color="secondary"
 							:error-messages="errors"
 							:success="valid"
 							label="Password"
@@ -83,6 +85,7 @@
 										>
 											<v-text-field
 												v-model="resetEmail"
+												color="secondary"
 												:error-messages="errors"
 												:success="valid"
 												label="E-mail"
