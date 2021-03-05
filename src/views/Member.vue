@@ -46,7 +46,7 @@
 				<v-card-actions>
 					<v-card-title>Family:</v-card-title>
 					<v-spacer></v-spacer>
-					<v-btn color="primary" outlined dark class="mr-4">
+					<v-btn color="secondary" outlined dark class="mr-4">
 						View Family Page
 					</v-btn>
 				</v-card-actions>

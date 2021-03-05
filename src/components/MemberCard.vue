@@ -82,17 +82,19 @@ export default {
 
 // color examples
 .v-card {
-	.v-divider {
-		background-color: blue !important;
-	}
+	background: var(--v-background-lighten1);
 
-	.v-card__subtitle {
-		color: blue !important;
-	}
+	// .v-divider {
+	// 	background-color: blue !important;
+	// }
 
-	.v-card__text {
-		color: green !important;
-	}
+	// .v-card__subtitle {
+	// 	color: blue !important;
+	// }
+
+	// .v-card__text {
+	// 	color: green !important;
+	// }
 }
 // .v-card {
 // 	padding: 150px;

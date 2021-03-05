@@ -59,7 +59,7 @@
 					</v-col>
 				</v-row>
 				<v-col>
-					<v-tabs v-model="tab">
+					<v-tabs v-model="tab" color="secondary">
 						<v-tab>Public Annoucments</v-tab>
 						<v-tab>Life Group Annoucments</v-tab>
 
@@ -79,7 +79,6 @@
 				</v-col>
 			</v-col>
 		</v-row>
-
 		<admin-fab :deleteFunction="confirmDelete" :editFunction="edit"></admin-fab>
 		<confirmation-dialog ref="confirm"></confirmation-dialog>
 	</v-container>
