@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-if="$store.getters.isLoggedIn">
 		<!-- if not mobile then show tab based menu -->
 		<v-tabs
 			v-if="!$vuetify.breakpoint.mobile"
