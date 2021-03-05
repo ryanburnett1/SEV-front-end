@@ -2,8 +2,10 @@
 
 class Person {
   id = 0;
-  firstName = "";
-  lastName = "";
+  firstName = "None";
+  lastName = "None";
+  middleName = "None";
+  preferredName = "None";
   phone_number = "";
   picture = "";
   sex = "";
@@ -17,7 +19,9 @@ class Person {
       // just take all variables from person json
       // change later -- just got tired of all fields not showing
       for (let v in person) {
-        this[v] = person[v]; 
+        if (person[v]) {
+          this[v] = person[v]; 
+        }
       }
     }
   }
