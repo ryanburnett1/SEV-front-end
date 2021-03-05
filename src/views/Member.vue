@@ -37,18 +37,39 @@
 						<v-col cols="6">Email: {{ user.email }}</v-col>
 						<v-col cols="6">Preferred Name: {{ person.preferredName }}</v-col>
 						<v-col cols="6">Phone: {{ person.maskPhoneNumber() }}</v-col>
-						<v-col cols="6">birthday: {{ person.birthday }}</v-col>
 					</v-row>
 				</v-container>
 			</v-card>
 		</v-row>
 		<v-row class="ma-2 pa-2" justify="center">
-			<v-card width="100%">
+			<v-card width="100%" tile>
 				<v-card-title>Family:</v-card-title>
 				<v-divider></v-divider>
 				<v-container fluid>
-					<v-row>
-						<v-col cols="6" v-for="i in 10" :key="i"> test </v-col>
+					<v-row no-gutters>
+						<v-col cols="6" v-for="i in 10" :key="i">
+							<!-- <v-btn tile block text>test</v-btn> -->
+							<v-hover v-slot="{ hover }">
+								<v-card
+									:elevation="hover ? 6 : 0"
+									@click="true"
+									style="border-radius: 0"
+								>
+									<v-container fluid>
+										<v-row>
+											<v-col cols="3">
+												<v-avatar rounded>
+													<v-img :lazy-src="person.picture"></v-img>
+												</v-avatar>
+											</v-col>
+											<v-col>
+												<v-card-text> Name </v-card-text>
+											</v-col>
+										</v-row>
+									</v-container>
+								</v-card>
+							</v-hover>
+						</v-col>
 					</v-row>
 				</v-container>
 			</v-card>
@@ -77,11 +98,11 @@ export default {
 			this.person = new Person(response.data.data);
 		});
 		UserService.getByPerson(this.id).then(res => {
-			console.log(res);
 			this.user = new User(res.data.data[0]);
 		});
 	},
 };
 </script>
 
-<style></style>
+<style scoped lang="scss">
+</style>
