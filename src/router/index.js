@@ -12,7 +12,7 @@ const routes = [
     component: Home,
     meta: {
       hide: false, // used to hide from navigation menus
-      requiresAuth: false, // if requires user to be logged in
+      requiresAuth: true, // if requires user to be logged in
       icon: "mdi-home", // icon to display in menus
       roles: [], // used to check user roles (admin, member, etc)
     },
@@ -58,7 +58,7 @@ const routes = [
     name: "MemberView",
     meta: {
       hide: true,
-      requiresAuth: false, // can change to true later or use ternary now
+      requiresAuth: true, // can change to true later or use ternary now
       icon: "",
       roles: [],
     },
