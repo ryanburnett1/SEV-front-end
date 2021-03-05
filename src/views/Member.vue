@@ -43,7 +43,13 @@
 		</v-row>
 		<v-row class="ma-2 pa-2" justify="center">
 			<v-card width="100%" tile>
-				<v-card-title>Family:</v-card-title>
+				<v-card-actions>
+					<v-card-title>Family:</v-card-title>
+					<v-spacer></v-spacer>
+					<v-btn color="primary" outlined dark class="mr-4">
+						View Family Page
+					</v-btn>
+				</v-card-actions>
 				<v-divider></v-divider>
 				<v-container fluid>
 					<v-row no-gutters>
