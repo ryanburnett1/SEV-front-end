@@ -37,9 +37,6 @@
 				</v-navigation-drawer>
 			</v-col>
 			<v-col>
-				<v-btn v-if="$vuetify.breakpoint.smAndDown" @click="open = !open"
-					>Open Side Menu</v-btn
-				>
 				<v-col>
 					<h1>{{ person.fullName() }}</h1>
 					<v-subheader>{{ person.title }}</v-subheader>
@@ -53,8 +50,9 @@
 									params: { id, isAdd: false },
 								})
 							"
-							>Edit Info</v-btn
 						>
+							Edit Info
+						</v-btn>
 					</v-col>
 					<v-col>
 						<v-btn>Stuff</v-btn>
@@ -106,7 +104,6 @@ export default {
 				firstName: "Default",
 				lastName: "Name",
 			}),
-			open: false,
 		};
 	},
 	mounted() {
@@ -132,7 +129,7 @@ export default {
 			}
 		},
 		deleteM() {
-			console.log("THINGS");
+			alert("Currently does nothing. On Purpose");
 		},
 		edit() {
 			this.$router.push({
