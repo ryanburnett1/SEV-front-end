@@ -31,6 +31,6 @@ export default new Vuetify({
       }
     },
     options: { customProperties: true },
-    dark: false,
+    dark: true,
   },
 });
