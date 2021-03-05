@@ -21,7 +21,7 @@
 						class="red--text align-end"
 						aspect-ratio="1920/1080"
 						contain
-						:lazy-src="require('@/assets/images/scared-batman.jpg')"
+						:lazy-src="require('@/assets/images/placeholder_1920x1080.png')"
 					>
 						<v-card-title v-if="data.disabled"
 							>Status / Disabled / Left
