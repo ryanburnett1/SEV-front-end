@@ -51,7 +51,7 @@ const routes = [
       roles: [],
     },
     component: () =>
-      import(/* webpackChunkName: "home" */ "@/views/Directory.vue"),
+      import(/* webpackChunkName: "directory" */ "@/views/Directory.vue"),
   },
   {
     path: "/member-view/:id",
@@ -63,7 +63,7 @@ const routes = [
       roles: [],
     },
     props: true,
-    component: () => import(/**/ "@/views/Member.vue"),
+    component: () => import(/* webpackChunkName: "directory" */ "@/views/Member.vue"),
   },
   {
     path: "/member-edit/:id/:isAdd",
@@ -83,7 +83,7 @@ const routes = [
 
       return props;
     },
-    component: () => import(/**/ "@/views/edit/MemberEdit.vue"),
+    component: () => import(/* webpackChunkName: "directory" */ "@/views/edit/MemberEdit.vue"),
   },
   {
     path: "/skill-edit/:id/:isAdd",

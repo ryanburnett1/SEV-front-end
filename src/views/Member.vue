@@ -81,6 +81,8 @@
 				</v-container>
 			</v-card>
 		</v-row>
+
+		<admin-fab :editFunction="edit"></admin-fab>
 	</v-container>
 </template>
 
@@ -89,9 +91,13 @@ import Person from "@/models/person.model";
 import User from "@/models/user.model";
 import MemberService from "@/services/memberServices";
 import UserService from "@/services/userServices";
+import AdminFab from "@/components/AdminFab.vue";
 
 export default {
 	props: ["id"],
+	components: {
+		AdminFab,
+	},
 	data() {
 		return {
 			user: new User(),
@@ -100,7 +106,14 @@ export default {
 		};
 	},
 	computed: {},
-	methods: {},
+	methods: {
+		edit() {
+			this.$router.push({
+				name: "MemberEdit",
+				params: { id: this.id, isAdd: false },
+			});
+		},
+	},
 	mounted() {
 		MemberService.get(this.id).then(response => {
 			this.person = new Person(response.data.data);
