@@ -72,7 +72,24 @@ export default {
 <style lang="scss">
 /* global theme changes here  */
 @import "~/src/assets/scss/variables.scss";
+::-webkit-scrollbar {
+	width: 1em;
+}
 
+::-webkit-scrollbar-track {
+	-moz-box-shadow: inset 0 0 5px #12171c;
+	-webkit-box-shadow: inset 0 0 5px #12171c;
+	box-shadow: inset 0 0 5px #12171c;
+	background: var(--v-background-base);
+}
+
+::-webkit-scrollbar-thumb {
+	-moz-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+	background: var(--v-primary-base);
+	border: 1px solid var(--v-primary-darken1);
+}
 // .v-card {
 // 	background-color: $card-background !important;
 // }
