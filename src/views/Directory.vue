@@ -78,17 +78,20 @@
 				Please Check Your Internet Connection and Try Refreshing The Page.
 			</v-row>
 		</v-row>
+		<admin-fab :createFunction="addUser" />
 	</v-container>
 </template>
 
 <script>
 import MemberCard from "@/components/MemberCard.vue";
+import AdminFab from "@/components/AdminFab.vue";
 import MemberService from "../services/memberServices.js";
 import Person from "@/models/person.model";
 
 export default {
 	components: {
 		MemberCard,
+		AdminFab,
 	},
 	data() {
 		return {
@@ -136,6 +139,12 @@ export default {
 		},
 	},
 	methods: {
+		addUser() {
+			this.$router.push({
+				name: "MemberEdit",
+				params: { id: 0, isAdd: true },
+			});
+		},
 		nextPage(page) {
 			this.pageNumber = parseInt(page);
 		},

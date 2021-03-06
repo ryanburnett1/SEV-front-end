@@ -14,6 +14,9 @@
 				<v-icon v-else>mdi-cog</v-icon>
 			</v-btn>
 		</template>
+		<v-btn @click="createFunction" v-if="!!createFunction" fab color="success">
+			<v-icon>mdi-plus</v-icon>
+		</v-btn>
 		<v-btn @click="editFunction" v-if="!!editFunction" fab color="primary">
 			<v-icon>mdi-pencil</v-icon>
 		</v-btn>
@@ -43,6 +46,7 @@
 export default {
 	props: [
 		"id",
+		"createFunction",
 		"editFunction",
 		"deleteFunction",
 		"saveFunction",
@@ -61,6 +65,7 @@ export default {
 	methods: {
 		isEmpty() {
 			return (
+				!!this.createFunction &&
 				!!this.editFunction &&
 				!!this.deleteFunction &&
 				!!this.saveFunction &&
