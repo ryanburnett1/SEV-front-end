@@ -75,7 +75,7 @@ const actions = {
       });
 
     commit("resetState");
-    router.push("/");
+    router.push("/login");
   },
   clearState({ commit }) {
     commit("resetState");
