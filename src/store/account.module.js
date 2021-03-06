@@ -8,6 +8,7 @@ const state = {
   session: null,
   user: null,
   token: null,
+  darkMode: true,
 };
 
 const actions = {
@@ -51,9 +52,15 @@ const actions = {
   clearState({ commit }) {
     commit("resetState");
   },
+  toggleTheme({ commit }, { isDark }) {
+    commit("setTheme", isDark)
+  }
 };
 
 const mutations = {
+  setTheme(state, isDark) {
+    state.darkMode = isDark;
+  },
   resetState(state) {
     state.isLogin = false;
     state.session = null;
@@ -80,6 +87,7 @@ const mutations = {
 const getters = {
   isLoggedIn: state => !!state.token,
   authStatus: state => state.status,
+  isDarkTheme: state => state.darkMode,
   getPersonId: state => state.user.personId,
   getUserId: state => state.user.id,
   getUserRole: state => state.user.role,

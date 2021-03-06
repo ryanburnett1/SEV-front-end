@@ -52,7 +52,10 @@ export default {
 	},
 	data: () => ({}),
 	mounted() {
-		this.$store.dispatch("retrieveSkillList");
+		this.$nextTick(() => {
+			this.$vuetify.theme.dark = this.$store.getters.isDarkTheme;
+			this.$store.dispatch("retrieveSkillList");
+		});
 		// console.log("Stuff: ", this.$store.getters.getSkillList);
 	},
 };
