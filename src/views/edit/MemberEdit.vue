@@ -93,7 +93,7 @@
 						</v-col>
 					</v-row>
 					<v-text-field-simplemask
-						v-model="person.phone_number"
+						v-model="person.phoneCell"
 						color="secondary"
 						label="Phone Number"
 						:options="{
@@ -101,7 +101,7 @@
 							outputMask: '##########',
 							empty: null,
 							applyAfter: false,
-							alphanumeric: true,
+							alphanumeric: false,
 							lowerCase: false,
 						}"
 					></v-text-field-simplemask>

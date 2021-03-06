@@ -2,11 +2,11 @@
 
 class Person {
   id = 0;
-  firstName = "None";
-  lastName = "None";
-  middleName = "None";
-  preferredName = "None";
-  phone_number = "";
+  firstName = "";
+  lastName = "";
+  middleName = "";
+  preferredName = "";
+  phoneCell = "";
   picture = "";
   sex = "";
   marital_status = "";
@@ -38,8 +38,8 @@ class Person {
     this.updatedAt = Date.now();
   }
 
-  maskPhoneNumber() {
-    let phone = String(this.phone_number);
+  maskPhoneNumber(phone_number) {
+    let phone = String(phone_number);
     if (!phone) return "No Phone Number Available";
 
     let masked = "";
@@ -51,7 +51,7 @@ class Person {
   }
 
   sexOptions() {
-    return ["Male", "Female", "other"];
+    return ["Male", "Female"];
   }
 
   maritalStatusOptions() {

@@ -36,7 +36,9 @@
 					<v-row>
 						<v-col cols="6">Email: {{ user.email }}</v-col>
 						<v-col cols="6">Preferred Name: {{ person.preferredName }}</v-col>
-						<v-col cols="6">Phone: {{ person.maskPhoneNumber() }}</v-col>
+						<v-col cols="6">
+							Phone: {{ person.maskPhoneNumber(person.phoneCell) }}
+						</v-col>
 					</v-row>
 				</v-container>
 			</v-card>
