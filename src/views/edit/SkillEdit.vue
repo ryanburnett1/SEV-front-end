@@ -225,6 +225,7 @@ export default {
 
 				this.dbSkillList.push(this.editedItem);
 			}
+			this.$store.dispatch("retrieveSkillList");
 			this.close();
 		},
 	},

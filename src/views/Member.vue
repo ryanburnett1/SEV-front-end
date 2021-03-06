@@ -34,10 +34,32 @@
 				<v-divider></v-divider>
 				<v-container fluid>
 					<v-row>
-						<v-col cols="6">Email: {{ user.email }}</v-col>
-						<v-col cols="6">Preferred Name: {{ person.preferredName }}</v-col>
-						<v-col cols="6">
+						<v-col cols="6"> Email: {{ user.email }} </v-col>
+						<v-col cols="6" v-if="person.preferredName">
+							Preferred Name: {{ person.preferredName }}
+						</v-col>
+						<v-col cols="6" v-if="person.phoneCell">
 							Phone: {{ person.maskPhoneNumber(person.phoneCell) }}
+						</v-col>
+						<v-col cols="6" v-if="person.birthday">
+							Birthday: {{ person.birthday }}
+						</v-col>
+					</v-row>
+				</v-container>
+			</v-card>
+		</v-row>
+		<v-row
+			class="ma-2 pa-2"
+			justify="center"
+			v-if="!!person.skill && person.skill.length > 0"
+		>
+			<v-card width="100%">
+				<v-card-title>Skills:</v-card-title>
+				<v-divider></v-divider>
+				<v-container fluid>
+					<v-row>
+						<v-col cols="6" v-for="skill in person.skill" :key="skill.id">
+							{{ skill.name }}
 						</v-col>
 					</v-row>
 				</v-container>

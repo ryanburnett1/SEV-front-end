@@ -8,6 +8,7 @@ class Person {
   preferredName = "";
   phoneCell = "";
   picture = "";
+  birthday = "";
   sex = "";
   marital_status = "";
   status = "";
