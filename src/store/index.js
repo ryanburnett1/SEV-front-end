@@ -15,7 +15,9 @@ export default new Vuex.Store({
   plugins: [createPersistedState({
     fetchBeforeUse: true,
     rehydrated: function (state) {
-      state.dispatch("relogin", { userId: state.getters.getUserId, token: state.getters.getUserToken })
+      if (state.getters.isLoggedIn) {
+        state.dispatch("relogin", { userId: state.getters.getUserId, token: state.getters.getUserToken });
+      }
     }
   })],
 });

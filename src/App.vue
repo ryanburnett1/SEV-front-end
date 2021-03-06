@@ -52,8 +52,10 @@ export default {
 	},
 	data: () => ({}),
 	mounted() {
-		// this.$vuetify.theme.dark = this.$store.getters.isDarkTheme;
-		this.$store.dispatch("retrieveSkillList");
+		this.$nextTick(() => {
+			// this.$vuetify.theme.dark = this.$store.getters.isDarkTheme;
+			this.$store.dispatch("retrieveSkillList");
+		});
 	},
 };
 </script>
