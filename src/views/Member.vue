@@ -10,6 +10,7 @@
 				<v-img
 					:src="require('@/assets/images/placeholder_1920x1080.png')"
 					class="align-end"
+					max-height="45vh"
 				>
 					<v-container fluid>
 						<v-row>
