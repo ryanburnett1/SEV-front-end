@@ -1,15 +1,23 @@
 <template>
 	<v-container fluid>
 		<v-row>
-			<v-carousel>
+			<v-img
+				:src="require('@/assets/images/wilshirelogo_8x.png')"
+				max-height="25vh"
+				contain
+			></v-img>
+			<!-- <v-carousel>
 				<v-carousel-item v-for="image in pictures" :key="image.id">
 					<v-img :src="image.url"></v-img>
 				</v-carousel-item>
-			</v-carousel>
+			</v-carousel> -->
 		</v-row>
 
 		<v-row>
-			<h4>Announcements</h4>
+			<v-col>
+				<h4>Announcements:</h4>
+			</v-col>
+			<v-col> </v-col>
 		</v-row>
 		<v-row>
 			<member-selection-list
