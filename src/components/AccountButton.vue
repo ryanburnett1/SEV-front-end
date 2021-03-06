@@ -19,12 +19,12 @@
 					</v-list-item-icon>
 					<v-list-item-title>Profile</v-list-item-title>
 				</v-list-item>
-				<!-- <v-list-item @click="toggleTheme()">
+				<v-list-item @click="toggleTheme()">
 					<v-list-item-icon>
 						<v-icon>mdi-theme-light-dark</v-icon>
 					</v-list-item-icon>
 					<v-list-item-title> Togle Theme </v-list-item-title>
-				</v-list-item> -->
+				</v-list-item>
 			</v-list-item-group>
 		</v-list>
 	</v-menu>
@@ -41,8 +41,10 @@ export default {
 			logout: "logout",
 		}),
 		toggleTheme() {
-			this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-			this.$store.dispatch("toggleTheme", this.$vuetify.theme.dark);
+			this.$store.dispatch("toggleTheme", {
+				isDark: !this.$store.getters.isDarkTheme,
+			});
+			this.$vuetify.theme.dark = this.$store.getters.isDarkTheme;
 		},
 		goToProfilePage() {
 			console.log(

@@ -87,6 +87,7 @@ const actions = {
 
 const mutations = {
   setTheme(state, isDark) {
+    console.log(isDark);
     state.darkMode = isDark;
   },
   resetState(state) {
