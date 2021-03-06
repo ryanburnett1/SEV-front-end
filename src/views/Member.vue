@@ -2,11 +2,6 @@
 	<v-container>
 		<v-row class="ma-2 pa-2" justify="center">
 			<v-card flat>
-				<h4>
-					<b>
-						<i> Family Photo here: </i>
-					</b>
-				</h4>
 				<v-img
 					:src="require('@/assets/images/placeholder_1920x1080.png')"
 					class="align-end"
