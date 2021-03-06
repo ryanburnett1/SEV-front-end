@@ -20,6 +20,7 @@
 							</v-col>
 							<v-col align-self="center">
 								<h1>
+									<div v-if="person.title">{{ person.title }}</div>
 									{{ person.fullName() }}
 								</h1>
 							</v-col>
