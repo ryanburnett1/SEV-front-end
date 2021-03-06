@@ -2,6 +2,8 @@
 import router from "@/router/index.js";
 // import User from "@/models/user.model";
 import userService from "@/services/userServices";
+import axios from "axios";
+
 
 const state = {
   isLogin: false,
@@ -32,6 +34,32 @@ const actions = {
       .catch(err => {
         console.log(err);
       });
+  },
+  relogin({ commit }, { userId, token }) {
+
+    // for timing imprecisiton of store rehydration
+    const ax = axios.create({
+      baseURL: process.env.VUE_APP_ROOT_API,
+      withCredentials: false,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+        "X-Requested-With": "XMLHttpRequest",
+        crossDomain: true,
+        "Access-Control-Allow-Origin": "*",
+      }
+    });
+
+    ax.post(`/user/auth`, { userId, token }).then(res => {
+      commit('reloginSuccess', res.data.data);
+    })
+
+    
+
+    // userService.getUser(userId, token).then(res => {
+    //   console.log(res)
+    // })
   },
   logout({ commit, getters }) {
     // console.log(getters.getUserToken, getters.getUserId, getters.getSessionId);
@@ -66,6 +94,10 @@ const mutations = {
     state.session = null;
     state.user = null;
     state.token = null;
+  },
+  reloginSuccess(state, user) {
+    state.isLoggedIn = true;
+    state.user = user;
   },
   loginSuccess(state, session) {
     state.isLoggedIn = true;

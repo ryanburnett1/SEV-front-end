@@ -57,7 +57,7 @@ export default {
 	},
 	mounted() {
 		MemberService.getAll().then(response => {
-			console.log(response.data);
+			// console.log(response.data);
 			response.data.data.forEach(element => {
 				let person = new Person(element);
 				this.members.push(person);
