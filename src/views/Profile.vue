@@ -79,7 +79,11 @@
 				</v-col>
 			</v-col>
 		</v-row>
-		<admin-fab :deleteFunction="confirmDelete" :editFunction="edit"></admin-fab>
+		<admin-fab
+			:id="id"
+			:deleteFunction="confirmDelete"
+			:editFunction="edit"
+		></admin-fab>
 		<confirmation-dialog ref="confirm"></confirmation-dialog>
 	</v-container>
 </template>

@@ -4,7 +4,9 @@
 		bottom
 		right
 		fixed
-		v-if="isLoggedIn && $store.getters.isAdmin"
+		v-if="
+			isLoggedIn && ($store.getters.isAdmin || id == $store.getters.getPersonId)
+		"
 	>
 		<template v-slot:activator>
 			<v-btn v-model="fab" fab dark color="blue darken-2" v-if="!isEmpty()">
@@ -15,7 +17,12 @@
 		<v-btn @click="editFunction" v-if="!!editFunction" fab color="primary">
 			<v-icon>mdi-pencil</v-icon>
 		</v-btn>
-		<v-btn @click="deleteFunction" v-if="!!deleteFunction" fab color="error">
+		<v-btn
+			@click="deleteFunction"
+			v-if="!!deleteFunction && $store.getters.isAdmin"
+			fab
+			color="error"
+		>
 			<v-icon>mdi-delete</v-icon>
 		</v-btn>
 		<v-btn @click="saveFunction" v-if="!!saveFunction" fab color="success">
@@ -34,7 +41,13 @@
 
 <script>
 export default {
-	props: ["editFunction", "deleteFunction", "saveFunction", "cancelFunction"],
+	props: [
+		"id",
+		"editFunction",
+		"deleteFunction",
+		"saveFunction",
+		"cancelFunction",
+	],
 	data() {
 		return {
 			fab: false,
