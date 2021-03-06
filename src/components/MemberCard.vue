@@ -78,6 +78,7 @@ export default {
 
 .disabled-style {
 	transform: scale(0.97) !important;
+	cursor: pointer;
 }
 
 // color examples
