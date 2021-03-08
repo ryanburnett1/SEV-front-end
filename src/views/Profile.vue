@@ -37,10 +37,17 @@
         </v-navigation-drawer>
       </v-col>
       <v-col>
-        <v-col>
-          <h1>{{ person.fullName() }}</h1>
-          <v-subheader>{{ person.title }}</v-subheader>
-        </v-col>
+        <v-row>
+          <v-col cols="1">
+            <v-avatar color="primary">
+              <v-img :src="person.picture"></v-img>
+            </v-avatar>
+          </v-col>
+          <v-col>
+            <h1>{{ person.fullName() }}</h1>
+            <v-subheader>{{ person.title }}</v-subheader>
+          </v-col>
+        </v-row>
         <v-row>
           <v-col>
             <v-btn
