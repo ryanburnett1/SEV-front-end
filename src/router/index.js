@@ -21,7 +21,7 @@ const routes = [
     path: "/login",
     name: "Login",
     meta: {
-      hide: false,
+      hide: true,
       requiresAuth: false,
       icon: "mdi-account",
       roles: [],
