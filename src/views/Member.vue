@@ -79,7 +79,10 @@
                 <v-card
                   :elevation="hover ? 6 : 0"
                   @click="
-                    $router.push({ name: 'MemberView', params: { id: thing.id } })
+                    $router.push({
+                      name: 'MemberView',
+                      params: { id: thing.id },
+                    })
                   "
                   style="border-radius: 0"
                 >
@@ -87,7 +90,12 @@
                     <v-row>
                       <v-col cols="3">
                         <v-avatar color="primary">
-                          <v-img :src="thing.picture" :lazy-src="require('@/assets/images/placeholder_gray.png')"></v-img>
+                          <v-img
+                            :src="thing.picture"
+                            :lazy-src="
+                              require('@/assets/images/placeholder_gray.png')
+                            "
+                          ></v-img>
                         </v-avatar>
                       </v-col>
                       <v-col>
