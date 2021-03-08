@@ -87,11 +87,11 @@
                     <v-row>
                       <v-col cols="3">
                         <v-avatar color="primary">
-                          <v-img :src="person.picture"></v-img>
+                          <v-img :src="family[i].picture" :lazy-src="require('@/assets/images/placeholder_gray.png')"></v-img>
                         </v-avatar>
                       </v-col>
                       <v-col>
-                        <v-card-text> Name </v-card-text>
+                        <v-card-text>{{ family[i].firstName }} {{ family[i].lastName }} </v-card-text>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -141,6 +141,13 @@ export default {
     });
     UserService.getByPerson(this.id).then(res => {
       this.user = new User(res.data.data[0]);
+    });
+
+    MemberService.getAll().then(res => {
+      res.data.data.forEach(element => {
+        let person = new Person(element);
+        this.family.push(person);
+      });
     });
   },
 };
