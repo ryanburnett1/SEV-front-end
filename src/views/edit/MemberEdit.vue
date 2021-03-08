@@ -3,7 +3,8 @@
     <v-container>
       <v-card>
         <v-toolbar color="primary" dark>
-          <v-toolbar-title>Change Info:</v-toolbar-title>
+          <v-toolbar-title v-if="isAdd">Add Person:</v-toolbar-title>
+          <v-toolbar-title v-else>Edit Person:</v-toolbar-title>
         </v-toolbar>
         <v-form class="ma-2 pa-2" @submit.prevent="" ref="form" lazy-validation>
           <v-img
