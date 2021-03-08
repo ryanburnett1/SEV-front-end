@@ -15,28 +15,28 @@
 
 		<v-row>
 			<v-col>
-				<h4>Announcements:</h4>
+				<h3>Announcements:</h3>
 			</v-col>
 			<v-col> </v-col>
 		</v-row>
-		<v-row>
+		<!-- <v-row>
 			<member-selection-list
 				:people="members"
 				@onSelectionChanged="print"
 			></member-selection-list>
-		</v-row>
+		</v-row> -->
 	</v-container>
 </template>
 
 <script>
 import MemberService from "@/services/memberServices.js";
 import Person from "@/models/person.model.js";
-import MemberSelectionList from "../components/MemberSelectionList.vue";
+// import MemberSelectionList from "../components/MemberSelectionList.vue";
 
 export default {
 	name: "Home",
 	components: {
-		MemberSelectionList,
+		// MemberSelectionList,
 	},
 	data() {
 		return {
