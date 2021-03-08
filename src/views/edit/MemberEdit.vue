@@ -7,9 +7,10 @@
         </v-toolbar>
         <v-form class="ma-2 pa-2" @submit.prevent="" ref="form" lazy-validation>
           <v-img
+            max-height="250"
             class="mb-2"
             :src="picture"
-            :lazy-src="require('@/assets/images/scared-batman.jpg')"
+            :lazy-src="require('@/assets/images/placeholder_gray.png')"
             contain
           ></v-img>
           <upload-pic @onFileSelected="picture = $event" ref="picker" />
