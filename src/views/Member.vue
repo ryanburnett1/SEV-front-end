@@ -74,12 +74,12 @@
         <v-divider></v-divider>
         <v-container fluid>
           <v-row no-gutters>
-            <v-col cols="6" v-for="i in 10" :key="i">
+            <v-col cols="6" v-for="(thing, i) in family" :key="i">
               <v-hover v-slot="{ hover }">
                 <v-card
                   :elevation="hover ? 6 : 0"
                   @click="
-                    $router.push({ name: 'MemberView', params: { id: i } })
+                    $router.push({ name: 'MemberView', params: { id: thing.id } })
                   "
                   style="border-radius: 0"
                 >
@@ -87,11 +87,11 @@
                     <v-row>
                       <v-col cols="3">
                         <v-avatar color="primary">
-                          <v-img :src="family[i].picture" :lazy-src="require('@/assets/images/placeholder_gray.png')"></v-img>
+                          <v-img :src="thing.picture" :lazy-src="require('@/assets/images/placeholder_gray.png')"></v-img>
                         </v-avatar>
                       </v-col>
                       <v-col>
-                        <v-card-text>{{ family[i].firstName }} {{ family[i].lastName }} </v-card-text>
+                        <v-card-text>{{ thing.firstName }} {{ thing.lastName }} </v-card-text>
                       </v-col>
                     </v-row>
                   </v-container>
