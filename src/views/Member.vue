@@ -7,7 +7,7 @@
           class="align-end"
           max-height="45vh"
         >
-          <v-container fluid>
+          <v-container fluid class="pa-8">
             <v-row>
               <v-col cols="0" xl="2" lg="2" md="3" sm="3" xs="3">
                 <v-avatar size="150" color="primary">
@@ -91,7 +91,7 @@
                         </v-avatar>
                       </v-col>
                       <v-col>
-                        <v-card-text>{{ thing.firstName }} {{ thing.lastName }} </v-card-text>
+                        <v-card-text>{{ thing.fullName() }}</v-card-text>
                       </v-col>
                     </v-row>
                   </v-container>

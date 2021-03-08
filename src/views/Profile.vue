@@ -51,11 +51,8 @@
                 })
               "
             >
-              Edit Info
+              Edit My Info
             </v-btn>
-          </v-col>
-          <v-col>
-            <v-btn>Stuff</v-btn>
           </v-col>
         </v-row>
         <!-- <v-row>
