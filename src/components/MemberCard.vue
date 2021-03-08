@@ -18,7 +18,7 @@
         <v-skeleton-loader type="image">
           <v-img
             :src="person.picture"
-            :lazy-src="require('@/assets/images/placeholder_1920x1080.png')"
+            :lazy-src="require('@/assets/images/placeholder_gray.png')"
             class="red--text align-end"
             aspect-ratio="1920/1080"
             contain

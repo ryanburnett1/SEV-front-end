@@ -3,7 +3,7 @@
     <v-row class="ma-2 pa-2" justify="center">
       <v-card flat>
         <v-img
-          :src="require('@/assets/images/placeholder_1920x1080.png')"
+          :src="require('@/assets/images/placeholder_gray.png')"
           class="align-end"
           max-height="45vh"
         >
