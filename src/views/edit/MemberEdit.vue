@@ -26,7 +26,7 @@
                   color="secondary"
                   :error-messages="errors"
                   :success="valid"
-                  label="User Email"
+                  label="Email"
                   type="email"
                 ></v-text-field>
               </ValidationProvider>
@@ -42,7 +42,7 @@
                   color="secondary"
                   :error-messages="errors"
                   :success="valid"
-                  label="Renter Email"
+                  label="Re-Enter Email"
                   type="email"
                 ></v-text-field>
               </ValidationProvider>
@@ -135,7 +135,7 @@
               item-color="secondary"
               :error-messages="errors"
               :success="valid"
-              label="Sex"
+              label="Gender"
               :items="person.sexOptions()"
             ></v-select>
           </ValidationProvider>
@@ -144,7 +144,7 @@
               v-model="user.role"
               color="secondary"
               item-color="secondary"
-              label="Role"
+              label="System Role"
               :items="user.getRoles()"
             ></v-select>
             <v-select
