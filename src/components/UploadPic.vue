@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import MemberService from "@/services/memberServices";
 
 export default {
 	data() {
@@ -40,22 +39,6 @@ export default {
 			let reader = new FileReader();
 			reader.onload = e => this.$emit("onFileSelected", e.target.result);
 			reader.readAsDataURL(this.selectedFile);
-		},
-		//sets what data you are sending to backend
-		onUploadFile() {
-			const formData = new FormData();
-			formData.append("file", this.selectedFile); // appending file
-			// sending file to the backend
-			//axios
-			MemberService.uploadImage(formData)
-				.then(res => {
-					this.fileName = res.data.data.name;
-					this.filePath = process.env.VUE_APP_IMAGE_PATH + this.fileName;
-					console.log("test");
-				})
-				.catch(err => {
-					console.log(err);
-				});
 		},
 	},
 };
