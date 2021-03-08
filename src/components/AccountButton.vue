@@ -23,7 +23,7 @@
 					<v-list-item-icon>
 						<v-icon>mdi-theme-light-dark</v-icon>
 					</v-list-item-icon>
-					<v-list-item-title> Togle Theme </v-list-item-title>
+					<v-list-item-title> Toggle Theme </v-list-item-title>
 				</v-list-item>
 			</v-list-item-group>
 		</v-list>
