@@ -16,47 +16,21 @@
           <upload-pic @onFileSelected="picture = $event" ref="picker" />
           <v-row>
             <v-col>
-              <ValidationProvider
-                name="email"
-                rules="required|email"
-                v-slot="{ errors, valid }"
-                vid="con"
-              >
-                <v-text-field
-                  v-model="user.email"
-                  color="secondary"
-                  :error-messages="errors"
-                  :success="valid"
-                  label="Email"
-                  type="email"
-                ></v-text-field>
-              </ValidationProvider>
-            </v-col>
-            <v-col>
-              <ValidationProvider
-                name="emailConfirm"
-                rules="required|confirmed:con"
-                v-slot="{ errors, valid }"
-              >
-                <v-text-field
-                  v-model="emailTemp"
-                  color="secondary"
-                  :error-messages="errors"
-                  :success="valid"
-                  label="Re-Enter Email"
-                  type="email"
-                ></v-text-field>
-              </ValidationProvider>
-            </v-col>
-          </v-row>
-          <v-row v-if="isAdd">
-            <v-col>
               <v-text-field
-                v-model="user.password"
+                v-model="person.title"
                 color="secondary"
-                label="User Password"
+                label="Title (Ex: Mr., Dr.)"
                 type="text"
               ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-select
+                v-model="person.marital_status"
+                color="secondary"
+                item-color="secondary"
+                label="Marital Status"
+                :items="person.maritalStatusOptions()"
+              ></v-select>
             </v-col>
           </v-row>
           <v-row>
@@ -93,6 +67,41 @@
               </ValidationProvider>
             </v-col>
           </v-row>
+          <v-row>
+            <v-col>
+              <ValidationProvider
+                name="email"
+                rules="required|email"
+                v-slot="{ errors, valid }"
+                vid="con"
+              >
+                <v-text-field
+                  v-model="user.email"
+                  color="secondary"
+                  :error-messages="errors"
+                  :success="valid"
+                  label="Email"
+                  type="email"
+                ></v-text-field>
+              </ValidationProvider>
+            </v-col>
+            <v-col v-if="isAdd">
+              <ValidationProvider
+                name="emailConfirm"
+                rules="required|confirmed:con"
+                v-slot="{ errors, valid }"
+              >
+                <v-text-field
+                  v-model="emailTemp"
+                  color="secondary"
+                  :error-messages="errors"
+                  :success="valid"
+                  label="Re-Enter Email"
+                  type="email"
+                ></v-text-field>
+              </ValidationProvider>
+            </v-col>
+          </v-row>
           <v-text-field-simplemask
             v-model="person.phoneCell"
             color="secondary"
@@ -106,25 +115,6 @@
               lowerCase: false,
             }"
           ></v-text-field-simplemask>
-          <v-row>
-            <v-col>
-              <v-text-field
-                v-model="person.title"
-                color="secondary"
-                label="title | Ex: Mr., Dr."
-                type="text"
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-select
-                v-model="person.marital_status"
-                color="secondary"
-                item-color="secondary"
-                label="Marital Status"
-                :items="person.maritalStatusOptions()"
-              ></v-select>
-            </v-col>
-          </v-row>
           <ValidationProvider
             name="sex"
             rules="required"
@@ -140,22 +130,6 @@
               :items="person.sexOptions()"
             ></v-select>
           </ValidationProvider>
-          <div v-if="$store.getters.isAdmin">
-            <v-select
-              v-model="user.role"
-              color="secondary"
-              item-color="secondary"
-              label="System Role"
-              :items="user.getRoles()"
-            ></v-select>
-            <v-select
-              v-model="person.status"
-              color="secondary"
-              item-color="secondary"
-              label="Church Status"
-              :items="person.statusOptions()"
-            ></v-select>
-          </div>
           <skill-select
             v-if="!loading"
             color="secondary"
@@ -164,6 +138,22 @@
             :personSkillList="person.getSkillIds()"
             ref="skillSelect"
           />
+          <div v-if="$store.getters.isAdmin">
+            <v-select
+              v-model="person.status"
+              color="secondary"
+              item-color="secondary"
+              label="Church Status"
+              :items="person.statusOptions()"
+            ></v-select>
+            <v-select
+              v-model="user.role"
+              color="secondary"
+              item-color="secondary"
+              label="System Role"
+              :items="user.getRoles()"
+            ></v-select>
+          </div>
         </v-form>
         <v-divider></v-divider>
         <v-card-actions>
