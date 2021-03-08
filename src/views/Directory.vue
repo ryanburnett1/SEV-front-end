@@ -61,7 +61,7 @@
       </v-col>
     </v-col>
     <v-row>
-      <v-row class="justify-space-between" v-if="members.length > 0">
+      <!-- <v-row class="justify-space-between" v-if="members.length > 0">
         <member-card
           class="ma-2"
           v-for="member in filteredData"
@@ -71,6 +71,25 @@
             $router.push({ name: 'MemberView', params: { id: member.id } })
           "
         />
+      </v-row> -->
+      <v-row v-if="members.length > 0" no-gutters>
+        <template v-for="(member, i) in filteredData">
+          <v-col :key="i">
+            <member-card
+              class="ma-2"
+              :key="member.id"
+              :person="member"
+              @click.native="
+                $router.push({ name: 'MemberView', params: { id: member.id } })
+              "
+            />
+          </v-col>
+          <v-responsive
+            v-if="i === 2"
+            :key="`width-${i}`"
+            width="100%"
+          ></v-responsive>
+        </template>
       </v-row>
       <v-row v-else>
         Members Not Found.

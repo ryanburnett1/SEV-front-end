@@ -6,34 +6,26 @@
   >
     <v-skeleton-loader type="card">
       <v-card
-        :elevation="hover ? 16 : 2"
-        :class="{ 'on-hover': hover, 'max-auto': true }"
-        min-width="15vw"
-        max-width="35vw"
-        min-height="20vh"
-        max-height="35vh"
-        :disabled="disabled"
         v-if="!!person"
+        :disabled="disabled"
+        :class="{ 'on-hover': hover, 'max-auto': true }"
+        :elevation="hover ? 16 : 2"
       >
-        <v-skeleton-loader type="image">
-          <v-img
-            :src="person.picture"
-            :lazy-src="require('@/assets/images/placeholder_gray.png')"
-            class="red--text align-end"
-            aspect-ratio="1920/1080"
-            contain
-          >
-            <v-card-title v-if="disabled"
-              >Status / Disabled / Left
-            </v-card-title>
-          </v-img>
+        <v-skeleton-loader type="image" class="px-4 pt-4">
+          <v-avatar size="150" color="primary">
+            <v-img
+              :src="person.picture"
+              :lazy-src="require('@/assets/images/placeholder_gray.png')"
+            >
+            </v-img>
+          </v-avatar>
         </v-skeleton-loader>
-        <v-card-subtitle>
+        <v-card-title class="px-4 pt-2 pb-0">
           {{ person.fullName() }}
-          <div v-if="$store.getters.isAdmin">| id: {{ person.id }}</div>
-        </v-card-subtitle>
-        <!-- <v-divider></v-divider> -->
-        <v-card-text></v-card-text>
+        </v-card-title>
+        <v-card-text v-if="$store.getters.isAdmin" class="px-4 pb-4">
+          id: {{ person.id }}
+        </v-card-text>
       </v-card>
     </v-skeleton-loader>
   </v-hover>
@@ -46,7 +38,7 @@ export default {
   props: {
     person: {
       type: Person,
-      defualt: new Person({
+      default: new Person({
         firstName: "Test",
         lastName: "McTest",
         picture: "https://picsum.photos/1920/1080?random",
@@ -62,7 +54,7 @@ export default {
   },
   computed: {
     disabled() {
-      return this.person.status !== "Active";
+      return this.person.status == "Disabled";
     },
   },
   methods: {},
