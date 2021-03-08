@@ -25,6 +25,33 @@
 				@onSelectionChanged="print"
 			></member-selection-list>
 		</v-row> -->
+    <v-row>
+      <v-col>
+        <v-tabs v-model="tab" color="secondary">
+          <v-tab>Public Annoucments</v-tab>
+          <v-tab>Life Group Annoucments</v-tab>
+
+          <v-tabs-items v-model="tab">
+            <v-tab-item>
+              <v-card flat>
+                <v-card-text
+                  >Normal, church-wide announcements are displayed
+                  here</v-card-text
+                >
+              </v-card>
+            </v-tab-item>
+            <v-tab-item>
+              <v-card flat>
+                <v-card-text
+                  >Announcements specific to the groups you are in are
+                  displayed here</v-card-text
+                >
+              </v-card>
+            </v-tab-item>
+          </v-tabs-items>
+        </v-tabs>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -53,6 +80,7 @@ export default {
         { id: 8, url: "https://picsum.photos/200/300?random=9" },
         { id: 9, url: "https://picsum.photos/200/300?random=10" },
       ],
+      tab: 0,
     };
   },
   mounted() {

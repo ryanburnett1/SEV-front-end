@@ -58,25 +58,33 @@
             <v-btn>Stuff</v-btn>
           </v-col>
         </v-row>
-        <v-col>
-          <v-tabs v-model="tab" color="secondary">
-            <v-tab>Public Annoucments</v-tab>
-            <v-tab>Life Group Annoucments</v-tab>
+        <!-- <v-row>
+          <v-col>
+            <v-tabs v-model="tab" color="secondary">
+              <v-tab>Public Annoucments</v-tab>
+              <v-tab>Life Group Annoucments</v-tab>
 
-            <v-tabs-items v-model="tab">
-              <v-tab-item>
-                <v-card flat>
-                  <v-card-text>Stuff here</v-card-text>
-                </v-card>
-              </v-tab-item>
-              <v-tab-item>
-                <v-card flat>
-                  <v-card-text>Other Stuff here</v-card-text>
-                </v-card>
-              </v-tab-item>
-            </v-tabs-items>
-          </v-tabs>
-        </v-col>
+              <v-tabs-items v-model="tab">
+                <v-tab-item>
+                  <v-card flat>
+                    <v-card-text
+                      >Normal, church-wide announcements are displayed
+                      here</v-card-text
+                    >
+                  </v-card>
+                </v-tab-item>
+                <v-tab-item>
+                  <v-card flat>
+                    <v-card-text
+                      >Announcements specific to the groups you are in are
+                      displayed here</v-card-text
+                    >
+                  </v-card>
+                </v-tab-item>
+              </v-tabs-items>
+            </v-tabs>
+          </v-col>
+        </v-row> -->
       </v-col>
     </v-row>
     <admin-fab
