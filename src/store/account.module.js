@@ -4,7 +4,6 @@ import router from "@/router/index.js";
 import userService from "@/services/userServices";
 import axios from "axios";
 
-
 const state = {
   isLogin: false,
   session: null,
@@ -36,7 +35,6 @@ const actions = {
       });
   },
   relogin({ commit }, { userId, token }) {
-
     // for timing imprecisiton of store rehydration
     const ax = axios.create({
       baseURL: process.env.VUE_APP_ROOT_API,
@@ -48,14 +46,12 @@ const actions = {
         "X-Requested-With": "XMLHttpRequest",
         crossDomain: true,
         "Access-Control-Allow-Origin": "*",
-      }
+      },
     });
 
     ax.post(`/user/auth`, { userId, token }).then(res => {
-      commit('reloginSuccess', res.data.data);
-    })
-
-    
+      commit("reloginSuccess", res.data.data);
+    });
 
     // userService.getUser(userId, token).then(res => {
     //   console.log(res)
@@ -81,8 +77,8 @@ const actions = {
     commit("resetState");
   },
   toggleTheme({ commit }, { isDark }) {
-    commit("setTheme", isDark)
-  }
+    commit("setTheme", isDark);
+  },
 };
 
 const mutations = {
