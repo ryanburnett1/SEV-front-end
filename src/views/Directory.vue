@@ -187,7 +187,7 @@ export default {
           lastName: "Last",
           id: i,
           status,
-          picture: "https://picsum.photos/1920/1080?random=" + i,
+          picture: "https://picsum.photos/200?random=" + i,
         });
         this.members.push(person);
       }
