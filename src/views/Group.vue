@@ -9,7 +9,7 @@
     <v-autocomplete
       v-model="select"
       :loading="loading"
-      :items="items"
+      :items="groups"
       :search-input.sync="search"
       cache-items
       class="mx-4"
@@ -24,19 +24,19 @@
     </v-btn>
   </v-toolbar>
 
-<v-divider></v-divider>
-
     <v-expansion-panels>
     <v-expansion-panel
-      v-for="(group,i) in groups"
+      v-for="(group, i) in groups"
       :key="i"
-	  @click.native="$router.push({name: 'GroupView', params: {id: group.id}})"
     >
       <v-expansion-panel-header>
-        Group {{ i + 1 }}
+        {{ group.name }}
       </v-expansion-panel-header>
-      <v-expansion-panel-content>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      <v-expansion-panel-content
+      v-for="(person, i) in group.people"
+      :key="i"
+      >
+        {{ person.firstName  }} {{person.lastName}}
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-expansion-panels>
@@ -47,12 +47,17 @@
 <script>
 import GroupService from "../services/groupServices.js";
 import Group from "@/models/group.model";
+//@click.native="$router.get({name: 'GroupView', params: {id: group.id}})"
 
 export default {
 	data() {
 		return {
 			groups: [],
-			groupTypes: []
+			groupTypes: [],
+      select: null,
+      loading: null,
+      items: [],
+      search: ""
 		}
 	},
 	// computed: {
@@ -64,11 +69,12 @@ export default {
 		GroupService.getAll().then(response => {
 			response.data.data.forEach(element => {
 				let group = new Group(element);
-				Object.freeze(group);
+				//Object.freeze(group);
 				this.groups.push(group);
 			});
 		});
-		Object.freeze(this.groups);
+    console.log("Groups array:", this.groups)
+		//Object.freeze(this.groups);
 	}
 	
 };
