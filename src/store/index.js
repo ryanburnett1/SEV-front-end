@@ -12,5 +12,5 @@ export default new Vuex.Store({
     account,
     skill,
   },
-  plugins: [createPersistedState()]
+  plugins: [createPersistedState()],
 });

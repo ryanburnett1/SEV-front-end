@@ -2,7 +2,7 @@
 
 import Vue from "vue";
 import axios from "axios";
-import store from "@/store/index.js"
+import store from "@/store/index.js";
 
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
@@ -15,11 +15,11 @@ let config = {
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
-    'Authorization': 'Bearer ' + store.getters.getUserToken,
+    Authorization: "Bearer " + store.getters.getUserToken,
     "X-Requested-With": "XMLHttpRequest",
     crossDomain: true,
-    "Access-Control-Allow-Origin": "*"
-  }
+    "Access-Control-Allow-Origin": "*",
+  },
   // baseURL: process.env.baseURL || process.env.apiUrl || ""
   // timeout: 60 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control
@@ -30,6 +30,7 @@ const _axios = axios.create(config);
 _axios.interceptors.request.use(
   function(config) {
     // Do something before request is sent
+    config.headers.Authorization = "Bearer " + store.getters.getUserToken;
     return config;
   },
   function(error) {
@@ -58,13 +59,13 @@ Plugin.install = function(Vue, options) {
     axios: {
       get() {
         return _axios;
-      }
+      },
     },
     $axios: {
       get() {
         return _axios;
-      }
-    }
+      },
+    },
   });
 };
 

@@ -7,7 +7,7 @@ const state = {
   isLogin: false,
   session: null,
   user: null,
-  token: null
+  token: null,
 };
 
 const actions = {
@@ -39,7 +39,7 @@ const actions = {
       .logout({
         userId: getters.getUserId,
         sessionId: getters.getSessionId,
-        token: getters.getUserToken
+        token: getters.getUserToken,
       })
       .then(response => {
         console.log(response);
@@ -50,7 +50,7 @@ const actions = {
   },
   clearState({ commit }) {
     commit("resetState");
-  }
+  },
 };
 
 const mutations = {
@@ -74,7 +74,7 @@ const mutations = {
   },
   loginFailure(state) {
     state.isLogin = false;
-  }
+  },
 };
 
 const getters = {
@@ -85,7 +85,7 @@ const getters = {
   getUserRole: state => state.user.role,
   getUserToken: state => state.token,
   getSessionId: state => state.session.id,
-  isAdmin: state => state.user.role == "admin"
+  isAdmin: state => state.user.role == "Admin",
 };
 
 export const account = {
@@ -93,5 +93,5 @@ export const account = {
   state,
   actions,
   mutations,
-  getters
+  getters,
 };

@@ -5,12 +5,11 @@ class User {
   username = null;
   password = null;
   email = null;
-  role = null
+  role = null;
   personId = null;
   person = new Person({});
 
   constructor(user, person) {
-
     if (user) {
       this.username = user.username;
       this.password = user.password;
@@ -25,7 +24,7 @@ class User {
   }
 
   fullName() {
-    return this.person.f_name + " " + this.person.l_name;
+    return this.person.firstName + " " + this.person.lastName;
   }
 
   updateDate() {
@@ -33,7 +32,7 @@ class User {
   }
 
   getRoles() {
-    return ["none", "admin"];
+    return ["None", "Admin"];
   }
 }
 
