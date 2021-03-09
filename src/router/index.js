@@ -60,10 +60,10 @@ const routes = [
       hide: false,
       requiresAuth: false,
       icon: "",
-      roles: []
+      roles: [],
     },
     props: true,
-    component: () => import(/**/ "@/views/Group.vue")
+    component: () => import(/**/ "@/views/Group.vue"),
   },
   {
     path: "/group-edit:/id/:isAdd",
@@ -71,19 +71,19 @@ const routes = [
     meta: {
       hide: false,
       requiresAuth: false, //change later so we don't have to have admin access to test
-      icon: "",//change icon, I'm not sure what they all are
-      roles: []
+      icon: "", //change icon, I'm not sure what they all are
+      roles: [],
     },
     props(route) {
-      const props = {...route.params};
+      const props = { ...route.params };
       props.id = +props.id;
-      if(typeof props.isAdd === typeof "") {
-        props.isAdd = props.isAdd == 'true'
+      if (typeof props.isAdd === typeof "") {
+        props.isAdd = props.isAdd == "true";
       }
       return props;
     },
     component: () =>
-      import(/* webpackChunkName: "home" */ "@/views/GroupEdit.vue")
+      import(/* webpackChunkName: "home" */ "@/views/GroupEdit.vue"),
   },
   {
     path: "grouptype-view/:id",
@@ -92,30 +92,30 @@ const routes = [
       hide: false,
       requiresAuth: false,
       icon: "",
-      roles: []
+      roles: [],
     },
     props: true,
-    component: () => import(/**/ "@/views/GroupType.vue")
+    component: () => import(/**/ "@/views/GroupType.vue"),
   },
   {
     path: "/grouptype-edit:/id/:isAdd",
     name: "GroupTypeEdit",
     meta: {
       hide: false,
-      requiresAuth: false,//can change later, so we don't have to have admin access to test
+      requiresAuth: false, //can change later, so we don't have to have admin access to test
       icon: "",
-      roles: []
+      roles: [],
     },
     props(route) {
-      const props = {...route.params};
+      const props = { ...route.params };
       props.id = +props.id;
-      if(typeof props.isAdd === typeof "") {
-        props.isAdd = props.isAdd == 'true'
+      if (typeof props.isAdd === typeof "") {
+        props.isAdd = props.isAdd == "true";
       }
       return props;
     },
-    component: () => 
-      import(/* webpackChunkName: "home" */ "@/views/GroupType.vue")
+    component: () =>
+      import(/* webpackChunkName: "home" */ "@/views/GroupType.vue"),
   },
   {
     path: "/member-view/:id",
