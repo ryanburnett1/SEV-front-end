@@ -1,4 +1,4 @@
-// import Group from "@/models/group.model";
+import Person from "@/models/person.model";
 
 class Group {
   id = null;
@@ -9,19 +9,11 @@ class Group {
     if (group) {
       this.id = group.id;
       this.name = group.name;
-      this.people = group.person;
+      group.person.forEach(person => {
+        this.people.push(new Person(person));
+      });
     }
   }
-
-  // constructor(group, cur_group) {
-  //     if(group) {
-  //         this.group_name = group.group_name;
-  //     }
-
-  //     if(cur_group) {
-  //         this.group = cur_group;
-  //     }
-  // }
 
   group_name() {
     return this.group.name;

@@ -26,7 +26,7 @@
           {{ group.name }}
         </v-expansion-panel-header>
         <v-expansion-panel-content v-for="(person, i) in group.people" :key="i">
-          {{ person.firstName }} {{ person.lastName }}
+          {{ person.fullName() }}
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
