@@ -1,71 +1,8 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col :cols="$vuetify.breakpoint.mdAndUp ? 3 : 1">
-        <v-navigation-drawer
-          v-model="open"
-          :permanent="$vuetify.breakpoint.mdAndUp"
-          absolute
-        >
-          <v-list dense>
-            <v-list-item dense flat>
-              <v-btn
-                v-if="$vuetify.breakpoint.smAndDown"
-                @click="open = !open"
-                fixed
-                right
-                flat
-              >
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
-            </v-list-item>
-            <v-list-item class="px-2">
-              <v-list-item-avatar>
-                <v-img
-                  :src="person.picture"
-                  :lazy-src="require('@/assets/images/scared-batman.jpg')"
-                ></v-img>
-              </v-list-item-avatar>
-            </v-list-item>
-
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title class="title">
-                  {{ person.fullName() }}
-                </v-list-item-title>
-                <!-- <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle> -->
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-content>
-                <v-expansion-panels accordion>
-                  <v-expansion-panel>
-                    <v-expansion-panel-header>Info</v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      <v-row> Phone: {{ person.maskPhoneNumber() }} </v-row>
-                      <v-row>
-                        Marital Status: {{ person.marital_status }}</v-row
-                      >
-                      <v-row> Sex: {{ person.sex }} </v-row>
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-                  <v-expansion-panel
-                    v-if="!!person.skill && person.skill.length > 0"
-                  >
-                    <v-expansion-panel-header>Skills</v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      <div v-for="skill in person.skill" :key="skill.id">
-                        {{ skill.name }}
-                      </div>
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-                </v-expansion-panels>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-
-          <v-divider></v-divider>
-
+      <v-col cols="1" v-if="$store.getters.isAdmin">
+        <v-navigation-drawer permanent expand-on-hover absolute>
           <v-list nav dense>
             <v-list-item
               link
@@ -100,52 +37,65 @@
         </v-navigation-drawer>
       </v-col>
       <v-col>
-        <v-btn v-if="$vuetify.breakpoint.smAndDown" @click="open = !open"
-          >Open Side Menu</v-btn
-        >
-        <v-col>
-          <h1>{{ person.fullName() }}</h1>
-          <v-subheader>{{ person.title }}</v-subheader>
-        </v-col>
+        <v-row>
+          <v-col cols="1">
+            <v-avatar color="primary">
+              <v-img :src="person.picture"></v-img>
+            </v-avatar>
+          </v-col>
+          <v-col>
+            <h1>{{ person.fullName() }}</h1>
+            <v-subheader>{{ person.title }}</v-subheader>
+          </v-col>
+        </v-row>
         <v-row>
           <v-col>
             <v-btn
               @click="
                 $router.push({
                   name: 'MemberEdit',
-                  params: { id: 0, isAdd: true },
+                  params: { id, isAdd: false },
                 })
               "
-              >Create User</v-btn
             >
-          </v-col>
-          <v-col>
-            <v-btn>Stuff</v-btn>
+              Edit My Info
+            </v-btn>
           </v-col>
         </v-row>
-        <v-col>
-          <v-tabs v-model="tab">
-            <v-tab>Public Annoucments</v-tab>
-            <v-tab>Life Group Annoucments</v-tab>
+        <!-- <v-row>
+          <v-col>
+            <v-tabs v-model="tab" color="secondary">
+              <v-tab>Public Annoucments</v-tab>
+              <v-tab>Life Group Annoucments</v-tab>
 
-            <v-tabs-items v-model="tab">
-              <v-tab-item>
-                <v-card flat>
-                  <v-card-text>Stuff here</v-card-text>
-                </v-card>
-              </v-tab-item>
-              <v-tab-item>
-                <v-card flat>
-                  <v-card-text>Other Stuff here</v-card-text>
-                </v-card>
-              </v-tab-item>
-            </v-tabs-items>
-          </v-tabs>
-        </v-col>
+              <v-tabs-items v-model="tab">
+                <v-tab-item>
+                  <v-card flat>
+                    <v-card-text
+                      >Normal, church-wide announcements are displayed
+                      here</v-card-text
+                    >
+                  </v-card>
+                </v-tab-item>
+                <v-tab-item>
+                  <v-card flat>
+                    <v-card-text
+                      >Announcements specific to the groups you are in are
+                      displayed here</v-card-text
+                    >
+                  </v-card>
+                </v-tab-item>
+              </v-tabs-items>
+            </v-tabs>
+          </v-col>
+        </v-row> -->
       </v-col>
     </v-row>
-
-    <admin-fab :deleteFunction="confirmDelete" :editFunction="edit"></admin-fab>
+    <admin-fab
+      :id="id"
+      :deleteFunction="confirmDelete"
+      :editFunction="edit"
+    ></admin-fab>
     <confirmation-dialog ref="confirm"></confirmation-dialog>
   </v-container>
 </template>
@@ -169,7 +119,6 @@ export default {
         firstName: "Default",
         lastName: "Name",
       }),
-      open: false,
     };
   },
   mounted() {
@@ -195,7 +144,7 @@ export default {
       }
     },
     deleteM() {
-      console.log("THINGS");
+      alert("Currently does nothing. On Purpose");
     },
     edit() {
       this.$router.push({

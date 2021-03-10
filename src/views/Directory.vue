@@ -8,7 +8,7 @@
         label="Search"
         outlined
       ></v-text-field>
-      <v-tooltip bottom>
+      <!-- <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
           <span v-bind="attrs" v-on="on">
             <v-switch
@@ -19,7 +19,7 @@
           </span>
         </template>
         Can be slow with a large dataset
-      </v-tooltip>
+      </v-tooltip> -->
     </v-row>
     <v-col v-if="usePagination">
       <v-row>
@@ -30,6 +30,7 @@
             solo
             single-line
             dense
+            color="secondary"
             prefix="Go To Page: "
             @change="checkGoto"
           ></v-text-field>
@@ -37,6 +38,8 @@
         <v-col>
           <v-select
             v-model.number="size"
+            color="secondary"
+            item-color="secondary"
             :items="[10, 15, 25, 50, 100]"
             type="number"
             solo
@@ -57,26 +60,8 @@
         ></v-pagination>
       </v-col>
     </v-col>
-    <v-row v-if="test">
-      <v-row class="justify-space-between" v-if="members.length > 0">
-        <member-card
-          class="ma-2"
-          v-for="member in filteredData"
-          :key="member.id"
-          :data="member"
-          @click.native="
-            $router.push({ name: 'MemberView', params: { id: member.id } })
-          "
-        />
-      </v-row>
-      <v-row v-else>
-        Members Not Found.
-        <br />
-        Please Check Your Internet Connection and Try Refreshing The Page.
-      </v-row>
-    </v-row>
-    <v-row v-else>
-      <v-row class="justify-space-between" v-if="members.length > 0">
+    <v-row>
+      <!-- <v-row class="justify-space-between" v-if="members.length > 0">
         <member-card
           class="ma-2"
           v-for="member in filteredData"
@@ -86,6 +71,25 @@
             $router.push({ name: 'MemberView', params: { id: member.id } })
           "
         />
+      </v-row> -->
+      <v-row v-if="members.length > 0" no-gutters>
+        <template v-for="(member, i) in filteredData">
+          <v-col :key="i">
+            <member-card
+              class="ma-2"
+              :key="member.id"
+              :person="member"
+              @click.native="
+                $router.push({ name: 'MemberView', params: { id: member.id } })
+              "
+            />
+          </v-col>
+          <v-responsive
+            v-if="i === 2"
+            :key="`width-${i}`"
+            width="100%"
+          ></v-responsive>
+        </template>
       </v-row>
       <v-row v-else>
         Members Not Found.
@@ -93,17 +97,20 @@
         Please Check Your Internet Connection and Try Refreshing The Page.
       </v-row>
     </v-row>
+    <admin-fab :createFunction="addUser" />
   </v-container>
 </template>
 
 <script>
 import MemberCard from "@/components/MemberCard.vue";
+import AdminFab from "@/components/AdminFab.vue";
 import MemberService from "../services/memberServices.js";
 import Person from "@/models/person.model";
 
 export default {
   components: {
     MemberCard,
+    AdminFab,
   },
   data() {
     return {
@@ -126,30 +133,18 @@ export default {
       }
 
       if (this.search !== null) {
-        if (this.test) {
-          data = data.filter(
-            member =>
-              String(member.name)
-                .toLowerCase()
-                .includes(String(this.search).toLowerCase()) ||
-              String(member.info)
-                .toLowerCase()
-                .includes(String(this.search).toLowerCase())
-          );
-        } else {
-          data = data.filter(
-            member =>
-              String(member.fullName())
-                .toLowerCase()
-                .includes(String(this.search).toLowerCase()) ||
-              String(member.id)
-                .toLowerCase()
-                .includes(String(this.search).toLowerCase())
-          );
-        }
+        data = data.filter(
+          member =>
+            String(member.fullName())
+              .toLowerCase()
+              .includes(String(this.search).toLowerCase()) ||
+            String(member.id)
+              .toLowerCase()
+              .includes(String(this.search).toLowerCase())
+        );
       }
 
-      return Object.freeze(data);
+      return data;
     },
     pageCount() {
       let l = this.members.length;
@@ -163,6 +158,12 @@ export default {
     },
   },
   methods: {
+    addUser() {
+      this.$router.push({
+        name: "MemberEdit",
+        params: { id: 0, isAdd: true },
+      });
+    },
     nextPage(page) {
       this.pageNumber = parseInt(page);
     },
@@ -174,26 +175,28 @@ export default {
     },
   },
   mounted() {
+    if (this.$store.getters.getUserEmail === "jason.lonsinger@email.com") {
+      this.test = true;
+    }
     if (this.test) {
       this.members = [];
       for (let i = 0; i < 2500; i++) {
-        this.members.push({
-          name: i,
+        const status = i % 3 == 0 ? "Active" : "Inactive";
+        const person = new Person({
+          firstName: "First",
+          lastName: "Last",
           id: i,
-          info: i,
-          disabled: false,
-          image: "https://picsum.photos/1920/1080?random=" + i,
+          status,
+          picture: "https://picsum.photos/200?random=" + i,
         });
+        this.members.push(person);
       }
-      Object.freeze(this.members);
     } else {
       MemberService.getAll().then(response => {
         response.data.data.forEach(element => {
           let person = new Person(element);
-          Object.freeze(person);
           this.members.push(person);
         });
-        Object.freeze(this.members);
       });
     }
   },

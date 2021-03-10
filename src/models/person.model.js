@@ -4,8 +4,11 @@ class Person {
   id = 0;
   firstName = "";
   lastName = "";
-  phone_number = "";
+  middleName = "";
+  preferredName = "";
+  phoneCell = "";
   picture = "";
+  birthday = "";
   sex = "";
   marital_status = "";
   status = "";
@@ -14,16 +17,13 @@ class Person {
 
   constructor(person) {
     if (person) {
-      this.id = person.id;
-      this.firstName = person.firstName;
-      this.lastName = person.lastName;
-      this.phone_number = person.phone_number;
-      this.picture = person.picture;
-      this.sex = person.sex;
-      this.marital_status = person.marital_status;
-      this.status = person.status;
-      this.title = person.title;
-      this.skill = person.skill;
+      // just take all variables from person json
+      // change later -- just got tired of all fields not showing
+      for (let v in person) {
+        if (person[v]) {
+          this[v] = person[v]; 
+        }
+      }
     }
   }
 
@@ -39,8 +39,8 @@ class Person {
     this.updatedAt = Date.now();
   }
 
-  maskPhoneNumber() {
-    let phone = String(this.phone_number);
+  maskPhoneNumber(phone_number) {
+    let phone = String(phone_number);
     if (!phone) return "No Phone Number Available";
 
     let masked = "";
@@ -52,7 +52,7 @@ class Person {
   }
 
   sexOptions() {
-    return ["Male", "Female", "other"];
+    return ["Male", "Female"];
   }
 
   maritalStatusOptions() {

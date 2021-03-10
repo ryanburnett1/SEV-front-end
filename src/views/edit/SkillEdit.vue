@@ -15,6 +15,7 @@
             <v-spacer></v-spacer>
             <v-text-field
               v-model="search"
+              color="secondary"
               append-icon="mdi-magnify"
               label="Search"
               single-line
@@ -50,6 +51,7 @@
                         >
                           <v-text-field
                             v-model="editedItem.name"
+                            color="secondary"
                             :error-messages="errors"
                             :success="valid"
                             label="Name"
@@ -68,6 +70,7 @@
                         >
                           <v-textarea
                             v-model="editedItem.description"
+                            color="secondary"
                             :error-messages="errors"
                             :success="valid"
                             label="Description"
@@ -222,6 +225,7 @@ export default {
 
         this.dbSkillList.push(this.editedItem);
       }
+      this.$store.dispatch("retrieveSkillList");
       this.close();
     },
   },

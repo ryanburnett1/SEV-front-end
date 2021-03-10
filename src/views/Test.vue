@@ -29,10 +29,8 @@ export default {
       console.log(response.data);
       response.data.data.forEach(element => {
         let person = new Person(element);
-        Object.freeze(person);
         this.members.push(person);
       });
-      Object.freeze(this.members);
     });
   },
   methods: {

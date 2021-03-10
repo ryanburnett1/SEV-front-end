@@ -16,6 +16,7 @@
           >
             <v-text-field
               v-model="password"
+              color="secondary"
               :error-messages="errors"
               :success="valid"
               label="Password"
@@ -41,6 +42,7 @@
             <v-text-field
               ref="confirmField"
               v-model="passwordConfirm"
+              color="secondary"
               :error-messages="errors"
               :success="valid"
               label="Renter Password"

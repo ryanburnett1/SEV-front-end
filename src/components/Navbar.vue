@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="$store.getters.isLoggedIn">
     <!-- if not mobile then show tab based menu -->
     <v-tabs
       v-if="!$vuetify.breakpoint.mobile"
@@ -7,6 +7,7 @@
       active-class="active-class"
       next-icon
       optional
+      slider-color="secondary"
     >
       <v-tab
         v-for="route in $router.options.routes"
@@ -61,7 +62,7 @@ export default {
 
 <style scoped lang="scss">
 .active-class {
-  color: lightgreen !important;
+  color: var(--v-accent-lighten1) !important;
   // background-color: whitesmoke !important;
 }
 </style>

@@ -1,6 +1,8 @@
 <template>
   <v-autocomplete
     v-model="selected"
+    :color="color"
+    :item-color="color"
     :items="$store.getters.getSkillList"
     item-value="id"
     item-text="name"
@@ -31,6 +33,9 @@ export default {
     personSkillList: {
       type: Array,
       default: () => ["this is default"],
+    },
+    color: {
+      type: String,
     },
   },
   data() {

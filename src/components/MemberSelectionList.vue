@@ -8,6 +8,7 @@
       <v-toolbar-items>
         <v-checkbox
           dark
+          color="accent"
           class="pt-5 align-center justify-center"
           v-model="selectAll"
         ></v-checkbox>
@@ -29,7 +30,7 @@
           <v-list-item
             :key="`item-${index}`"
             :value="person"
-            active-class="light-blue--text text--accent-4"
+            active-class="accent--text text--accent-4"
           >
             <template v-slot:default="{ active }">
               <v-list-item-avatar rounded size="60">
@@ -46,7 +47,7 @@
               <v-list-item-action>
                 <v-checkbox
                   :input-value="active"
-                  color="light-blue accent-4"
+                  color="accent accent-4"
                 ></v-checkbox>
               </v-list-item-action>
             </template>

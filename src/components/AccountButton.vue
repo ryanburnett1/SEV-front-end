@@ -19,6 +19,12 @@
           </v-list-item-icon>
           <v-list-item-title>Profile</v-list-item-title>
         </v-list-item>
+        <v-list-item @click="toggleTheme()">
+          <v-list-item-icon>
+            <v-icon>mdi-theme-light-dark</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title> Toggle Theme </v-list-item-title>
+        </v-list-item>
       </v-list-item-group>
     </v-list>
   </v-menu>
@@ -34,6 +40,12 @@ export default {
     ...mapActions("account", {
       logout: "logout",
     }),
+    toggleTheme() {
+      this.$store.dispatch("toggleTheme", {
+        isDark: !this.$store.getters.isDarkTheme,
+      });
+      this.$vuetify.theme.dark = this.$store.getters.isDarkTheme;
+    },
     goToProfilePage() {
       console.log(
         "Going to Profile for user with ID: ",
