@@ -21,7 +21,7 @@ const routes = [
     path: "/login",
     name: "Login",
     meta: {
-      hide: false,
+      hide: true,
       requiresAuth: false,
       icon: "mdi-account",
       roles: [],
@@ -63,7 +63,8 @@ const routes = [
       roles: [],
     },
     props: true,
-    component: () => import(/* webpackChunkName: "directory" */ "@/views/Member.vue"),
+    component: () =>
+      import(/* webpackChunkName: "directory" */ "@/views/Member.vue"),
   },
   {
     path: "/member-edit/:id/:isAdd",
@@ -83,7 +84,8 @@ const routes = [
 
       return props;
     },
-    component: () => import(/* webpackChunkName: "directory" */ "@/views/edit/MemberEdit.vue"),
+    component: () =>
+      import(/* webpackChunkName: "directory" */ "@/views/edit/MemberEdit.vue"),
   },
   {
     path: "/skill-edit/:id/:isAdd",
@@ -155,8 +157,8 @@ const router = new VueRouter({
     if (savedPosition) {
       return savedPosition;
     }
-    return { x: 0, y: 0 }
-  } 
+    return { x: 0, y: 0 };
+  },
 });
 
 router.beforeEach((to, from, next) => {
@@ -182,6 +184,5 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
-
 
 export default router;

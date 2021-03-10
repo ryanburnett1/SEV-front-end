@@ -1,63 +1,63 @@
 <template>
-	<v-file-input
-		label="Profile Picture"
-		color="secondary"
-		:rules="rules"
-		accept="image/png, image/jpeg, image/bmp, image/gif"
-		prepend-inner-icon="mdi-camera"
-		prepend-icon=""
-		show-size
-		outlined
-		dense
-		counter
-		:value="[]"
-		:clearable="false"
-		v-model="selectedFile"
-		@change="onFileSelected"
-	></v-file-input>
+  <v-file-input
+    label="Profile Picture"
+    color="secondary"
+    :rules="rules"
+    accept="image/png, image/jpeg, image/bmp, image/gif"
+    prepend-inner-icon="mdi-camera"
+    prepend-icon=""
+    show-size
+    outlined
+    dense
+    counter
+    :value="[]"
+    :clearable="false"
+    v-model="selectedFile"
+    @change="onFileSelected"
+  ></v-file-input>
 </template>
 
 <script>
 import MemberService from "@/services/memberServices";
 
 export default {
-	data() {
-		return {
-			selectedFile: null,
-			rules: [
-				value =>
-					!value ||
-					value.size < 2000000 ||
-					"Avatar size should be less than 2 MB!",
-			],
-			filePath: null,
-			fileName: "",
-		};
-	},
-	methods: {
-		//What happens when they chooose the file
-		onFileSelected() {
-			let reader = new FileReader();
-			reader.onload = e => this.$emit("onFileSelected", e.target.result);
-			reader.readAsDataURL(this.selectedFile);
-		},
-		//sets what data you are sending to backend
-		onUploadFile() {
-			const formData = new FormData();
-			formData.append("file", this.selectedFile); // appending file
-			// sending file to the backend
-			//axios
-			MemberService.uploadImage(formData)
-				.then(res => {
-					this.fileName = res.data.data.name;
-					this.filePath = process.env.VUE_APP_IMAGE_PATH + this.fileName;
-					console.log("test");
-				})
-				.catch(err => {
-					console.log(err);
-				});
-		},
-	},
+  data() {
+    return {
+      selectedFile: null,
+      rules: [
+        value =>
+          !value ||
+          value.size < 2000000 ||
+          "Avatar size should be less than 2 MB!",
+      ],
+      filePath: null,
+      fileName: "",
+    };
+  },
+  methods: {
+    //What happens when they chooose the file
+    onFileSelected() {
+      let reader = new FileReader();
+      reader.onload = e => this.$emit("onFileSelected", e.target.result);
+      reader.readAsDataURL(this.selectedFile);
+    },
+    //sets what data you are sending to backend
+    onUploadFile() {
+      const formData = new FormData();
+      formData.append("file", this.selectedFile); // appending file
+      // sending file to the backend
+      //axios
+      MemberService.uploadImage(formData)
+        .then(res => {
+          this.fileName = res.data.data.name;
+          this.filePath = process.env.VUE_APP_IMAGE_PATH + this.fileName;
+          console.log("test");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+  },
 };
 </script>
 
