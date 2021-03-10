@@ -11,11 +11,12 @@ class User {
 
   constructor(user, person) {
     if (user) {
-      this.username = user.username;
-      this.password = user.password;
+      this.id = user.id;
       this.email = user.email;
-      this.personId = user.personId;
       this.role = user.role;
+      this.password = user.password;
+      this.salt = user.salt;
+      this.personId = user.personId;
     }
 
     if (person) {
