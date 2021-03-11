@@ -2,6 +2,7 @@
 import router from "@/router/index.js";
 // import User from "@/models/user.model";
 import userService from "@/services/userServices";
+import rest from "@/services/restServices";
 import axios from "axios";
 
 const state = {
@@ -34,6 +35,26 @@ const actions = {
         console.log(err);
       });
   },
+  loginWithGoogle({ commit }, { user }) {
+    commit("loginRequest", { email: user.email })
+
+    rest
+      .create(`/user/auth/google`, user)
+      .then(response => {
+        let session = response.data.data;
+        console.log(session);
+
+        if (session) {
+          commit("loginSuccess", session);
+          router.push("/");
+        } else {
+          commit("loginFailure");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
   relogin({ commit }, { userId, token }) {
     // for timing imprecisiton of store rehydration
     const ax = axios.create({
@@ -59,7 +80,6 @@ const actions = {
   },
   logout({ commit, getters }) {
     // console.log(getters.getUserToken, getters.getUserId, getters.getSessionId);
-
     userService
       .logout({
         userId: getters.getUserId,
