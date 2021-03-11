@@ -177,7 +177,6 @@ export default {
         .create(`/user/password-reset-request`, { email: this.resetEmail })
         .then(res => {
           console.log(res);
-          alert("thing sent");
         });
     },
     login() {
