@@ -232,25 +232,9 @@ export default {
 			this.$router.back();
 		},
 		async save() {
-			let picker = this.$refs.picker;
-			if (picker.selectedFile) {
-				const formData = new FormData();
-				formData.append("file", picker.selectedFile); // appending file
-
-				await MemberService.uploadImage(formData)
-					.then(res => {
-						this.person.picture =
-							process.env.VUE_APP_IMAGE_PATH + res.data.data.name;
-					})
-					.catch(err => {
-						console.log(err);
-					});
-			}
-
-			console.log(this.person.picture);
-
+      //Adding new person
 			if (this.isAdd) {
-				MemberService.create(this.person)
+				await MemberService.create(this.person)
 					.then(response => {
 						this.$refs.skillSelect.updatePersonSkill(response.data.data.id);
 						this.user.person = response.data.data;
@@ -270,9 +254,11 @@ export default {
 					.catch(err => {
 						console.log("Failed to create new Person: ", err);
 					});
+        
+          //not new person
 			} else {
 				console.log(this.person);
-				MemberService.update(this.id, this.person)
+				await MemberService.update(this.id, this.person)
 					.then(() => {
 						this.$refs.skillSelect.updatePersonSkill(this.id);
 						UserServices.update(this.user.id, this.user)
@@ -286,6 +272,20 @@ export default {
 					.catch(err => {
 						console.log("Update Person Failed: ", err);
 					});
+			}
+      let picker = this.$refs.picker;
+      if (picker.selectedFile) {
+        const formData = new FormData();
+        formData.append("file", picker.selectedFile); // appending file
+        await MemberService.uploadImage(this.id, formData)
+          .then(res => {
+            console.log("Upload image resolved", res);
+            // this.person.picture =
+            //   process.env.VUE_APP_IMAGE_PATH + res.data.data.name;
+          })
+          .catch(err => {
+            console.log(err);
+          });
 			}
 		},
 	},
