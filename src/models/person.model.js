@@ -35,6 +35,22 @@ class Person {
     return this.firstName + " " + this.lastName;
   }
 
+  preferredName() {
+    if (this.preferredName) {
+      return this.preferredName;
+    }
+
+    return this.firstName;
+  }
+
+  preferredFullName() {
+    if (this.preferredName) {
+      return this.preferredName + " " + this.lastName;
+    }
+
+    return this.fullName();
+  }
+
   updateDate() {
     this.updatedAt = Date.now();
   }
