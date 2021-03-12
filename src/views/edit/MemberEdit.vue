@@ -124,6 +124,12 @@
 							lowerCase: false,
 						}"
 					></v-text-field-simplemask>
+					<v-text-field
+						v-model="person.address"
+						color="secondary"
+						label="Address"
+						type="address"
+					></v-text-field>
 					<ValidationProvider
 						name="sex"
 						rules="required"

@@ -32,6 +32,9 @@
 				<v-container fluid>
 					<v-row>
 						<v-col cols="6"> Email: {{ user.email }} </v-col>
+						<v-col cols="6" v-if="person.address">
+							Address: {{ person.address }}
+						</v-col>
 						<v-col cols="6" v-if="person.preferredName">
 							Preferred Name: {{ person.preferredName }}
 						</v-col>

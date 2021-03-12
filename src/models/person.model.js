@@ -2,6 +2,7 @@
 
 class Person {
   id = 0;
+  address = "";
   firstName = "";
   lastName = "";
   middleName = "";

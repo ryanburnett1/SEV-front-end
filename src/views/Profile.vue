@@ -44,16 +44,8 @@
 					</v-list>
 				</v-navigation-drawer>
 			</v-col>
-			<v-col
-				cols="10"
-				xl="10"
-				lg="10"
-				md="10"
-				sm="10"
-				xs="10"
-				style="background-color: black"
-			>
-				<v-row style="background-color: red">
+			<v-col cols="10" xl="10" lg="10" md="10" sm="10" xs="10">
+				<v-row>
 					<v-col cols="1" xl="1" lg="1" md="1" sm="1" xs="1">
 						<v-avatar color="primary">
 							<v-img :src="person.picture"></v-img>
