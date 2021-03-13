@@ -65,26 +65,26 @@ const routes = [
     props: true,
     component: () => import(/**/ "@/views/Group.vue"),
   },
-  // {
-  //   path: "/group-edit:/id/:isAdd",
-  //   name: "GroupEdit",
-  //   meta: {
-  //     hide: false,
-  //     requiresAuth: false, //change later so we don't have to have admin access to test
-  //     icon: "", //change icon, I'm not sure what they all are
-  //     roles: [],
-  //   },
-  //   props(route) {
-  //     const props = { ...route.params };
-  //     props.id = +props.id;
-  //     if (typeof props.isAdd === typeof "") {
-  //       props.isAdd = props.isAdd == "true";
-  //     }
-  //     return props;
-  //   },
-  //   component: () =>
-  //     import(/* webpackChunkName: "home" */ "@/views/GroupEdit.vue"),
-  // },
+  {
+    path: "/group-edit:/id/",//:isAdd",
+    name: "GroupEdit",
+    meta: {
+      hide: false,
+      requiresAuth: false, //change later so we don't have to have admin access to test
+      icon: "", //change icon, I'm not sure what they all are
+      roles: [],
+    },
+    props: true,
+    component: () => import (/**/ "@/views/GroupEdit.vue"),
+    // props(route) {
+    //   const props = { ...route.params };
+    //   props.id = +props.id;
+    //   if (typeof props.isAdd === typeof "") {
+    //     props.isAdd = props.isAdd == "true";
+    //   }
+    //   return props;
+    //},
+  },
   // {
   //   path: "grouptype-view/:id",
   //   name: "GroupTypeView",
