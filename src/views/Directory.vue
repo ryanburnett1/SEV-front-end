@@ -49,6 +49,20 @@
 						@change="checkPerPage"
 					></v-select>
 				</v-col>
+        <v-col>
+					<v-select
+						v-model.number="showFamilies"
+						color="secondary"
+						item-color="secondary"
+						:items="[true, false]"
+						type="bool"
+						solo
+						single-line
+						dense
+						prefix="Display As Families: "
+						@change="checkPerPage"
+					></v-select>
+				</v-col>
 			</v-row>
 			<v-col>
 				<v-pagination
@@ -72,7 +86,7 @@
           "
         />
       </v-row> -->
-			<v-row v-if="members.length > 0" no-gutters>
+			<v-row v-if="members.length > 0 && !showFamilies" no-gutters>
 				<template v-for="(member, i) in filteredData">
 					<v-col :key="i">
 						<member-card
@@ -83,6 +97,26 @@
 								$router.push({ name: 'MemberView', params: { id: member.id } })
 							"
 						/>
+					</v-col>
+					<v-responsive
+						v-if="i === 2"
+						:key="`width-${i}`"
+						width="100%"
+					></v-responsive>
+				</template>
+			</v-row>
+      <v-row v-else-if="families.length > 0" no-gutters>
+				<template v-for="(family, i) in filteredData">
+					<v-col :key="i">
+            {{ family.name }}
+						<!-- <member-card
+							class="ma-2"
+							:key="member.id"
+							:person="member"
+							@click.native="
+								$router.push({ name: 'MemberView', params: { id: member.id } })
+							"
+						/> -->
 					</v-col>
 					<v-responsive
 						v-if="i === 2"
@@ -118,6 +152,8 @@ export default {
 			size: 25, // number per page
 			search: "",
 			members: [],
+      families: [],
+      showFamilies: true,
 			usePagination: true,
 			test: false,
 		};
@@ -129,11 +165,12 @@ export default {
 			if (this.usePagination) {
 				data = this.paginatedData;
 			} else {
-				data = this.members;
+				data = this.showFamilies ? this.families : this.members;
 			}
 
 			if (this.search !== null) {
-				data = data.filter(
+				data = this.showFamilies ? data.filter(family => family.name.toLowerCase().includes(this.search.toLowerCase()))
+        : data.filter(
 					member =>
 						String(member.preferredFullName())
 							.toLowerCase()
@@ -147,17 +184,21 @@ export default {
 			return data;
 		},
 		pageCount() {
-			let l = this.members.length;
+			let l = this.showFamilies ? this.families.length : this.members.length;
 			let s = this.size;
 			return Math.ceil(l / s);
 		},
 		paginatedData() {
 			const start = this.pageNumber * this.size - this.size;
 			const end = start + this.size;
-			return this.members.slice(start, end);
+			return this.showFamilies ? this.families.slice(start, end) : this.members.slice(start, end);
 		},
 	},
 	methods: {
+    addFamily() {
+      this.$router.push({
+      });
+    },
 		addUser() {
 			this.$router.push({
 				name: "MemberEdit",
@@ -198,6 +239,32 @@ export default {
 					this.members.push(person);
 				});
 			});
+
+      // populate families array here
+      for(let i = 0; i < 10; i++) {
+
+        this.families.push({
+          name: "Jennings"+i,
+
+        });
+        this.families.push({
+          name: "Lonsinger"+i,
+
+        });
+        this.families.push({
+          name: "Woodruff"+i,
+
+        });
+        this.families.push({
+          name: "Simpson"+i,
+
+        });
+        this.families.push({
+          name: "Burnett"+i,
+
+        });
+      }
+        
 		}
 	},
 };
