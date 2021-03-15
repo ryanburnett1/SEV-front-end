@@ -193,7 +193,7 @@ export default {
 				.signIn()
 				.then(GoogleUser => {
 					const profile = GoogleUser.getBasicProfile();
-					const auth = GoogleUser.getAuthResponse();
+					// const auth = GoogleUser.getAuthResponse();
 
 					let user = {
 						email: profile.getEmail(),
