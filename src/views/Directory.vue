@@ -54,7 +54,10 @@
 						v-model="showFamilies"
 						color="secondary"
 						item-color="secondary"
-						:items="[true, false]"
+						:items="[
+							{ text: 'True', value: true },
+							{ text: 'False', value: false },
+						]"
 						type="bool"
 						solo
 						single-line
