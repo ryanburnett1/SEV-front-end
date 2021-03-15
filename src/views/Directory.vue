@@ -51,7 +51,7 @@
 				</v-col>
 				<v-col>
 					<v-select
-						v-model.number="showFamilies"
+						v-model="showFamilies"
 						color="secondary"
 						item-color="secondary"
 						:items="[true, false]"
@@ -63,10 +63,27 @@
 						@change="checkPerPage"
 					></v-select>
 				</v-col>
+				<v-col>
+					<v-select
+						v-model="statusFilter"
+						color="secondary"
+						item-color="secondary"
+						:items="
+							this.showFamilies
+								? this.families[0].statusOptions()
+								: this.members[0].statusOptions()
+						"
+						solo
+						single-line
+						dense
+						prefix="Status: "
+						@change="checkPerPage"
+					></v-select>
+				</v-col>
 			</v-row>
 			<v-col>
 				<v-pagination
-					v-model="pageNumber"
+					v-model.number="pageNumber"
 					:length="pageCount"
 					:total-visible="7"
 					@input="nextPage"
@@ -158,6 +175,7 @@ export default {
 			families: [],
 			showFamilies: true,
 			usePagination: true,
+			statusFilter: "Active",
 			test: false,
 		};
 	},
@@ -185,6 +203,12 @@ export default {
 									.toLowerCase()
 									.includes(String(this.search).toLowerCase())
 					  );
+			}
+
+			if (this.statusFilter !== "" && this.statusFilter !== undefined) {
+				data = this.showFamilies
+					? data.filter(family => family.status == this.statusFilter)
+					: data.filter(member => member.status == this.statusFilter);
 			}
 
 			return data;
@@ -266,16 +290,19 @@ export default {
 				this.families.push(
 					new Family({
 						name: "Woodruff" + i,
+						status: "Inactive",
 					})
 				);
 				this.families.push(
 					new Family({
 						name: "Simpson" + i,
+						status: "Disabled",
 					})
 				);
 				this.families.push(
 					new Family({
 						name: "Burnett" + i,
+						status: "Relocated",
 					})
 				);
 			}

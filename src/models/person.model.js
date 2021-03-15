@@ -12,7 +12,7 @@ class Person {
   birthday = "";
   sex = "";
   marital_status = "";
-  status = "";
+  status = this.statusOptions()[0];
   title = "";
   skill = [];
 
