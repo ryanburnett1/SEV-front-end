@@ -49,7 +49,7 @@
 						@change="checkPerPage"
 					></v-select>
 				</v-col>
-        <v-col>
+				<v-col>
 					<v-select
 						v-model.number="showFamilies"
 						color="secondary"
@@ -105,18 +105,17 @@
 					></v-responsive>
 				</template>
 			</v-row>
-      <v-row v-else-if="families.length > 0" no-gutters>
+			<v-row v-else-if="families.length > 0" no-gutters>
 				<template v-for="(family, i) in filteredData">
 					<v-col :key="i">
-            {{ family.name }}
-						<!-- <member-card
+						<family-card
 							class="ma-2"
-							:key="member.id"
-							:person="member"
+							:key="family.id"
+							:family="family"
 							@click.native="
-								$router.push({ name: 'MemberView', params: { id: member.id } })
+								$router.push({ name: 'FamilyView', params: { id: family.id } })
 							"
-						/> -->
+						></family-card>
 					</v-col>
 					<v-responsive
 						v-if="i === 2"
@@ -136,14 +135,18 @@
 </template>
 
 <script>
-import MemberCard from "@/components/MemberCard.vue";
 import AdminFab from "@/components/AdminFab.vue";
-import MemberService from "../services/memberServices.js";
+import MemberService from "@/services/memberServices";
+// import rest from "@/services/RESTServices";
+import MemberCard from "@/components/MemberCard.vue";
+import FamilyCard from "@/components/FamilyCard.vue";
 import Person from "@/models/person.model";
+import Family from "@/models/family.model";
 
 export default {
 	components: {
 		MemberCard,
+		FamilyCard,
 		AdminFab,
 	},
 	data() {
@@ -152,8 +155,8 @@ export default {
 			size: 25, // number per page
 			search: "",
 			members: [],
-      families: [],
-      showFamilies: true,
+			families: [],
+			showFamilies: true,
 			usePagination: true,
 			test: false,
 		};
@@ -169,16 +172,19 @@ export default {
 			}
 
 			if (this.search !== null) {
-				data = this.showFamilies ? data.filter(family => family.name.toLowerCase().includes(this.search.toLowerCase()))
-        : data.filter(
-					member =>
-						String(member.preferredFullName())
-							.toLowerCase()
-							.includes(String(this.search).toLowerCase()) ||
-						String(member.id)
-							.toLowerCase()
-							.includes(String(this.search).toLowerCase())
-				);
+				data = this.showFamilies
+					? data.filter(family =>
+							family.name.toLowerCase().includes(this.search.toLowerCase())
+					  )
+					: data.filter(
+							member =>
+								String(member.preferredFullName())
+									.toLowerCase()
+									.includes(String(this.search).toLowerCase()) ||
+								String(member.id)
+									.toLowerCase()
+									.includes(String(this.search).toLowerCase())
+					  );
 			}
 
 			return data;
@@ -191,14 +197,15 @@ export default {
 		paginatedData() {
 			const start = this.pageNumber * this.size - this.size;
 			const end = start + this.size;
-			return this.showFamilies ? this.families.slice(start, end) : this.members.slice(start, end);
+			return this.showFamilies
+				? this.families.slice(start, end)
+				: this.members.slice(start, end);
 		},
 	},
 	methods: {
-    addFamily() {
-      this.$router.push({
-      });
-    },
+		addFamily() {
+			this.$router.push({});
+		},
 		addUser() {
 			this.$router.push({
 				name: "MemberEdit",
@@ -240,31 +247,38 @@ export default {
 				});
 			});
 
-      // populate families array here
-      for(let i = 0; i < 10; i++) {
+			// populate families array here
+			// rest.getAll("/family"),then(response => {
+			//   this.families = response.data.data;
+			// });
 
-        this.families.push({
-          name: "Jennings"+i,
-
-        });
-        this.families.push({
-          name: "Lonsinger"+i,
-
-        });
-        this.families.push({
-          name: "Woodruff"+i,
-
-        });
-        this.families.push({
-          name: "Simpson"+i,
-
-        });
-        this.families.push({
-          name: "Burnett"+i,
-
-        });
-      }
-        
+			for (let i = 0; i < 10; i++) {
+				this.families.push(
+					new Family({
+						name: "Jennings" + i,
+					})
+				);
+				this.families.push(
+					new Family({
+						name: "Lonsinger" + i,
+					})
+				);
+				this.families.push(
+					new Family({
+						name: "Woodruff" + i,
+					})
+				);
+				this.families.push(
+					new Family({
+						name: "Simpson" + i,
+					})
+				);
+				this.families.push(
+					new Family({
+						name: "Burnett" + i,
+					})
+				);
+			}
 		}
 	},
 };

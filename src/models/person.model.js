@@ -77,7 +77,7 @@ class Person {
   }
 
   statusOptions() {
-    return ["Active", "Inactive", "Disabled"];
+    return ["Active", "Inactive", "Disabled", "Relocated", "Deceased"];
   }
 }
 
