@@ -15,6 +15,7 @@ jobs:
           ref: dev
       - uses: actions/setup-node@v1
       - run: npm install
+      - run: ls -a
       - run: npm run build --production
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v2.1.1
@@ -25,3 +26,4 @@ jobs:
           REMOTE_HOST: "team1.eaglesoftwareteam.com"
           REMOTE_USER: ubuntu
           TARGET: "/var/www/se-v/"
+    
