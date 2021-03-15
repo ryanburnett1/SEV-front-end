@@ -192,7 +192,7 @@ export default {
 				data = this.showFamilies ? this.families : this.members;
 			}
 
-			if (this.search !== null) {
+			if (this.search !== "Active" && this.search !== null) {
 				data = this.showFamilies
 					? data.filter(family =>
 							family.name.toLowerCase().includes(this.search.toLowerCase())
@@ -266,6 +266,37 @@ export default {
 				});
 				this.members.push(person);
 			}
+
+			for (let i = 0; i < 10; i++) {
+				this.families.push(
+					new Family({
+						name: "Jennings" + i,
+					})
+				);
+				this.families.push(
+					new Family({
+						name: "Lonsinger" + i,
+					})
+				);
+				this.families.push(
+					new Family({
+						name: "Woodruff" + i,
+						status: "Inactive",
+					})
+				);
+				this.families.push(
+					new Family({
+						name: "Simpson" + i,
+						status: "Disabled",
+					})
+				);
+				this.families.push(
+					new Family({
+						name: "Burnett" + i,
+						status: "Relocated",
+					})
+				);
+			}
 		} else {
 			MemberService.getAll().then(response => {
 				response.data.data.forEach(element => {
@@ -309,6 +340,10 @@ export default {
 					})
 				);
 			}
+		}
+
+		if (this.families.length <= 0) {
+			this.showFamilies = false;
 		}
 	},
 };
