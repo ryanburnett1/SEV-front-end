@@ -63,7 +63,7 @@
 								>
 									Login
 								</v-btn>
-								<v-btn @click.prevent="loginWithGoogle">
+								<v-btn class="ml-2" @click.prevent="loginWithGoogle">
 									<v-icon>mdi-google</v-icon>
 								</v-btn>
 								<v-spacer></v-spacer>
@@ -197,8 +197,8 @@ export default {
 
 					let user = {
 						email: profile.getEmail(),
-						token: auth.access_token,
-						expirationDate: new Date(auth.expires_at),
+						// token: auth.access_token,
+						// expirationDate: new Date(auth.expires_at),
 					};
 
 					this.$store.dispatch("loginWithGoogle", { user });
