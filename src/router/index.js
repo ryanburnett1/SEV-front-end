@@ -75,7 +75,7 @@ const routes = [
       roles: [],
     },
     props: true,
-    component: () => import (/**/ "@/views/GroupEdit.vue"),
+    component: () => import (/**/ "@/views/edit/GroupEdit.vue"),
     // props(route) {
     //   const props = { ...route.params };
     //   props.id = +props.id;

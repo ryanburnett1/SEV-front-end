@@ -29,7 +29,7 @@
 import Group from "@/models/group.model";
 import Person from "@/models/person.model";
 import GroupService from "@/services/groupServices";
-import PersonService from "@/services/personServices";
+import PersonService from "@/services/memberServices";
 
 import {ValidationObserver, ValidationProvider} from "vee-validate";
 
@@ -66,13 +66,18 @@ export default {
                 }
                 //this needs to be different for adding a person, and adding a group
 
-                if (this.isAdd) {//adding a person
-                    GroupService.create(this.person)
-                        .then(response => {
-                            //what to do here?
-                            //so far based on MemberEdit.vuey
-                        })
-                }
+                // if (this.isAdd) {//adding a person
+                //     GroupService.create(this.person)
+                //         .then(response => {
+                //             //what to do here?
+                //             //so far based on MemberEdit.vuey
+                //         })
+                // }
+
+                // else if(this.isAddGroup) {
+                //     GroupService.create(this.group)
+                //         .then(response => )
+                // }
             }
         }
     }
