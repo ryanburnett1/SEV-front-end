@@ -277,11 +277,12 @@ export default {
       if (picker.selectedFile) {
         const formData = new FormData();
         formData.append("file", picker.selectedFile); // appending file
-        await MemberService.uploadImage(this.id, formData)
+        // console.log(this.user.personId);
+        await MemberService.uploadImage(this.user.personId, formData)
           .then(res => {
             console.log("Upload image resolved", res);
-            // this.person.picture =
-            //   process.env.VUE_APP_IMAGE_PATH + res.data.data.name;
+            /*this.person.picture =
+               process.env.VUE_APP_IMAGE_PATH + res.data.data.name;*/
           })
           .catch(err => {
             console.log(err);
