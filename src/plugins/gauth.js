@@ -1,7 +1,7 @@
 var googleAuth = (function() {
   function installClient() {
     var apiUrl = "https://apis.google.com/js/api.js";
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       var script = document.createElement("script");
       script.src = apiUrl;
       script.onreadystatechange = script.onload = function() {
@@ -16,7 +16,7 @@ var googleAuth = (function() {
   }
 
   function initClient(config) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       window.gapi.load("auth2", () => {
         window.gapi.auth2.init(config).then(() => {
           resolve(window.gapi);

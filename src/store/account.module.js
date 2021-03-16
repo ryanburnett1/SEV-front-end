@@ -36,7 +36,7 @@ const actions = {
       });
   },
   loginWithGoogle({ commit }, { user }) {
-    commit("loginRequest", { email: user.email })
+    commit("loginRequest", { email: user.email });
 
     rest
       .create(`/user/auth/google`, user)
@@ -51,7 +51,7 @@ const actions = {
           commit("loginFailure");
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   },
