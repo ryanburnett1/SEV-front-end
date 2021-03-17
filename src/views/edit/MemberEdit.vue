@@ -193,78 +193,78 @@ import SkillSelect from "@/components/SkillSelect.vue";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 export default {
-	props: {
-		id: {
-			type: Number,
-			default: 0,
-		},
-		isAdd: {
-			type: Boolean,
-			default: false,
-		},
-	},
-	components: {
-		AdminFab,
-		UploadPic,
-		SkillSelect,
-		ValidationObserver,
-		ValidationProvider,
-	},
-	data() {
-		return {
-			picture: "",
-			loading: true, // hack for v-select due to async props
-			person: new Person(),
-			user: new User(null, this.person),
-			emailTemp: "",
-		};
-	},
-	methods: {
-		cancel() {
-			this.$router.back();
-		},
-		async save() {
+  props: {
+    id: {
+      type: Number,
+      default: 0,
+    },
+    isAdd: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  components: {
+    AdminFab,
+    UploadPic,
+    SkillSelect,
+    ValidationObserver,
+    ValidationProvider,
+  },
+  data() {
+    return {
+      picture: "",
+      loading: true, // hack for v-select due to async props
+      person: new Person(),
+      user: new User(null, this.person),
+      emailTemp: "",
+    };
+  },
+  methods: {
+    cancel() {
+      this.$router.back();
+    },
+    async save() {
       //Adding new person
-			if (this.isAdd) {
-				await MemberService.create(this.person)
-					.then(response => {
-						this.$refs.skillSelect.updatePersonSkill(response.data.data.id);
-						this.user.person = response.data.data;
-						this.user.personId = response.data.data.id;
+      if (this.isAdd) {
+        await MemberService.create(this.person)
+          .then(response => {
+            this.$refs.skillSelect.updatePersonSkill(response.data.data.id);
+            this.user.person = response.data.data;
+            this.user.personId = response.data.data.id;
 
-						UserServices.create(this.user)
-							.then(() => {
-								this.$router.back();
-							})
-							.catch(err => {
-								console.log(
-									`Failed to create new User for Person: ${this.person.id}`,
-									err
-								);
-							});
-					})
-					.catch(err => {
-						console.log("Failed to create new Person: ", err);
-					});
-        
-          //not new person
-			} else {
-				console.log(this.person);
-				await MemberService.update(this.id, this.person)
-					.then(() => {
-						this.$refs.skillSelect.updatePersonSkill(this.id);
-						UserServices.update(this.user.id, this.user)
-							.then(() => {
-								this.$router.back();
-							})
-							.catch(err => {
-								console.log("Update User Failed: ", err);
-							});
-					})
-					.catch(err => {
-						console.log("Update Person Failed: ", err);
-					});
-			}
+            UserServices.create(this.user)
+              .then(() => {
+                this.$router.back();
+              })
+              .catch(err => {
+                console.log(
+                  `Failed to create new User for Person: ${this.person.id}`,
+                  err
+                );
+              });
+          })
+          .catch(err => {
+            console.log("Failed to create new Person: ", err);
+          });
+
+        //not new person
+      } else {
+        console.log(this.person);
+        await MemberService.update(this.id, this.person)
+          .then(() => {
+            this.$refs.skillSelect.updatePersonSkill(this.id);
+            UserServices.update(this.user.id, this.user)
+              .then(() => {
+                this.$router.back();
+              })
+              .catch(err => {
+                console.log("Update User Failed: ", err);
+              });
+          })
+          .catch(err => {
+            console.log("Update Person Failed: ", err);
+          });
+      }
       let picker = this.$refs.picker;
       if (picker.selectedFile) {
         const formData = new FormData();
@@ -279,27 +279,27 @@ export default {
           .catch(err => {
             console.log(err);
           });
-			}
-		},
-	},
-	mounted() {
-		if (!this.isAdd) {
-			UserServices.getByPerson(this.id).then(response => {
-				this.user = new User(response.data.data[0]);
-				this.emailTemp = this.user.email;
-			});
-			MemberService.get(this.id).then(response => {
-				this.person = new Person(response.data.data);
-				this.picture = this.person.picture;
-				this.loading = false; // hack for v-select
-			});
-			this.$nextTick(() => {
-				this.$refs.observer.validate();
-			});
-		} else {
-			this.loading = false;
-		}
-	},
+      }
+    },
+  },
+  mounted() {
+    if (!this.isAdd) {
+      UserServices.getByPerson(this.id).then(response => {
+        this.user = new User(response.data.data[0]);
+        this.emailTemp = this.user.email;
+      });
+      MemberService.get(this.id).then(response => {
+        this.person = new Person(response.data.data);
+        this.picture = this.person.picture;
+        this.loading = false; // hack for v-select
+      });
+      this.$nextTick(() => {
+        this.$refs.observer.validate();
+      });
+    } else {
+      this.loading = false;
+    }
+  },
 };
 </script>
 
