@@ -21,7 +21,7 @@ const routes = [
     path: "/login",
     name: "Login",
     meta: {
-      hide: false,
+      hide: true,
       requiresAuth: false,
       icon: "mdi-account",
       roles: [],
@@ -54,6 +54,70 @@ const routes = [
       import(/* webpackChunkName: "directory" */ "@/views/Directory.vue"),
   },
   {
+    path: "/group-view/:id",
+    name: "Groups",
+    meta: {
+      hide: false,
+      requiresAuth: false,
+      icon: "",
+      roles: [],
+    },
+    props: true,
+    component: () => import(/**/ "@/views/Group.vue"),
+  },
+  // {
+  //   path: "/group-edit:/id/:isAdd",
+  //   name: "GroupEdit",
+  //   meta: {
+  //     hide: false,
+  //     requiresAuth: false, //change later so we don't have to have admin access to test
+  //     icon: "", //change icon, I'm not sure what they all are
+  //     roles: [],
+  //   },
+  //   props(route) {
+  //     const props = { ...route.params };
+  //     props.id = +props.id;
+  //     if (typeof props.isAdd === typeof "") {
+  //       props.isAdd = props.isAdd == "true";
+  //     }
+  //     return props;
+  //   },
+  //   component: () =>
+  //     import(/* webpackChunkName: "home" */ "@/views/GroupEdit.vue"),
+  // },
+  // {
+  //   path: "grouptype-view/:id",
+  //   name: "GroupTypeView",
+  //   meta: {
+  //     hide: false,
+  //     requiresAuth: false,
+  //     icon: "",
+  //     roles: [],
+  //   },
+  //   props: true,
+  //   component: () => import(/**/ "@/views/GroupType.vue"),
+  // },
+  // {
+  //   path: "/grouptype-edit:/id/:isAdd",
+  //   name: "GroupTypeEdit",
+  //   meta: {
+  //     hide: false,
+  //     requiresAuth: false, //can change later, so we don't have to have admin access to test
+  //     icon: "",
+  //     roles: [],
+  //   },
+  //   props(route) {
+  //     const props = { ...route.params };
+  //     props.id = +props.id;
+  //     if (typeof props.isAdd === typeof "") {
+  //       props.isAdd = props.isAdd == "true";
+  //     }
+  //     return props;
+  //   },
+  //   component: () =>
+  //     import(/* webpackChunkName: "home" */ "@/views/GroupType.vue"),
+  // },
+  {
     path: "/member-view/:id",
     name: "MemberView",
     meta: {
@@ -63,7 +127,8 @@ const routes = [
       roles: [],
     },
     props: true,
-    component: () => import(/* webpackChunkName: "directory" */ "@/views/Member.vue"),
+    component: () =>
+      import(/* webpackChunkName: "directory" */ "@/views/Member.vue"),
   },
   {
     path: "/member-edit/:id/:isAdd",
@@ -83,7 +148,8 @@ const routes = [
 
       return props;
     },
-    component: () => import(/* webpackChunkName: "directory" */ "@/views/edit/MemberEdit.vue"),
+    component: () =>
+      import(/* webpackChunkName: "directory" */ "@/views/edit/MemberEdit.vue"),
   },
   {
     path: "/skill-edit/:id/:isAdd",
@@ -155,8 +221,8 @@ const router = new VueRouter({
     if (savedPosition) {
       return savedPosition;
     }
-    return { x: 0, y: 0 }
-  } 
+    return { x: 0, y: 0 };
+  },
 });
 
 router.beforeEach((to, from, next) => {
@@ -182,6 +248,5 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
-
 
 export default router;

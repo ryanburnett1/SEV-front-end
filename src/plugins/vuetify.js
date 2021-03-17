@@ -28,7 +28,7 @@ export default new Vuetify({
         warning: "#FB8C00",
         accent: "#A9AF27", // #3F51B5
         background: "#15303B",
-      }
+      },
     },
     options: { customProperties: true },
     dark: true,

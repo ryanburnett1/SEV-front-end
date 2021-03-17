@@ -2,12 +2,14 @@
 import router from "@/router/index.js";
 // import User from "@/models/user.model";
 import userService from "@/services/userServices";
+import axios from "axios";
 
 const state = {
   isLogin: false,
   session: null,
   user: null,
   token: null,
+  darkMode: true,
 };
 
 const actions = {
@@ -32,6 +34,29 @@ const actions = {
         console.log(err);
       });
   },
+  relogin({ commit }, { userId, token }) {
+    // for timing imprecisiton of store rehydration
+    const ax = axios.create({
+      baseURL: process.env.VUE_APP_ROOT_API,
+      withCredentials: false,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+        "X-Requested-With": "XMLHttpRequest",
+        crossDomain: true,
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
+
+    ax.post(`/user/auth`, { userId, token }).then(res => {
+      commit("reloginSuccess", res.data.data);
+    });
+
+    // userService.getUser(userId, token).then(res => {
+    //   console.log(res)
+    // })
+  },
   logout({ commit, getters }) {
     // console.log(getters.getUserToken, getters.getUserId, getters.getSessionId);
 
@@ -46,19 +71,30 @@ const actions = {
       });
 
     commit("resetState");
-    router.push("/");
+    router.push("/login");
   },
   clearState({ commit }) {
     commit("resetState");
   },
+  toggleTheme({ commit }, { isDark }) {
+    commit("setTheme", isDark);
+  },
 };
 
 const mutations = {
+  setTheme(state, isDark) {
+    console.log(isDark);
+    state.darkMode = isDark;
+  },
   resetState(state) {
     state.isLogin = false;
     state.session = null;
     state.user = null;
     state.token = null;
+  },
+  reloginSuccess(state, user) {
+    state.isLoggedIn = true;
+    state.user = user;
   },
   loginSuccess(state, session) {
     state.isLoggedIn = true;
@@ -80,6 +116,7 @@ const mutations = {
 const getters = {
   isLoggedIn: state => !!state.token,
   authStatus: state => state.status,
+  isDarkTheme: state => state.darkMode,
   getPersonId: state => state.user.personId,
   getUserId: state => state.user.id,
   getUserRole: state => state.user.role,

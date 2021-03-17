@@ -1,20 +1,20 @@
 <template>
-	<v-file-input
-		label="Profile Picture"
-		color="secondary"
-		:rules="rules"
-		accept="image/png, image/jpeg, image/bmp, image/gif"
-		prepend-inner-icon="mdi-camera"
-		prepend-icon=""
-		show-size
-		outlined
-		dense
-		counter
-		:value="[]"
-		:clearable="false"
-		v-model="selectedFile"
-		@change="onFileSelected"
-	></v-file-input>
+  <v-file-input
+    label="Profile Picture"
+    color="secondary"
+    :rules="rules"
+    accept="image/png, image/jpeg, image/bmp, image/gif"
+    prepend-inner-icon="mdi-camera"
+    prepend-icon=""
+    show-size
+    outlined
+    dense
+    counter
+    :value="[]"
+    :clearable="false"
+    v-model="selectedFile"
+    @change="onFileSelected"
+  ></v-file-input>
 </template>
 
 <script>
