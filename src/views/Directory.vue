@@ -148,7 +148,7 @@
 				Please Check Your Internet Connection and Try Refreshing The Page.
 			</v-row>
 		</v-row>
-		<admin-fab :createFunction="addUser" />
+		<admin-fab :createFunction="create" />
 	</v-container>
 </template>
 
@@ -242,6 +242,13 @@ export default {
 				name: "MemberEdit",
 				params: { id: 0, isAdd: true },
 			});
+		},
+		create() {
+			if (this.showFamilies) {
+				this.addFamily();
+			} else {
+				this.addUser();
+			}
 		},
 		nextPage(page) {
 			this.pageNumber = parseInt(page);
