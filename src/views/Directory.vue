@@ -72,9 +72,7 @@
 						color="secondary"
 						item-color="secondary"
 						:items="
-							this.showFamilies
-								? this.families[0].statusOptions()
-								: this.members[0].statusOptions()
+							this.showFamilies ? familyStatusOptions : personStatusOptions
 						"
 						solo
 						single-line
@@ -157,7 +155,7 @@
 <script>
 import AdminFab from "@/components/AdminFab.vue";
 import MemberService from "@/services/memberServices";
-// import rest from "@/services/RESTServices";
+import rest from "@/services/restServices";
 import MemberCard from "@/components/MemberCard.vue";
 import FamilyCard from "@/components/FamilyCard.vue";
 import Person from "@/models/person.model";
@@ -183,6 +181,12 @@ export default {
 		};
 	},
 	computed: {
+		familyStatusOptions() {
+			return new Family().statusOptions();
+		},
+		personStatusOptions() {
+			return new Person().statusOptions();
+		},
 		filteredData() {
 			let data = [];
 
@@ -267,36 +271,12 @@ export default {
 				this.members.push(person);
 			}
 
-			for (let i = 0; i < 10; i++) {
-				this.families.push(
-					new Family({
-						name: "Jennings" + i,
-					})
-				);
-				this.families.push(
-					new Family({
-						name: "Lonsinger" + i,
-					})
-				);
-				this.families.push(
-					new Family({
-						name: "Woodruff" + i,
-						status: "Inactive",
-					})
-				);
-				this.families.push(
-					new Family({
-						name: "Simpson" + i,
-						status: "Disabled",
-					})
-				);
-				this.families.push(
-					new Family({
-						name: "Burnett" + i,
-						status: "Relocated",
-					})
-				);
-			}
+			// populate families array here
+			rest.getAll("/family").then(response => {
+				response.data.data.forEach(family => {
+					this.families.push(new Family(family));
+				});
+			});
 		} else {
 			MemberService.getAll().then(response => {
 				response.data.data.forEach(element => {
@@ -306,40 +286,11 @@ export default {
 			});
 
 			// populate families array here
-			// rest.getAll("/family"),then(response => {
-			//   this.families = response.data.data;
-			// });
-
-			for (let i = 0; i < 10; i++) {
-				this.families.push(
-					new Family({
-						name: "Jennings" + i,
-					})
-				);
-				this.families.push(
-					new Family({
-						name: "Lonsinger" + i,
-					})
-				);
-				this.families.push(
-					new Family({
-						name: "Woodruff" + i,
-						status: "Inactive",
-					})
-				);
-				this.families.push(
-					new Family({
-						name: "Simpson" + i,
-						status: "Disabled",
-					})
-				);
-				this.families.push(
-					new Family({
-						name: "Burnett" + i,
-						status: "Relocated",
-					})
-				);
-			}
+			rest.getAll("/family").then(response => {
+				response.data.data.forEach(family => {
+					this.families.push(new Family(family));
+				});
+			});
 		}
 
 		if (this.families.length <= 0) {
