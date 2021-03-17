@@ -70,7 +70,13 @@
 				<v-card-actions>
 					<v-card-title>Family:</v-card-title>
 					<v-spacer></v-spacer>
-					<v-btn color="secondary" outlined dark class="mr-4">
+					<v-btn
+						color="secondary"
+						outlined
+						dark
+						class="mr-4"
+						@click="gotoFamilyPage"
+					>
 						View Family Page
 					</v-btn>
 				</v-card-actions>
@@ -138,6 +144,7 @@ export default {
 			user: new User(),
 			person: new Person(),
 			family: [],
+			fmailyId: 0,
 		};
 	},
 	computed: {},
@@ -147,6 +154,9 @@ export default {
 				name: "MemberEdit",
 				params: { id: this.id, isAdd: false },
 			});
+		},
+		gotoFamilyPage() {
+			console.log("Family ID: ", this.fmailyId);
 		},
 	},
 	mounted() {
@@ -160,6 +170,7 @@ export default {
 				let relatives = this.person.family.filter(
 					family => family.name == this.person.lastName
 				)[0];
+				this.fmailyId = relatives.id;
 
 				// get the members of the family from db
 				rest.get("/family/", relatives.id).then(response => {
