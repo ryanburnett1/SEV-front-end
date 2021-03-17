@@ -8,20 +8,8 @@
 				label="Search"
 				outlined
 			></v-text-field>
-			<!-- <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <span v-bind="attrs" v-on="on">
-            <v-switch
-              v-model="usePagination"
-              label="Use Pagination"
-              @click="search = ''"
-            ></v-switch>
-          </span>
-        </template>
-        Can be slow with a large dataset
-      </v-tooltip> -->
 		</v-row>
-		<v-col v-if="usePagination">
+		<v-col>
 			<v-row>
 				<v-col>
 					<v-text-field
@@ -93,17 +81,6 @@
 			</v-col>
 		</v-col>
 		<v-row>
-			<!-- <v-row class="justify-space-between" v-if="members.length > 0">
-        <member-card
-          class="ma-2"
-          v-for="member in filteredData"
-          :key="member.id"
-          :person="member"
-          @click.native="
-            $router.push({ name: 'MemberView', params: { id: member.id } })
-          "
-        />
-      </v-row> -->
 			<v-row v-if="members.length > 0 && !showFamilies" no-gutters>
 				<template v-for="(member, i) in filteredData">
 					<v-col :key="i">
@@ -171,13 +148,11 @@ export default {
 		return {
 			pageNumber: 1, // current selected page
 			size: 25, // number per page
-			search: "",
-			members: [],
-			families: [],
-			showFamilies: true,
-			usePagination: true,
-			statusFilter: "Active",
-			test: false,
+			search: "", // used in filteredData to find members by name
+			members: [], // members of the congregation
+			families: [], // families of the congregation
+			showFamilies: true, // if==true show family oriented directory
+			statusFilter: "Active", // used in filteredData to find members from status ex: active, disabled, etc.
 		};
 	},
 	computed: {
@@ -190,11 +165,7 @@ export default {
 		filteredData() {
 			let data = [];
 
-			if (this.usePagination) {
-				data = this.paginatedData;
-			} else {
-				data = this.showFamilies ? this.families : this.members;
-			}
+			data = this.showFamilies ? this.families : this.members;
 
 			if (this.search !== "Active" && this.search !== null) {
 				data = this.showFamilies
@@ -234,15 +205,18 @@ export default {
 		},
 	},
 	methods: {
+		// goto page to create new family
 		addFamily() {
 			this.$router.push({});
 		},
+		// goto page to create new user, member/person
 		addUser() {
 			this.$router.push({
 				name: "MemberEdit",
 				params: { id: 0, isAdd: true },
 			});
 		},
+		// sentinal for above functions
 		create() {
 			if (this.showFamilies) {
 				this.addFamily();
@@ -250,9 +224,11 @@ export default {
 				this.addUser();
 			}
 		},
+		// get next slice from paginated data
 		nextPage(page) {
 			this.pageNumber = parseInt(page);
 		},
+		// below functions ensure correct data for input fields
 		checkPerPage() {
 			this.pageNumber = 1;
 		},
@@ -261,50 +237,24 @@ export default {
 		},
 	},
 	mounted() {
-		if (this.$store.getters.getUserEmail === "jason.lonsinger@email.com") {
-			this.test = true;
-		}
-		if (this.test) {
-			this.members = [];
-			for (let i = 0; i < 2500; i++) {
-				const status = i % 3 == 0 ? "Active" : "Inactive";
-				const person = new Person({
-					firstName: "First",
-					lastName: "Last",
-					id: i,
-					status,
-					picture: "https://picsum.photos/200?random=" + i,
-				});
+		// get all members of the congregation
+		MemberService.getAll().then(response => {
+			response.data.data.forEach(element => {
+				let person = new Person(element);
 				this.members.push(person);
+			});
+		});
+
+		// get all families in the congregation
+		rest.getAll("/family").then(response => {
+			response.data.data.forEach(family => {
+				this.families.push(new Family(family));
+			});
+
+			if (this.families.length <= 0) {
+				this.showFamilies = false;
 			}
-
-			// populate families array here
-			rest.getAll("/family").then(response => {
-				response.data.data.forEach(family => {
-					this.families.push(new Family(family));
-					if (this.families.length <= 0) {
-						this.showFamilies = false;
-					}
-				});
-			});
-		} else {
-			MemberService.getAll().then(response => {
-				response.data.data.forEach(element => {
-					let person = new Person(element);
-					this.members.push(person);
-				});
-			});
-
-			// populate families array here
-			rest.getAll("/family").then(response => {
-				response.data.data.forEach(family => {
-					this.families.push(new Family(family));
-				});
-				if (this.families.length <= 0) {
-					this.showFamilies = false;
-				}
-			});
-		}
+		});
 	},
 };
 </script>

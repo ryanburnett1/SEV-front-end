@@ -1,4 +1,4 @@
-// import { _axios } from "@/plugins/axios.js"
+// A Rest Service where you can pass the route and data
 import Vue from "vue";
 
 class RESTService {

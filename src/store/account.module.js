@@ -14,14 +14,13 @@ const state = {
 
 const actions = {
   login({ commit }, { email, password }) {
-    commit("loginRequest", { email });
-
+    commit("loginRequest", { email }); // set email in state for further use
+  
     userService
       .login({ email, password })
       .then(response => {
+        // retreive session form backend and db
         let session = response.data.data;
-
-        // console.log(session);
 
         if (session) {
           commit("loginSuccess", session);
@@ -34,6 +33,7 @@ const actions = {
         console.log(err);
       });
   },
+  // log user backin after page refresh - allows for updating user role, info, etc.
   relogin({ commit }, { userId, token }) {
     // for timing imprecisiton of store rehydration
     const ax = axios.create({
@@ -52,14 +52,8 @@ const actions = {
     ax.post(`/user/auth`, { userId, token }).then(res => {
       commit("reloginSuccess", res.data.data);
     });
-
-    // userService.getUser(userId, token).then(res => {
-    //   console.log(res)
-    // })
   },
   logout({ commit, getters }) {
-    // console.log(getters.getUserToken, getters.getUserId, getters.getSessionId);
-
     userService
       .logout({
         userId: getters.getUserId,
@@ -93,11 +87,11 @@ const mutations = {
     state.token = null;
   },
   reloginSuccess(state, user) {
-    state.isLoggedIn = true;
+    state.isLogin = true;
     state.user = user;
   },
   loginSuccess(state, session) {
-    state.isLoggedIn = true;
+    state.isLogin = true;
     state.session = session;
     state.user = session.user;
     state.token = session.token;
