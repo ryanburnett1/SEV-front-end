@@ -15,7 +15,7 @@ const state = {
 const actions = {
   login({ commit }, { email, password }) {
     commit("loginRequest", { email }); // set email in state for further use
-  
+
     userService
       .login({ email, password })
       .then(response => {
