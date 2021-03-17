@@ -65,7 +65,7 @@
 				</v-container>
 			</v-card>
 		</v-row>
-		<v-row class="ma-2 pa-2" justify="center">
+		<v-row class="ma-2 pa-2" justify="center" v-if="family.length > 0">
 			<v-card width="100%" tile>
 				<v-card-actions>
 					<v-card-title>Family:</v-card-title>
@@ -124,6 +124,7 @@
 import Person from "@/models/person.model";
 import User from "@/models/user.model";
 import MemberService from "@/services/memberServices";
+import rest from "@/services/restServices";
 import UserService from "@/services/userServices";
 import AdminFab from "@/components/AdminFab.vue";
 
@@ -149,18 +150,37 @@ export default {
 		},
 	},
 	mounted() {
+		// get the person by prop id
 		MemberService.get(this.id).then(response => {
-			this.person = new Person(response.data.data);
-		});
-		UserService.getByPerson(this.id).then(res => {
-			this.user = new User(res.data.data[0]);
+			this.person = new Person(response.data.data); // create a new Person Class for data
+
+			// if person has a family add them for easy of navigation
+			if (this.person.family) {
+				// find which family has the same lastname of this.person
+				let relatives = this.person.family.filter(
+					family => family.name == this.person.lastName
+				)[0];
+
+				// get the members of the family from db
+				rest.get("/family/", relatives.id).then(response => {
+					let familyMembers = response.data.data.person; //get the whole family
+
+					//remove this.person from array
+					familyMembers = familyMembers.filter(
+						member => member.id !== this.person.id
+					);
+
+					// add family memebers to this.family to display
+					familyMembers.forEach(relative => {
+						this.family.push(new Person(relative));
+					});
+				});
+			}
 		});
 
-		MemberService.getAll().then(res => {
-			res.data.data.forEach(element => {
-				let person = new Person(element);
-				this.family.push(person);
-			});
+		// get user info for email
+		UserService.getByPerson(this.id).then(res => {
+			this.user = new User(res.data.data[0]);
 		});
 	},
 };
