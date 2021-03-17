@@ -282,6 +282,9 @@ export default {
 			rest.getAll("/family").then(response => {
 				response.data.data.forEach(family => {
 					this.families.push(new Family(family));
+					if (this.families.length <= 0) {
+						this.showFamilies = false;
+					}
 				});
 			});
 		} else {
@@ -297,11 +300,10 @@ export default {
 				response.data.data.forEach(family => {
 					this.families.push(new Family(family));
 				});
+				if (this.families.length <= 0) {
+					this.showFamilies = false;
+				}
 			});
-		}
-
-		if (this.families.length <= 0) {
-			this.showFamilies = false;
 		}
 	},
 };
