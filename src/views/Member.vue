@@ -1,12 +1,13 @@
 <template>
 	<v-container>
 		<v-row class="ma-2 pa-2" justify="center">
-			<v-card flat>
+			<v-card flat width="100%">
 				<v-img
 					:src="familyPicture"
 					:lazy-src="require('@/assets/images/placeholder_gray.png')"
 					class="align-end"
 					max-height="45vh"
+					contain
 				>
 					<v-container fluid class="pa-8">
 						<v-row>
@@ -122,7 +123,6 @@
 				</v-container>
 			</v-card>
 		</v-row>
-
 		<admin-fab :editFunction="edit"></admin-fab>
 	</v-container>
 </template>
