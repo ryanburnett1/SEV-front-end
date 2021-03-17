@@ -3,7 +3,8 @@
 		<v-row class="ma-2 pa-2" justify="center">
 			<v-card flat>
 				<v-img
-					:src="require('@/assets/images/placeholder_gray.png')"
+					:src="familyPicture"
+					:lazy-src="require('@/assets/images/placeholder_gray.png')"
 					class="align-end"
 					max-height="45vh"
 				>
@@ -144,7 +145,8 @@ export default {
 			user: new User(),
 			person: new Person(),
 			family: [],
-			fmailyId: 0,
+			familyId: 0,
+			familyPicture: "",
 		};
 	},
 	computed: {},
@@ -156,7 +158,7 @@ export default {
 			});
 		},
 		gotoFamilyPage() {
-			console.log("Family ID: ", this.fmailyId);
+			console.log("Family ID: ", this.familyId);
 		},
 	},
 	mounted() {
@@ -170,7 +172,8 @@ export default {
 				let relatives = this.person.family.filter(
 					family => family.name == this.person.lastName
 				)[0];
-				this.fmailyId = relatives.id;
+				this.familyId = relatives.id;
+				this.familyPicture = relatives.picture;
 
 				// get the members of the family from db
 				rest.get("/family/", relatives.id).then(response => {
