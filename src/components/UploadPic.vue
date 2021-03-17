@@ -34,7 +34,9 @@ export default {
 	methods: {
 		//What happens when they chooose the file
 		onFileSelected() {
+      //file reader for reading the file they chose and displaying it on webpage without uploading it
 			let reader = new FileReader();
+      //calls function when file is read
 			reader.onload = e => this.$emit("onFileSelected", e.target.result);
 			reader.readAsDataURL(this.selectedFile);
 		},
