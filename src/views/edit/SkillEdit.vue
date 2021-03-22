@@ -145,22 +145,25 @@ export default {
   },
   data() {
     return {
-      dbSkillList: [],
-      dialog: false,
-      dialogDelete: false,
-      editedIndex: -1,
-      editedItem: { name: "", description: "" },
+      dbSkillList: [], // list of skills fresh from db
+      dialog: false, // hide/open edit/create dialog
+      dialogDelete: false, // hide/open delete dialog
+      editedIndex: -1, // current item we are editing locally
+      editedItem: { name: "", description: "" }, // temporary storage for the item being created/edited
+      // default info for new item - this.editItem=defaultItem when creating new skill
       defaultItem: {
         name: "",
         description: "",
       },
-      search: "",
+      search: "", // search skills by name
     };
   },
   computed: {
+    // sets title of create/edit form
     formTitle() {
       return this.editedIndex === -1 ? "New Skill" : "Edit Skill";
     },
+    // headers for v-table
     headers() {
       return [
         {
@@ -180,9 +183,13 @@ export default {
   },
   methods: {
     editItem(item) {
+      // deep copy item we want to edit
       this.editedIndex = this.dbSkillList.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.dialog = true;
+
+      this.dialog = true; // show edit dialog
+
+      // ensure validation doesn't trigger with an error too early
       if (this.editedIndex > -1) {
         this.$nextTick(() => {
           this.$refs.observer.validate();
@@ -190,17 +197,22 @@ export default {
       }
     },
     deleteItem(item) {
+      // get item we want to delete
       this.editedIndex = this.dbSkillList.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
+
+      this.dialogDelete = true; // show delete dialog
     },
     deleteItemConfirm() {
+      // delete item from db and remove from local array
       RESTService.delete("/skill/", this.editedItem.id);
       this.dbSkillList.splice(this.editedIndex, 1);
       this.closeDelete();
     },
     close() {
       this.dialog = false;
+
+      // lose reference to old item, so we don't accidentlly overwrite the wrong item in list
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
@@ -208,36 +220,46 @@ export default {
     },
     closeDelete() {
       this.dialogDelete = false;
+
+      // lose reference to old item, so we don't accidentlly overwrite the wrong item in list
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       });
     },
     save() {
+      // if skill is not new update
       if (this.editedIndex > -1) {
+        // deep copy item and use old id to overwrite properly - !IMPORTANT FOR LOGIC CHANGING WILL BREAK, DON'T REMEBER WHY THOUGH
         let skill = this.dbSkillList[this.editedIndex];
         Object.assign(skill, this.editedItem);
+
         RESTService.update("/skill/", skill.id, skill);
       } else {
+        // create new skill
         RESTService.create("/skill", this.editedItem).then(response => {
           this.editedItem.id = response.data.data.id;
         });
 
-        this.dbSkillList.push(this.editedItem);
+        this.dbSkillList.push(this.editedItem); // add to local array to display/edit
       }
-      this.$store.dispatch("retrieveSkillList");
-      this.close();
+
+      this.$store.dispatch("retrieveSkillList"); // update global list of skills
+      this.close(); // close dialog
     },
   },
   watch: {
+    // call close for create/edit dialog
     dialog(val) {
       val || this.close();
     },
+    // call close for create/edit dialog
     dialogDelete(val) {
       val || this.closeDelete();
     },
   },
   mounted() {
+    // get list of skils from db
     RESTService.getAll("/skill").then(response => {
       this.dbSkillList = response.data.data;
     });

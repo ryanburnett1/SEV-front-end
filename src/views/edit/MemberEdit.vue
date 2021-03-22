@@ -16,7 +16,7 @@
           ></v-img>
           <upload-pic @onFileSelected="picture = $event" ref="picker" />
           <v-row>
-            <v-col>
+            <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
               <v-text-field
                 v-model="person.title"
                 color="secondary"
@@ -24,7 +24,7 @@
                 type="text"
               ></v-text-field>
             </v-col>
-            <v-col>
+            <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
               <v-select
                 v-model="person.marital_status"
                 color="secondary"
@@ -35,7 +35,7 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col>
+            <v-col cols="12" xl="2" lg="4" md="4" sm="4" xs="12">
               <ValidationProvider
                 name="firstName"
                 rules="required"
@@ -51,7 +51,7 @@
                 ></v-text-field>
               </ValidationProvider>
             </v-col>
-            <v-col>
+            <v-col cols="12" xl="2" lg="4" md="4" sm="4" xs="12">
               <ValidationProvider
                 name="firstName"
                 rules="required"
@@ -66,6 +66,14 @@
                   type="text"
                 ></v-text-field>
               </ValidationProvider>
+            </v-col>
+            <v-col cols="12" xl="2" lg="4" md="4" sm="4" xs="12">
+              <v-text-field
+                v-model="person.preferredName"
+                color="secondary"
+                label="Preferred Name"
+                type="text"
+              ></v-text-field>
             </v-col>
           </v-row>
           <v-row>
@@ -116,6 +124,12 @@
               lowerCase: false,
             }"
           ></v-text-field-simplemask>
+          <v-text-field
+            v-model="person.address"
+            color="secondary"
+            label="Address"
+            type="address"
+          ></v-text-field>
           <ValidationProvider
             name="sex"
             rules="required"
@@ -190,14 +204,17 @@ import AdminFab from "@/components/AdminFab.vue";
 import UploadPic from "@/components/UploadPic.vue";
 import SkillSelect from "@/components/SkillSelect.vue";
 
+// used for field validation
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 export default {
   props: {
+    // id of person to edit, id<=0 if creating a new user and person
     id: {
       type: Number,
       default: 0,
     },
+    // is adding new user and person
     isAdd: {
       type: Boolean,
       default: false,
@@ -212,11 +229,11 @@ export default {
   },
   data() {
     return {
-      picture: "",
+      picture: "", // gets result from UploadPic to display uploaded image as base64 string
       loading: true, // hack for v-select due to async props
-      person: new Person(),
-      user: new User(null, this.person),
-      emailTemp: "",
+      person: new Person(), // empty person for isAdd
+      user: new User(null, this.person), // empty user for isAdd
+      emailTemp: "", // used for email validation - a correct email is critical for the system
     };
   },
   methods: {
@@ -224,6 +241,7 @@ export default {
       this.$router.back();
     },
     async save() {
+      // get image to upload to db - going to change after @burnett1 changes backend code
       let picker = this.$refs.picker;
       if (picker.selectedFile) {
         const formData = new FormData();
@@ -241,6 +259,7 @@ export default {
 
       console.log(this.person.picture);
 
+      // add new person
       if (this.isAdd) {
         MemberService.create(this.person)
           .then(response => {
@@ -263,10 +282,12 @@ export default {
             console.log("Failed to create new Person: ", err);
           });
       } else {
-        console.log(this.person);
+        // edit person
         MemberService.update(this.id, this.person)
           .then(() => {
-            this.$refs.skillSelect.updatePersonSkill(this.id);
+            this.$refs.skillSelect.updatePersonSkill(this.id); // add/remove skills to person
+
+            // update user info for person
             UserServices.update(this.user.id, this.user)
               .then(() => {
                 this.$router.back();
@@ -283,6 +304,7 @@ export default {
   },
   mounted() {
     if (!this.isAdd) {
+      // get person info to edit
       UserServices.getByPerson(this.id).then(response => {
         this.user = new User(response.data.data[0]);
         this.emailTemp = this.user.email;
@@ -292,11 +314,13 @@ export default {
         this.picture = this.person.picture;
         this.loading = false; // hack for v-select
       });
+
+      // call validation after info has loaded
       this.$nextTick(() => {
         this.$refs.observer.validate();
       });
     } else {
-      this.loading = false;
+      this.loading = false; // hack for v-select - lists won't be retrived from db in time without this
     }
   },
 };

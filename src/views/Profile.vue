@@ -1,7 +1,15 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col cols="1" v-if="$store.getters.isAdmin">
+      <v-col
+        cols="2"
+        xl="2"
+        lg="2"
+        md="2"
+        sm="2"
+        xs="2"
+        v-if="$store.getters.isAdmin"
+      >
         <v-navigation-drawer permanent expand-on-hover absolute>
           <v-list nav dense>
             <v-list-item
@@ -36,15 +44,15 @@
           </v-list>
         </v-navigation-drawer>
       </v-col>
-      <v-col>
+      <v-col cols="10" xl="10" lg="10" md="10" sm="10" xs="10">
         <v-row>
-          <v-col cols="1">
+          <v-col cols="1" xl="1" lg="1" md="1" sm="1" xs="1">
             <v-avatar color="primary">
               <v-img :src="person.picture"></v-img>
             </v-avatar>
           </v-col>
-          <v-col>
-            <h1>{{ person.fullName() }}</h1>
+          <v-col cols="11" xl="11" lg="11" md="11" sm="11" xs="11">
+            <h1>{{ person.preferredFullName() }}</h1>
             <v-subheader>{{ person.title }}</v-subheader>
           </v-col>
         </v-row>

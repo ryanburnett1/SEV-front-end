@@ -1,16 +1,18 @@
 import RESTService from "@/services/restServices";
 
 const state = {
-  skills: [],
+  skills: [], // array of skills
 };
 
 const actions = {
+  // get array of skills from db
   retrieveSkillList({ commit }) {
     RESTService.getAll("skill").then(response => {
       let skillList = response.data.data;
       commit("setState", skillList);
     });
   },
+  // set skills = []
   clearState({ commit }) {
     commit("resetState");
   },

@@ -39,7 +39,7 @@
 
               <v-list-item-content>
                 <v-list-item-title
-                  v-html="person.fullName()"
+                  v-html="person.preferredFullName()"
                 ></v-list-item-title>
                 <v-list-item-subtitle v-html="'other'"></v-list-item-subtitle>
               </v-list-item-content>

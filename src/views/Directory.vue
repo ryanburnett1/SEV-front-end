@@ -8,20 +8,28 @@
         label="Search"
         outlined
       ></v-text-field>
-      <!-- <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <span v-bind="attrs" v-on="on">
-            <v-switch
-              v-model="usePagination"
-              label="Use Pagination"
-              @click="search = ''"
-            ></v-switch>
-          </span>
-        </template>
-        Can be slow with a large dataset
-      </v-tooltip> -->
     </v-row>
-    <v-col v-if="usePagination">
+    <v-col>
+      <v-row
+        align = 'center'
+        justify = 'center'>
+        <v-btn-toggle
+          v-model="showFamilies"
+          rounded
+          mandatory
+          group
+          @change="checkPerPage"
+        >
+          <v-btn :value='true'>
+            Families
+          </v-btn>
+          <v-btn :value='false'>
+            People
+          </v-btn>
+        </v-btn-toggle>
+      </v-row>
+    </v-col>
+    <v-col>
       <v-row>
         <v-col>
           <v-text-field
@@ -49,10 +57,42 @@
             @change="checkPerPage"
           ></v-select>
         </v-col>
+        <!-- <v-col>
+          <v-select
+            v-model="showFamilies"
+            color="secondary"
+            item-color="secondary"
+            :items="[
+              { text: 'True', value: true },
+              { text: 'False', value: false },
+            ]"
+            type="bool"
+            solo
+            single-line
+            dense
+            prefix="Display As Families: "
+            @change="checkPerPage"
+          ></v-select>
+        </v-col> -->
+        <v-col>
+          <v-select
+            v-model="statusFilter"
+            color="secondary"
+            item-color="secondary"
+            :items="
+              this.showFamilies ? familyStatusOptions : personStatusOptions
+            "
+            solo
+            single-line
+            dense
+            prefix="Status: "
+            @change="checkPerPage"
+          ></v-select>
+        </v-col>
       </v-row>
       <v-col>
         <v-pagination
-          v-model="pageNumber"
+          v-model.number="pageNumber"
           :length="pageCount"
           :total-visible="7"
           @input="nextPage"
@@ -61,18 +101,7 @@
       </v-col>
     </v-col>
     <v-row>
-      <!-- <v-row class="justify-space-between" v-if="members.length > 0">
-        <member-card
-          class="ma-2"
-          v-for="member in filteredData"
-          :key="member.id"
-          :person="member"
-          @click.native="
-            $router.push({ name: 'MemberView', params: { id: member.id } })
-          "
-        />
-      </v-row> -->
-      <v-row v-if="members.length > 0" no-gutters>
+      <v-row v-if="members.length > 0 && !showFamilies" no-gutters>
         <template v-for="(member, i) in filteredData">
           <v-col :key="i">
             <member-card
@@ -91,83 +120,137 @@
           ></v-responsive>
         </template>
       </v-row>
+      <v-row v-else-if="families.length > 0" no-gutters>
+        <template v-for="(family, i) in filteredData">
+          <v-col :key="i">
+            <family-card
+              class="ma-2"
+              :key="family.id"
+              :family="family"
+              @click.native="
+                $router.push({ name: 'FamilyView', params: { id: family.id } })
+              "
+            ></family-card>
+          </v-col>
+          <v-responsive
+            v-if="i === 2"
+            :key="`width-${i}`"
+            width="100%"
+          ></v-responsive>
+        </template>
+      </v-row>
       <v-row v-else>
         Members Not Found.
         <br />
         Please Check Your Internet Connection and Try Refreshing The Page.
       </v-row>
     </v-row>
-    <admin-fab :createFunction="addUser" />
+    <admin-fab :createFunction="create" />
   </v-container>
 </template>
 
 <script>
-import MemberCard from "@/components/MemberCard.vue";
 import AdminFab from "@/components/AdminFab.vue";
-import MemberService from "../services/memberServices.js";
+import MemberService from "@/services/memberServices";
+import rest from "@/services/restServices";
+import MemberCard from "@/components/MemberCard.vue";
+import FamilyCard from "@/components/FamilyCard.vue";
 import Person from "@/models/person.model";
+import Family from "@/models/family.model";
 
 export default {
   components: {
     MemberCard,
+    FamilyCard,
     AdminFab,
   },
   data() {
     return {
       pageNumber: 1, // current selected page
       size: 25, // number per page
-      search: "",
-      members: [],
-      usePagination: true,
-      test: false,
+      search: "", // used in filteredData to find members by name
+      members: [], // members of the congregation
+      families: [], // families of the congregation
+      showFamilies: true, // if==true show family oriented directory
+      statusFilter: "Active", // used in filteredData to find members from status ex: active, disabled, etc.
     };
   },
   computed: {
+    familyStatusOptions() {
+      return new Family().statusOptions();
+    },
+    personStatusOptions() {
+      return new Person().statusOptions();
+    },
     filteredData() {
       let data = [];
 
-      if (this.usePagination) {
-        data = this.paginatedData;
-      } else {
-        data = this.members;
+      data = this.showFamilies ? this.families : this.members;
+
+      if (this.search !== "Active" && this.search !== null) {
+        data = this.showFamilies
+          ? data.filter(family =>
+              family.name.toLowerCase().includes(this.search.toLowerCase())
+            )
+          : data.filter(
+              member =>
+                String(member.preferredFullName())
+                  .toLowerCase()
+                  .includes(String(this.search).toLowerCase()) ||
+                String(member.id)
+                  .toLowerCase()
+                  .includes(String(this.search).toLowerCase())
+            );
       }
 
-      if (this.search !== null) {
-        data = data.filter(
-          member =>
-            String(member.fullName())
-              .toLowerCase()
-              .includes(String(this.search).toLowerCase()) ||
-            String(member.id)
-              .toLowerCase()
-              .includes(String(this.search).toLowerCase())
-        );
+      if (this.statusFilter !== "" && this.statusFilter !== undefined) {
+        data = this.showFamilies
+          ? data.filter(family => family.status == this.statusFilter)
+          : data.filter(member => member.status == this.statusFilter);
       }
 
       return data;
     },
     pageCount() {
-      let l = this.members.length;
+      let l = this.showFamilies ? this.families.length : this.members.length;
       let s = this.size;
       return Math.ceil(l / s);
     },
     paginatedData() {
       const start = this.pageNumber * this.size - this.size;
       const end = start + this.size;
-      return this.members.slice(start, end);
+      return this.showFamilies
+        ? this.families.slice(start, end)
+        : this.members.slice(start, end);
     },
   },
   methods: {
+    // goto page to create new family
+    addFamily() {
+      this.$router.push({});
+    },
+    // goto page to create new user, member/person
     addUser() {
       this.$router.push({
         name: "MemberEdit",
         params: { id: 0, isAdd: true },
       });
     },
+    // sentinal for above functions
+    create() {
+      if (this.showFamilies) {
+        this.addFamily();
+      } else {
+        this.addUser();
+      }
+    },
+    // get next slice from paginated data
     nextPage(page) {
       this.pageNumber = parseInt(page);
     },
+    // below functions ensure correct data for input fields
     checkPerPage() {
+      console.log("check per page called");
       this.pageNumber = 1;
     },
     checkGoto() {
@@ -175,30 +258,24 @@ export default {
     },
   },
   mounted() {
-    if (this.$store.getters.getUserEmail === "jason.lonsinger@email.com") {
-      this.test = true;
-    }
-    if (this.test) {
-      this.members = [];
-      for (let i = 0; i < 2500; i++) {
-        const status = i % 3 == 0 ? "Active" : "Inactive";
-        const person = new Person({
-          firstName: "First",
-          lastName: "Last",
-          id: i,
-          status,
-          picture: "https://picsum.photos/200?random=" + i,
-        });
+    // get all members of the congregation
+    MemberService.getAll().then(response => {
+      response.data.data.forEach(element => {
+        let person = new Person(element);
         this.members.push(person);
-      }
-    } else {
-      MemberService.getAll().then(response => {
-        response.data.data.forEach(element => {
-          let person = new Person(element);
-          this.members.push(person);
-        });
       });
-    }
+    });
+
+    // get all families in the congregation
+    rest.getAll("/family").then(response => {
+      response.data.data.forEach(family => {
+        this.families.push(new Family(family));
+      });
+
+      if (this.families.length <= 0) {
+        this.showFamilies = false;
+      }
+    });
   },
 };
 </script>

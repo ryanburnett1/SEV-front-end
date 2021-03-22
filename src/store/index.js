@@ -12,9 +12,12 @@ export default new Vuex.Store({
     account,
     skill,
   },
+  // keeps user logged in when refreshing page
   plugins: [
     createPersistedState({
-      fetchBeforeUse: true,
+      fetchBeforeUse: true, // retrive user info from store before rehydration
+      // logs user back in when page refreshes - allows for updating user role, info, etc.,
+      // ...without needing to logout and signing back in
       rehydrated: function(state) {
         if (state.getters.isLoggedIn) {
           state.dispatch("relogin", {
