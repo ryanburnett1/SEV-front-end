@@ -193,11 +193,11 @@ export default {
         .signIn()
         .then(GoogleUser => {
           const profile = GoogleUser.getBasicProfile();
-          // const auth = GoogleUser.getAuthResponse();
+          const auth = GoogleUser.getAuthResponse();
 
           let user = {
             email: profile.getEmail(),
-            // token: auth.access_token,
+            token: auth.id_token,
             // expirationDate: new Date(auth.expires_at),
           };
 
