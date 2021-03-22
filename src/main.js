@@ -7,6 +7,14 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import VuetifyMask from "vuetify-mask";
 import "./plugins/vee-validate";
+import GoogleAuth from "@/plugins/gauth.js";
+
+const gauthOption = {
+  clientId: process.env.VUE_APP_GCLIENT_ID,
+  scope: "profile email",
+  prompt: "select_account",
+};
+Vue.use(GoogleAuth, gauthOption);
 
 Vue.use(VuetifyMask);
 
