@@ -10,9 +10,7 @@
       ></v-text-field>
     </v-row>
     <v-col>
-      <v-row
-        align = 'center'
-        justify = 'center'>
+      <v-row align="center" justify="center">
         <v-btn-toggle
           v-model="showFamilies"
           rounded
@@ -20,10 +18,10 @@
           group
           @change="checkPerPage"
         >
-          <v-btn :value='true'>
+          <v-btn :value="true">
             Families
           </v-btn>
-          <v-btn :value='false'>
+          <v-btn :value="false">
             People
           </v-btn>
         </v-btn-toggle>
