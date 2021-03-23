@@ -7,7 +7,7 @@
     </template>
     <v-list nav>
       <v-list-item-group>
-        <v-list-item @click="$store.dispatch('logout')">
+        <v-list-item @click="logout">
           <v-list-item-icon>
             <v-icon>mdi-logout-variant</v-icon>
           </v-list-item-icon>
@@ -58,6 +58,12 @@ export default {
       });
 
       // go to user profile, member self edit, whatever
+    },
+    logout() {
+      this.$gAuth.signOut().then(res => {
+        console.log(res);
+      });
+      this.$store.dispatch("logout");
     },
   },
   computed: {

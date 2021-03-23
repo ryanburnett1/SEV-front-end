@@ -1,11 +1,13 @@
 <template>
   <v-container>
     <v-row class="ma-2 pa-2" justify="center">
-      <v-card flat>
+      <v-card flat width="100%">
         <v-img
-          :src="require('@/assets/images/placeholder_gray.png')"
+          :src="familyPicture"
+          :lazy-src="require('@/assets/images/placeholder_gray.png')"
           class="align-end"
           max-height="45vh"
+          contain
         >
           <v-container fluid class="pa-8">
             <v-row>
@@ -17,7 +19,7 @@
               <v-col align-self="center">
                 <h1>
                   <div v-if="person.title">{{ person.title }}</div>
-                  {{ person.fullName() }}
+                  {{ person.preferredFullName() }}
                 </h1>
               </v-col>
             </v-row>
@@ -32,6 +34,9 @@
         <v-container fluid>
           <v-row>
             <v-col cols="6"> Email: {{ user.email }} </v-col>
+            <v-col cols="6" v-if="person.address">
+              Address: {{ person.address }}
+            </v-col>
             <v-col cols="6" v-if="person.preferredName">
               Preferred Name: {{ person.preferredName }}
             </v-col>
@@ -62,12 +67,18 @@
         </v-container>
       </v-card>
     </v-row>
-    <v-row class="ma-2 pa-2" justify="center">
+    <v-row class="ma-2 pa-2" justify="center" v-if="family.length > 0">
       <v-card width="100%" tile>
         <v-card-actions>
           <v-card-title>Family:</v-card-title>
           <v-spacer></v-spacer>
-          <v-btn color="secondary" outlined dark class="mr-4">
+          <v-btn
+            color="secondary"
+            outlined
+            dark
+            class="mr-4"
+            @click="gotoFamilyPage"
+          >
             View Family Page
           </v-btn>
         </v-card-actions>
@@ -99,7 +110,9 @@
                         </v-avatar>
                       </v-col>
                       <v-col>
-                        <v-card-text>{{ familyPerson.fullName() }}</v-card-text>
+                        <v-card-text>{{
+                          familyPerson.preferredFullName()
+                        }}</v-card-text>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -110,7 +123,6 @@
         </v-container>
       </v-card>
     </v-row>
-
     <admin-fab :editFunction="edit"></admin-fab>
   </v-container>
 </template>
@@ -119,6 +131,7 @@
 import Person from "@/models/person.model";
 import User from "@/models/user.model";
 import MemberService from "@/services/memberServices";
+import rest from "@/services/restServices";
 import UserService from "@/services/userServices";
 import AdminFab from "@/components/AdminFab.vue";
 
@@ -132,6 +145,8 @@ export default {
       user: new User(),
       person: new Person(),
       family: [],
+      familyId: 0,
+      familyPicture: "",
     };
   },
   computed: {},
@@ -142,20 +157,44 @@ export default {
         params: { id: this.id, isAdd: false },
       });
     },
+    gotoFamilyPage() {
+      console.log("Family ID: ", this.familyId);
+    },
   },
   mounted() {
+    // get the person by prop id
     MemberService.get(this.id).then(response => {
-      this.person = new Person(response.data.data);
-    });
-    UserService.getByPerson(this.id).then(res => {
-      this.user = new User(res.data.data[0]);
+      this.person = new Person(response.data.data); // create a new Person Class for data
+
+      // if person has a family add them for easy of navigation
+      if (this.person.family) {
+        // find which family has the same lastname of this.person
+        let relatives = this.person.family.filter(
+          family => family.name == this.person.lastName
+        )[0];
+        this.familyId = relatives.id;
+        this.familyPicture = relatives.picture;
+
+        // get the members of the family from db
+        rest.get("/family/", relatives.id).then(response => {
+          let familyMembers = response.data.data.person; //get the whole family
+
+          //remove this.person from array
+          familyMembers = familyMembers.filter(
+            member => member.id !== this.person.id
+          );
+
+          // add family memebers to this.family to display
+          familyMembers.forEach(relative => {
+            this.family.push(new Person(relative));
+          });
+        });
+      }
     });
 
-    MemberService.getAll().then(res => {
-      res.data.data.forEach(element => {
-        let person = new Person(element);
-        this.family.push(person);
-      });
+    // get user info for email
+    UserService.getByPerson(this.id).then(res => {
+      this.user = new User(res.data.data[0]);
     });
   },
 };

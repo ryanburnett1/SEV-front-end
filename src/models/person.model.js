@@ -2,6 +2,7 @@
 
 class Person {
   id = 0;
+  address = "";
   firstName = "";
   lastName = "";
   middleName = "";
@@ -11,7 +12,7 @@ class Person {
   birthday = "";
   sex = "";
   marital_status = "";
-  status = "";
+  status = this.statusOptions()[0];
   title = "";
   skill = [];
 
@@ -41,6 +42,22 @@ class Person {
     return this.firstName + " " + this.lastName;
   }
 
+  preferredName() {
+    if (this.preferredName) {
+      return this.preferredName;
+    }
+
+    return this.firstName;
+  }
+
+  preferredFullName() {
+    if (this.preferredName) {
+      return this.preferredName + " " + this.lastName;
+    }
+
+    return this.fullName();
+  }
+
   updateDate() {
     this.updatedAt = Date.now();
   }
@@ -66,7 +83,7 @@ class Person {
   }
 
   statusOptions() {
-    return ["Active", "Inactive", "Disabled"];
+    return ["Active", "Inactive", "Disabled", "Relocated", "Deceased"];
   }
 }
 
