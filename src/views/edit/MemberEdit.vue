@@ -265,11 +265,9 @@ export default {
             console.log("Update Person Failed: ", err);
           });
       }
-      let picker = this.$refs.picker;
-      if (picker.selectedFile) {
-        const formData = new FormData();
-        formData.append("file", picker.selectedFile); // appending file to formdata object
-        await MemberService.uploadImage(this.user.personId, formData)
+      let selectedFile = this.$refs.picker.selectedFile;
+      if (selectedFile) {
+        await MemberService.uploadImage(this.user.personId, selectedFile)
           .then(res => {
             console.log("Upload image resolved", res);
           })
