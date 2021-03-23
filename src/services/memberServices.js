@@ -22,8 +22,10 @@ class MemberService {
     return Vue.axios.delete(`/person/${id}`);
   }
 
-  uploadImage(data) {
-    return Vue.axios.post(`/person/picture`, data);
+  uploadImage(id, fileData) {
+    const formData = new FormData();
+    formData.append("file", fileData);
+    return Vue.axios.post(`/person/${id}/picture`, formData);
   }
 
   // other unique route queries here

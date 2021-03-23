@@ -13,7 +13,7 @@
             <v-row>
               <v-col cols="0" xl="2" lg="2" md="3" sm="3" xs="3">
                 <v-avatar size="150" color="primary">
-                  <v-img :src="person.picture"></v-img>
+                  <v-img :src="person.getPicturePath()"></v-img>
                 </v-avatar>
               </v-col>
               <v-col align-self="center">
@@ -85,14 +85,14 @@
         <v-divider></v-divider>
         <v-container fluid>
           <v-row no-gutters>
-            <v-col cols="6" v-for="(thing, i) in family" :key="i">
+            <v-col cols="6" v-for="(familyPerson, i) in family" :key="i">
               <v-hover v-slot="{ hover }">
                 <v-card
                   :elevation="hover ? 6 : 0"
                   @click="
                     $router.push({
                       name: 'MemberView',
-                      params: { id: thing.id },
+                      params: { id: familyPerson.id },
                     })
                   "
                   style="border-radius: 0"
@@ -102,7 +102,7 @@
                       <v-col cols="3">
                         <v-avatar color="primary">
                           <v-img
-                            :src="thing.picture"
+                            :src="familyPerson.getPicturePath()"
                             :lazy-src="
                               require('@/assets/images/placeholder_gray.png')
                             "
@@ -111,7 +111,7 @@
                       </v-col>
                       <v-col>
                         <v-card-text>{{
-                          thing.preferredFullName()
+                          familyPerson.preferredFullName()
                         }}</v-card-text>
                       </v-col>
                     </v-row>
