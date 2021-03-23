@@ -11,7 +11,7 @@
             <v-row>
               <v-col cols="0" xl="2" lg="2" md="3" sm="3" xs="3">
                 <v-avatar size="150" color="primary">
-                  <v-img :src="person.picture"></v-img>
+                  <v-img :src="person.getPicturePath()"></v-img>
                 </v-avatar>
               </v-col>
               <v-col align-self="center">
@@ -91,7 +91,7 @@
                       <v-col cols="3">
                         <v-avatar color="primary">
                           <v-img
-                            :src="familyPerson.picture"
+                            :src="familyPerson.getPicturePath()"
                             :lazy-src="
                               require('@/assets/images/placeholder_gray.png')
                             "

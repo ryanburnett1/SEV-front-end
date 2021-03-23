@@ -14,7 +14,7 @@
         <v-skeleton-loader type="image" class="px-4 pt-4">
           <v-avatar size="150" color="primary">
             <v-img
-              :src="person.picture"
+              :src="person.getPicturePath()"
               :lazy-src="require('@/assets/images/placeholder_gray.png')"
             >
             </v-img>
@@ -41,7 +41,7 @@ export default {
       default: new Person({
         firstName: "Test",
         lastName: "McTest",
-        picture: "https://picsum.photos/1920/1080?random",
+        picture: "RANDOM",
         id: -1,
         status: "Inactive",
       }),

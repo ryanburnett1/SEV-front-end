@@ -287,7 +287,7 @@ export default {
       });
       MemberService.get(this.id).then(response => {
         this.person = new Person(response.data.data);
-        this.picture = this.person.picture;
+        this.picture = this.person.getPicturePath();
         this.loading = false; // hack for v-select
       });
       this.$nextTick(() => {

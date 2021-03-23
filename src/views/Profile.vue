@@ -40,7 +40,7 @@
         <v-row>
           <v-col cols="1">
             <v-avatar color="primary">
-              <v-img :src="person.picture"></v-img>
+              <v-img :src="person.getPicturePath()"></v-img>
             </v-avatar>
           </v-col>
           <v-col>
