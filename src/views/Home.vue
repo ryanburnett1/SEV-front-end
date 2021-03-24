@@ -17,7 +17,9 @@
       <v-col>
         <h3>Announcements:</h3>
       </v-col>
-      <v-col> </v-col>
+    </v-row>
+    <v-row>
+      <announcement-tabs />
     </v-row>
     <!-- <v-row>
 			<member-selection-list
@@ -26,31 +28,7 @@
 			></member-selection-list>
 		</v-row> -->
     <v-row>
-      <v-col>
-        <v-tabs v-model="tab" color="secondary">
-          <v-tab>Church</v-tab>
-          <v-tab>Groups</v-tab>
-
-          <v-tabs-items v-model="tab">
-            <v-tab-item>
-              <v-card flat>
-                <v-card-text
-                  >Announcements for the whole church are displayed
-                  here.</v-card-text
-                >
-              </v-card>
-            </v-tab-item>
-            <v-tab-item>
-              <v-card flat>
-                <v-card-text
-                  >Announcements for the groups you are in are displayed
-                  displayed here.</v-card-text
-                >
-              </v-card>
-            </v-tab-item>
-          </v-tabs-items>
-        </v-tabs>
-      </v-col>
+      <v-col> </v-col>
     </v-row>
   </v-container>
 </template>
@@ -58,12 +36,14 @@
 <script>
 import MemberService from "@/services/memberServices.js";
 import Person from "@/models/person.model.js";
+import AnnouncementTabs from "@/components/AnnouncementTabs.vue";
 // import MemberSelectionList from "../components/MemberSelectionList.vue";
 
 export default {
   name: "Home",
   components: {
     // MemberSelectionList,
+    AnnouncementTabs,
   },
   data() {
     return {
@@ -80,7 +60,6 @@ export default {
         { id: 8, url: "https://picsum.photos/200/300?random=9" },
         { id: 9, url: "https://picsum.photos/200/300?random=10" },
       ],
-      tab: 0,
     };
   },
   mounted() {

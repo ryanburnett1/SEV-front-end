@@ -124,6 +124,7 @@
                           :textFieldProps="textProps"
                           :timePickerProps="timeProps"
                           :datePickerProps="dateProps"
+                          @update="test()"
                         >
                           <template v-slot:dateIcon>
                             <v-icon>mdi-calendar</v-icon>
@@ -241,7 +242,7 @@ export default {
         readonly: true,
       },
       timeProps: {
-        min: new Date().toTimeString(), // soonest it will go out is right now
+        min: this.test(), // soonest it will go out is right now
       },
       // props for date-picker under datetime-picker
       dateProps: {
@@ -251,6 +252,11 @@ export default {
     };
   },
   computed: {
+    minTime() {
+      return this.$refs.datep.datetime <= new Date()
+        ? new Date().toTimeString()
+        : null;
+    },
     // sets title of create/edit form
     formTitle() {
       return this.editedIndex === -1 ? "New Announcement" : "Edit Announcement";
@@ -294,6 +300,16 @@ export default {
     },
   },
   methods: {
+    test() {
+      let picker = this.$refs.datep;
+      console.log(picker);
+
+      return new Date().toTimeString();
+
+      // return this.$refs.datep.datetime <= new Date()
+      //   ? new Date().toTimeString()
+      //   : null;
+    },
     checkboxFormatter(checked) {
       return checked;
     },
