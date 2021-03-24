@@ -41,6 +41,21 @@
               </v-list-item-icon>
               <v-list-item-title>Add Skill</v-list-item-title>
             </v-list-item>
+
+            <v-list-item
+              link
+              @click="
+                $router.push({
+                  name: 'AnnouncementEdit',
+                  params: { },
+                })
+              "
+            >
+              <v-list-item-icon>
+                <v-icon>mdi-calendar-clock</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Add/Edit Announcements</v-list-item-title>
+            </v-list-item>
           </v-list>
         </v-navigation-drawer>
       </v-col>
