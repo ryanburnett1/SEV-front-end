@@ -27,9 +27,9 @@
 
 <script>
 import Group from "@/models/group.model";
-import Person from "@/models/person.model";
+//import Person from "@/models/person.model";
 import GroupService from "@/services/groupServices";
-import PersonService from "@/services/memberServices";
+//import PersonService from "@/services/memberServices";
 
 import {ValidationObserver, ValidationProvider} from "vee-validate";
 
@@ -43,7 +43,7 @@ export default {
             type: Boolean,
             default: false,
         },
-        isAddMember: {
+        isAddPerson: {
           type: Boolean,
           default: true,  
         },
@@ -55,7 +55,7 @@ export default {
             return {
                 picture: "", 
                 loading: true,
-                group: new Group,
+                group: new Group(this.group),
                 
             };
         },
@@ -67,21 +67,21 @@ export default {
                 let picker = this.$refs.picker;
                 if(picker.selectedFile) {
                     const formData = new FormData();
-                    forData.append("file", picker.selectedFile);
+                    formData.append("file", picker.selectedFile);
 
-                    await GroupService.add(formData)
-                    .then(res => {
-                        //what to put here? How to add a new person/group to the right spot?
-                    })
+                    // await GroupService.add(formData)
+                    // .then(response => {
+                    //     GroupService.add(this.group.data.data);
+                    // })
                 }
                 //this needs to be different for adding a person, and adding a group
 
-                if (this.isAdd) {//adding a person
+                if (this.isAddPerson) {//adding a person
                     GroupService.create(this.person)
                         .then(response => {
                             this.group = response.data.data;
 
-                            GroupServices.update(this.group.id, this.formData)
+                            GroupService.update(this.group.id, this.formData)
                             .then(() => {
                                 this.$router.back();
                             })
@@ -97,7 +97,7 @@ export default {
                 else if(this.isAddGroup) {
                     GroupService.create(this.group)
                         .then(response => {
-                            this.group = respnse.data.data;
+                            this.group = response.data.data;
                             GroupService.create(this.group.id, this.formData)
                             .then(() => {
                                 this.$router.back();
@@ -110,6 +110,13 @@ export default {
                             console.log("adding new group failed: ", err);
                         });
                 }
+            }
+        },
+        mounted() {
+            if(this.isAddPerson) {
+                GroupService.getOne(this.group.id).then(response => {
+                        this.group = new Group(response.data.data);
+                })
             }
         }
     }

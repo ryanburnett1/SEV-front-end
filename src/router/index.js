@@ -66,7 +66,7 @@ const routes = [
     component: () => import(/**/ "@/views/Group.vue"),
   },
   {
-    path: "/group-edit:/id/",//:isAdd",
+    path: "/group-edit/:id/:isAddPerson",
     name: "GroupEdit",
     meta: {
       hide: false,
@@ -74,7 +74,15 @@ const routes = [
       icon: "", //change icon, I'm not sure what they all are
       roles: [],
     },
-    props: true,
+    props(route) {
+      const props = { ...route.params };
+      props.id = +props.id;
+      if (typeof props.isAddPerson === typeof "") {
+        props.isAddPerson = props.isAddPerson == "true";
+      }
+
+      return props;
+    },
     component: () => import (/**/ "@/views/edit/GroupEdit.vue"),
     // props(route) {
     //   const props = { ...route.params };

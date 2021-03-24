@@ -25,6 +25,10 @@
         <v-expansion-panel-header>
           {{ group.name }}
         </v-expansion-panel-header>
+        <v-btn icon @click="edit(group.id)">
+
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
         <v-expansion-panel-content v-for="(person, i) in group.people" :key="i">
           {{ person.fullName() }}
         </v-expansion-panel-content>
@@ -49,11 +53,15 @@ export default {
       search: "",
     };
   },
-  // computed: {
-  // 	filteredData() {
-
-  // 	}
-  // },
+  methods: {
+    edit(groupId) {
+      console.log("edit page")
+      this.$router.push({
+        name:"GroupEdit",
+        params: {id: groupId, isAddPerson: true},
+      });
+    },
+  },
   mounted() {
     GroupService.getAll().then(response => {
       response.data.data.forEach(element => {

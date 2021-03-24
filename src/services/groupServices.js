@@ -5,6 +5,10 @@ class GroupService {
     return Vue.axios.get("/group");
   }
 
+  getOne(id) {
+    return Vue.axios.get(`/group/${id}`);
+  }
+
   getAllPeople(id) {
     return Vue.axios.get(`/group/${id}`);
   }
@@ -15,6 +19,10 @@ class GroupService {
 
   udpate(id, data) {
     return Vue.axios.put(`/group/${id}`, data);
+  }
+
+  add(id, data) {
+    return Vue.axios.post(`/group/${id}`, data);
   }
 
   delete(id) {
