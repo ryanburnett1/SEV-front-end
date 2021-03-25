@@ -28,7 +28,7 @@
           @change="emitSelectionChanged"
         >
           <v-list-item
-            :value="item"
+            :value="item.id"
             :key="item.id"
             active-class="accent--text text--accent-4"
           >
@@ -39,6 +39,15 @@
 
               <v-list-item-content>
                 <v-list-item-title
+                  v-if="isGroup"
+                  v-html="item.name"
+                ></v-list-item-title>
+                <v-list-item-title
+                  v-if="isFamily"
+                  v-html="item.name"
+                ></v-list-item-title>
+                <v-list-item-title
+                  v-else
                   v-html="item.preferredFullName()"
                 ></v-list-item-title>
                 <v-list-item-subtitle v-html="'other'"></v-list-item-subtitle>
@@ -62,9 +71,21 @@
 export default {
   props: {
     people: Array,
+    previousSelection: {
+      type: Array,
+      default: () => [],
+    },
     maxHeight: {
       type: Number,
       default: 600,
+    },
+    isGroup: {
+      type: Boolean,
+      default: false,
+    },
+    isFamily: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -84,7 +105,7 @@ export default {
         let selected = [];
         if (value) {
           this.people.forEach(person => {
-            selected.push(person);
+            selected.push(person.id);
           });
         }
 
@@ -98,7 +119,13 @@ export default {
       this.$emit("onSelectionChanged", event);
     },
   },
-  mounted() {},
+  watch: {
+    // change current selection to match old
+    previousSelection: function(newVal) {
+      // console.log("Prop changed: ", newVal, " | old: ", oldVal);
+      this.selected = newVal;
+    },
+  },
 };
 </script>
 

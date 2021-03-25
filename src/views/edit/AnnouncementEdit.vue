@@ -44,6 +44,7 @@
               max-width="38%"
               max-height="38%"
               persistent
+              fullscreen
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -168,12 +169,17 @@
                     </v-row>
                     <v-row>
                       <v-col>
-                        <MemberSelectionList
+                        <SelectionListMenu
+                          :people="members"
+                          :previousSelection="editedItem.person"
+                          @onSelectionChanged="editedItem.person = $event"
+                        ></SelectionListMenu>
+                        <!-- <MemberSelectionList
                           :people="members"
                           @onSelectionChanged="
                             selectedMembers = $event.map(member => member.id)
                           "
-                        />
+                        /> -->
                       </v-col>
                     </v-row>
                   </v-container>
@@ -229,15 +235,17 @@
 <script>
 import RESTService from "@/services/restServices";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-import MemberSelectionList from "@/components/MemberSelectionList.vue";
+// import MemberSelectionList from "@/components/MemberSelectionList.vue";
 import Person from "@/models/person.model";
+import SelectionListMenu from "../../components/SelectionListMenu.vue";
 
 export default {
   props: [],
   components: {
     ValidationObserver,
     ValidationProvider,
-    MemberSelectionList,
+    // MemberSelectionList,
+    SelectionListMenu,
   },
   data() {
     return {
@@ -255,6 +263,9 @@ export default {
         sent: false,
         email: false,
         sms: false,
+        person: [],
+        group: [],
+        family: [],
         announcementDate: new Date(),
         expirationDate: new Date(),
       },
@@ -267,6 +278,9 @@ export default {
         sent: false,
         email: false,
         sms: false,
+        person: [],
+        group: [],
+        family: [],
         announcementDate: new Date(),
         expirationDate: new Date(),
       },
@@ -290,9 +304,6 @@ export default {
       members: [],
       groups: [],
       families: [],
-      selectedMembers: [],
-      selectedGroups: [],
-      selectedFamilies: [],
     };
   },
   computed: {
@@ -430,34 +441,34 @@ export default {
         ).then(() => {
           // update people
           RESTService.put(`announcement/${announcement.id}/people`, {
-            ids: this.selectedMembers,
+            ids: announcement.person,
           });
-          // update groups
-          RESTService.put(`announcement/${announcement.id}/groups`, {
-            ids: this.selectedGroups,
-          });
-          // update families
-          RESTService.put(`announcement/${announcement.id}/families`, {
-            ids: this.selectedFamilies,
-          });
+          // // update groups
+          // RESTService.put(`announcement/${announcement.id}/groups`, {
+          //   ids: this.selectedGroups,
+          // });
+          // // update families
+          // RESTService.put(`announcement/${announcement.id}/families`, {
+          //   ids: this.selectedFamilies,
+          // });
         });
       } else {
         // create new announcement
         RESTService.create("/announcement", this.editedItem).then(response => {
-          let annId = response.data.data.id;
+          // let annId = response.data.data.id;
           this.editedItem.id = response.data.data.id;
           // update people
-          RESTService.put(`announcement/${annId}/people`, {
-            ids: this.selectedMembers,
+          RESTService.put(`announcement/${this.editedItem.id}/people`, {
+            ids: this.editedItem.person,
           });
-          // update groups
-          RESTService.put(`announcement/${annId}/groups`, {
-            ids: this.selectedGroups,
-          });
-          // update families
-          RESTService.put(`announcement/${annId}/families`, {
-            ids: this.selectedFamilies,
-          });
+          // // update groups
+          // RESTService.put(`announcement/${annId}/groups`, {
+          //   ids: this.selectedGroups,
+          // });
+          // // update families
+          // RESTService.put(`announcement/${annId}/families`, {
+          //   ids: this.selectedFamilies,
+          // });
         });
 
         this.dbAnnouncementList.push(this.editedItem); // add to local array to display/edit
@@ -483,9 +494,15 @@ export default {
       response.data.data.forEach(announcement => {
         announcement.announcementDate = new Date(announcement.announcementDate);
         announcement.expirationDate = new Date(announcement.expirationDate);
-      });
 
-      this.dbAnnouncementList = response.data.data;
+        // get ids for selection
+        announcement.person = announcement.person.map(p => p.id);
+        announcement.family = announcement.family.map(p => p.id);
+        announcement.group = announcement.group.map(p => p.id);
+
+        this.dbAnnouncementList.push(announcement);
+      });
+      // this.dbAnnouncementList = response.data.data;
     });
 
     RESTService.getAll("/person").then(response => {
