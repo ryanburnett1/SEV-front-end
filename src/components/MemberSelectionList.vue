@@ -37,20 +37,26 @@
                 <v-img :src="item.picture"></v-img>
               </v-list-item-avatar>
 
-              <v-list-item-content>
+              <!-- <v-list-item-subtitle v-html="'other'">
+              </v-list-item-subtitle> -->
+
+              <v-list-item-content v-if="isGroup">
+                <v-list-item-title v-html="item.name"></v-list-item-title>
+                <v-list-item-subtitle>{{
+                  getGroupMembers(item)
+                }}</v-list-item-subtitle>
+              </v-list-item-content>
+
+              <v-list-item-content v-else-if="isFamily">
+                <v-list-item-title v-html="item.name"></v-list-item-title>
+                <v-list-item-subtitle>{{
+                  getGroupMembers(item)
+                }}</v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-content v-else>
                 <v-list-item-title
-                  v-if="isGroup"
-                  v-html="item.name"
-                ></v-list-item-title>
-                <v-list-item-title
-                  v-if="isFamily"
-                  v-html="item.name"
-                ></v-list-item-title>
-                <v-list-item-title
-                  v-else
                   v-html="item.preferredFullName()"
                 ></v-list-item-title>
-                <v-list-item-subtitle v-html="'other'"></v-list-item-subtitle>
               </v-list-item-content>
 
               <v-list-item-action>
@@ -68,6 +74,8 @@
 </template>
 
 <script>
+import Person from "@/models/person.model";
+
 export default {
   props: {
     people: Array,
@@ -115,6 +123,14 @@ export default {
     },
   },
   methods: {
+    getGroupMembers(group) {
+      console.log(new Person());
+      if (this.isGroup)
+        return group.person
+          .map(p => new Person(p).preferredFullName())
+          .toString();
+      return "";
+    },
     emitSelectionChanged(event) {
       this.$emit("onSelectionChanged", event);
     },
@@ -125,6 +141,9 @@ export default {
       // console.log("Prop changed: ", newVal, " | old: ", oldVal);
       this.selected = newVal;
     },
+  },
+  mounted() {
+    console.log(this.people);
   },
 };
 </script>

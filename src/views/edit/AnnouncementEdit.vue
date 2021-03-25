@@ -174,6 +174,18 @@
                           :previousSelection="editedItem.person"
                           @onSelectionChanged="editedItem.person = $event"
                         ></SelectionListMenu>
+                        <SelectionListMenu
+                          :people="groups"
+                          :previousSelection="editedItem.group"
+                          group
+                          @onSelectionChanged="editedItem.group = $event"
+                        ></SelectionListMenu>
+                        <SelectionListMenu
+                          :people="families"
+                          family
+                          :previousSelection="editedItem.family"
+                          @onSelectionChanged="editedItem.family = $event"
+                        ></SelectionListMenu>
                         <!-- <MemberSelectionList
                           :people="members"
                           @onSelectionChanged="
@@ -439,36 +451,32 @@ export default {
           announcement.id,
           announcement
         ).then(() => {
-          // update people
+          // update people, groups, and family for announcement
           RESTService.put(`announcement/${announcement.id}/people`, {
             ids: announcement.person,
           });
-          // // update groups
-          // RESTService.put(`announcement/${announcement.id}/groups`, {
-          //   ids: this.selectedGroups,
-          // });
-          // // update families
-          // RESTService.put(`announcement/${announcement.id}/families`, {
-          //   ids: this.selectedFamilies,
-          // });
+          RESTService.put(`announcement/${announcement.id}/groups`, {
+            ids: announcement.group,
+          });
+          RESTService.put(`announcement/${announcement.id}/families`, {
+            ids: announcement.family,
+          });
         });
       } else {
         // create new announcement
         RESTService.create("/announcement", this.editedItem).then(response => {
-          // let annId = response.data.data.id;
           this.editedItem.id = response.data.data.id;
-          // update people
+
+          // update people, groups, and family for announcement
           RESTService.put(`announcement/${this.editedItem.id}/people`, {
             ids: this.editedItem.person,
           });
-          // // update groups
-          // RESTService.put(`announcement/${annId}/groups`, {
-          //   ids: this.selectedGroups,
-          // });
-          // // update families
-          // RESTService.put(`announcement/${annId}/families`, {
-          //   ids: this.selectedFamilies,
-          // });
+          RESTService.put(`announcement/${this.editedItem.id}/group`, {
+            ids: this.editedItem.group,
+          });
+          RESTService.put(`announcement/${this.editedItem.id}/families`, {
+            ids: this.editedItem.family,
+          });
         });
 
         this.dbAnnouncementList.push(this.editedItem); // add to local array to display/edit
@@ -507,6 +515,12 @@ export default {
 
     RESTService.getAll("/person").then(response => {
       this.members = response.data.data.map(p => new Person(p));
+    });
+    RESTService.getAll("/group").then(response => {
+      this.groups = response.data.data;
+    });
+    RESTService.getAll("/family").then(response => {
+      this.families = response.data.data;
     });
   },
 };
