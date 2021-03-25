@@ -39,7 +39,12 @@
               outlined
             ></v-text-field>
             <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="38%" max-height="38%">
+            <v-dialog
+              v-model="dialog"
+              max-width="38%"
+              max-height="38%"
+              persistent
+            >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   color="primary"
@@ -294,6 +299,16 @@ export default {
         {
           text: "Draft",
           value: "draft",
+          selection: this.checkboxFormatter,
+        },
+        {
+          text: "Will Send Email",
+          value: "email",
+          selection: this.checkboxFormatter,
+        },
+        {
+          text: "Will Send SMS",
+          value: "sms",
           selection: this.checkboxFormatter,
         },
         // {
