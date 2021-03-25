@@ -100,10 +100,25 @@
                       </v-col>
                     </v-row>
                     <v-row>
-                      <v-col cols="6" xl="6" lg="6" md="6" sm="6" xs="6">
+                      <v-col cols="4" xl="4" lg="4" md="4" sm="4" xs="4">
                         <v-switch
+                          color="success"
                           v-model="editedItem.draft"
                           label="Mark as draft"
+                        ></v-switch>
+                      </v-col>
+                      <v-col cols="4" xl="4" lg="4" md="4" sm="4" xs="4">
+                        <v-switch
+                          color="success"
+                          v-model="editedItem.email"
+                          label="Send Email"
+                        ></v-switch>
+                      </v-col>
+                      <v-col cols="4" xl="4" lg="4" md="4" sm="4" xs="4">
+                        <v-switch
+                          color="success"
+                          v-model="editedItem.sms"
+                          label="Send SMS"
                         ></v-switch>
                       </v-col>
                       <!-- <v-col cols="6" xl="6" lg="6" md="6" sm="6" xs="6">
@@ -219,7 +234,9 @@ export default {
         description: "",
         draft: false,
         reoccuring: false,
-        hidden: false,
+        sent: false,
+        email: false,
+        sms: false,
         announcementDate: new Date(),
         expirationDate: new Date(),
       },
@@ -229,7 +246,9 @@ export default {
         description: "",
         draft: false,
         reoccuring: false,
-        hidden: false,
+        sent: false,
+        email: false,
+        sms: false,
         announcementDate: new Date(),
         expirationDate: new Date(),
       },
