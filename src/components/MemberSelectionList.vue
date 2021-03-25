@@ -14,32 +14,32 @@
         ></v-checkbox>
       </v-toolbar-items>
     </v-toolbar>
-    <v-list
-      subheader
-      two-line
+    <v-virtual-scroll
+      :items="people"
+      item-height="77"
+      :height="people.length * 77"
       :max-height="isScroll ? maxHeight : ''"
       :class="isScroll ? 'overflow-y-auto' : ''"
     >
-      <v-list-item-group
-        multiple
-        v-model="selected"
-        @change="emitSelectionChanged"
-      >
-        <template v-for="(person, index) in people">
-          <v-divider :key="`divider-${index}`"></v-divider>
+      <template v-slot="{ item }">
+        <v-list-item-group
+          multiple
+          v-model="selected"
+          @change="emitSelectionChanged"
+        >
           <v-list-item
-            :key="`item-${index}`"
-            :value="person"
+            :value="item"
+            :key="item.id"
             active-class="accent--text text--accent-4"
           >
             <template v-slot:default="{ active }">
               <v-list-item-avatar rounded size="60">
-                <v-img :src="person.picture"></v-img>
+                <v-img :src="item.picture"></v-img>
               </v-list-item-avatar>
 
               <v-list-item-content>
                 <v-list-item-title
-                  v-html="person.preferredFullName()"
+                  v-html="item.preferredFullName()"
                 ></v-list-item-title>
                 <v-list-item-subtitle v-html="'other'"></v-list-item-subtitle>
               </v-list-item-content>
@@ -52,9 +52,9 @@
               </v-list-item-action>
             </template>
           </v-list-item>
-        </template>
-      </v-list-item-group>
-    </v-list>
+        </v-list-item-group>
+      </template>
+    </v-virtual-scroll>
   </v-card>
 </template>
 
