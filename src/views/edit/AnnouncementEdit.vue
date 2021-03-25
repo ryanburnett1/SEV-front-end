@@ -166,6 +166,16 @@
                       </v-col> -->
                       </v-col>
                     </v-row>
+                    <v-row>
+                      <v-col>
+                        <MemberSelectionList
+                          :people="members"
+                          @onSelectionChanged="
+                            selectedMembers = $event.map(member => member.id)
+                          "
+                        />
+                      </v-col>
+                    </v-row>
                   </v-container>
                 </v-card-text>
 
@@ -219,12 +229,15 @@
 <script>
 import RESTService from "@/services/restServices";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
+import MemberSelectionList from "@/components/MemberSelectionList.vue";
+import Person from "@/models/person.model";
 
 export default {
   props: [],
   components: {
     ValidationObserver,
     ValidationProvider,
+    MemberSelectionList,
   },
   data() {
     return {
@@ -273,6 +286,13 @@ export default {
         min: new Date(new Date().valueOf() - 1000 * 60 * 60 * 24).toISOString(), // must be iso string for this part | gets yesterdays day so picker can select today
         "no-title": true,
       },
+
+      members: [],
+      groups: [],
+      families: [],
+      selectedMembers: [],
+      selectedGroups: [],
+      selectedFamilies: [],
     };
   },
   computed: {
@@ -403,11 +423,41 @@ export default {
         let announcement = this.dbAnnouncementList[this.editedIndex];
         Object.assign(announcement, this.editedItem);
 
-        RESTService.update("/announcement/", announcement.id, announcement);
+        RESTService.update(
+          "/announcement/",
+          announcement.id,
+          announcement
+        ).then(() => {
+          // update people
+          RESTService.put(`announcement/${announcement.id}/people`, {
+            ids: this.selectedMembers,
+          });
+          // update groups
+          RESTService.put(`announcement/${announcement.id}/groups`, {
+            ids: this.selectedGroups,
+          });
+          // update families
+          RESTService.put(`announcement/${announcement.id}/families`, {
+            ids: this.selectedFamilies,
+          });
+        });
       } else {
         // create new announcement
         RESTService.create("/announcement", this.editedItem).then(response => {
+          let annId = response.data.data.id;
           this.editedItem.id = response.data.data.id;
+          // update people
+          RESTService.put(`announcement/${annId}/people`, {
+            ids: this.selectedMembers,
+          });
+          // update groups
+          RESTService.put(`announcement/${annId}/groups`, {
+            ids: this.selectedGroups,
+          });
+          // update families
+          RESTService.put(`announcement/${annId}/families`, {
+            ids: this.selectedFamilies,
+          });
         });
 
         this.dbAnnouncementList.push(this.editedItem); // add to local array to display/edit
@@ -436,6 +486,10 @@ export default {
       });
 
       this.dbAnnouncementList = response.data.data;
+    });
+
+    RESTService.getAll("/person").then(response => {
+      this.members = response.data.data.map(p => new Person(p));
     });
   },
 };
