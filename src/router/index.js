@@ -118,6 +118,19 @@ const routes = [
   //     import(/* webpackChunkName: "home" */ "@/views/GroupType.vue"),
   // },
   {
+    path: "/family-view/:id",
+    name: "FamilyView",
+    meta: {
+      hide: true,
+      requiresAuth: true, // can change to true later or use ternary now
+      icon: "",
+      roles: [],
+    },
+    props: true,
+    component: () =>
+      import(/* webpackChunkName: "directory" */ "@/views/Family.vue"),
+  },
+  {
     path: "/member-view/:id",
     name: "MemberView",
     meta: {

@@ -3,7 +3,7 @@
     <v-row class="ma-2 pa-2" justify="center">
       <v-card flat width="100%">
         <v-img
-          :src="familyPicture"
+          :src="family.getPicturePath()"
           :lazy-src="require('@/assets/images/placeholder_gray.png')"
           class="align-end"
           max-height="45vh"
@@ -67,7 +67,7 @@
         </v-container>
       </v-card>
     </v-row>
-    <v-row class="ma-2 pa-2" justify="center" v-if="family.length > 0">
+    <v-row class="ma-2 pa-2" justify="center" v-if="familyCardArr.length > 0">
       <v-card width="100%" tile>
         <v-card-actions>
           <v-card-title>Family:</v-card-title>
@@ -85,14 +85,14 @@
         <v-divider></v-divider>
         <v-container fluid>
           <v-row no-gutters>
-            <v-col cols="6" v-for="(familyPerson, i) in family" :key="i">
+            <v-col cols="6" v-for="person in familyCardArr" :key="person.id">
               <v-hover v-slot="{ hover }">
                 <v-card
                   :elevation="hover ? 6 : 0"
                   @click="
                     $router.push({
                       name: 'MemberView',
-                      params: { id: familyPerson.id },
+                      params: { id: person.id },
                     })
                   "
                   style="border-radius: 0"
@@ -102,7 +102,7 @@
                       <v-col cols="3">
                         <v-avatar color="primary">
                           <v-img
-                            :src="familyPerson.getPicturePath()"
+                            :src="person.getPicturePath()"
                             :lazy-src="
                               require('@/assets/images/placeholder_gray.png')
                             "
@@ -111,7 +111,7 @@
                       </v-col>
                       <v-col>
                         <v-card-text>{{
-                          familyPerson.preferredFullName()
+                          person.preferredFullName()
                         }}</v-card-text>
                       </v-col>
                     </v-row>
@@ -131,9 +131,10 @@
 import Person from "@/models/person.model";
 import User from "@/models/user.model";
 import MemberService from "@/services/memberServices";
-import rest from "@/services/restServices";
 import UserService from "@/services/userServices";
 import AdminFab from "@/components/AdminFab.vue";
+import Family from "@/models/family.model";
+import RestService from "@/services/restServices";
 
 export default {
   props: ["id"],
@@ -144,9 +145,8 @@ export default {
     return {
       user: new User(),
       person: new Person(),
-      family: [],
-      familyId: 0,
-      familyPicture: "",
+      family: new Family(),
+      familyCardArr: [],
     };
   },
   computed: {},
@@ -158,7 +158,10 @@ export default {
       });
     },
     gotoFamilyPage() {
-      console.log("Family ID: ", this.familyId);
+      this.$router.push({
+        name: 'FamilyView', 
+        params:{id: this.family.id}})
+
     },
   },
   mounted() {
@@ -168,27 +171,12 @@ export default {
 
       // if person has a family add them for easy of navigation
       if (this.person.family) {
-        // find which family has the same lastname of this.person
-        let relatives = this.person.family.filter(
-          family => family.name == this.person.lastName
-        )[0];
-        this.familyId = relatives.id;
-        this.familyPicture = relatives.picture;
-
-        // get the members of the family from db
-        rest.get("/family/", relatives.id).then(response => {
-          let familyMembers = response.data.data.person; //get the whole family
-
-          //remove this.person from array
-          familyMembers = familyMembers.filter(
-            member => member.id !== this.person.id
-          );
-
-          // add family memebers to this.family to display
-          familyMembers.forEach(relative => {
-            this.family.push(new Person(relative));
-          });
+        RestService.get("/family/", this.person.family[0].id).then(res => {
+          this.family = new Family(res.data.data);
+          this.family.person.forEach(element => {
+            element.id != this.person.id ? this.familyCardArr.push(new Person(element)) : null;
         });
+        })
       }
     });
 
