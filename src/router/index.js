@@ -118,6 +118,40 @@ const routes = [
   //     import(/* webpackChunkName: "home" */ "@/views/GroupType.vue"),
   // },
   {
+    path: "/family-view/:id",
+    name: "FamilyView",
+    meta: {
+      hide: true,
+      requiresAuth: true, // can change to true later or use ternary now
+      icon: "",
+      roles: [],
+    },
+    props: true,
+    component: () =>
+      import(/* webpackChunkName: "directory" */ "@/views/Family.vue"),
+  },
+  {
+    path: "/family-edit/:id/:isAdd",
+    name: "FamilyEdit",
+    meta: {
+      hide: true,
+      requiresAuth: true,
+      icon: "",
+      roles: [],
+    },
+    props(route) {
+      const props = { ...route.params };
+      props.id = +props.id;
+      if (typeof props.isAdd === typeof "") {
+        props.isAdd = props.isAdd == "true";
+      }
+
+      return props;
+    },
+    component: () =>
+      import(/* webpackChunkName: "directory" */ "@/views/edit/FamilyEdit.vue"),
+  },
+  {
     path: "/member-view/:id",
     name: "MemberView",
     meta: {
@@ -187,6 +221,21 @@ const routes = [
       return props;
     },
     component: () => import(/**/ "@/views/edit/RelationshipsEdit.vue"),
+  },
+  {
+    path: "/announcement-edit/",
+    name: "AnnouncementEdit",
+    meta: {
+      hide: true,
+      requiresAuth: true,
+      icon: "mdi-calendar-clock",
+      roles: ["Admin"],
+    },
+    props(route) {
+      const props = { ...route.params };
+      return props;
+    },
+    component: () => import(/**/ "@/views/edit/AnnouncementEdit.vue"),
   },
   {
     path: "/password-reset/:id/:token",

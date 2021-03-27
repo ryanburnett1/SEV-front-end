@@ -16,7 +16,7 @@
           ></v-img>
           <upload-pic @onFileSelected="picture = $event" ref="picker" />
           <v-row>
-            <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
+            <v-col cols="12" xl="5" lg="5" md="5" sm="5" xs="12">
               <v-text-field
                 v-model="person.title"
                 color="secondary"
@@ -24,7 +24,7 @@
                 type="text"
               ></v-text-field>
             </v-col>
-            <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
+            <v-col cols="12" xl="5" lg="5" md="5" sm="5" xs="10">
               <v-select
                 v-model="person.marital_status"
                 color="secondary"
@@ -32,6 +32,14 @@
                 label="Marital Status"
                 :items="person.maritalStatusOptions()"
               ></v-select>
+            </v-col>
+            <v-col cols="12" xl="2" lg="2" md="2" sm="2" xs="2">
+              <v-switch
+                v-model="person.receiveAnnouncements"
+                inset
+                color="success"
+                label="Receive Email/SMS announcements"
+              ></v-switch>
             </v-col>
           </v-row>
           <v-row>
@@ -241,27 +249,9 @@ export default {
       this.$router.back();
     },
     async save() {
-      // get image to upload to db - going to change after @burnett1 changes backend code
-      let picker = this.$refs.picker;
-      if (picker.selectedFile) {
-        const formData = new FormData();
-        formData.append("file", picker.selectedFile); // appending file
-
-        await MemberService.uploadImage(formData)
-          .then(res => {
-            this.person.picture =
-              process.env.VUE_APP_IMAGE_PATH + res.data.data.name;
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
-
-      console.log(this.person.picture);
-
-      // add new person
       if (this.isAdd) {
-        MemberService.create(this.person)
+        // Add person
+        await MemberService.create(this.person)
           .then(response => {
             this.$refs.skillSelect.updatePersonSkill(response.data.data.id);
             this.user.person = response.data.data;
@@ -282,8 +272,9 @@ export default {
             console.log("Failed to create new Person: ", err);
           });
       } else {
-        // edit person
-        MemberService.update(this.id, this.person)
+        // Edit person
+        console.log(this.person);
+        await MemberService.update(this.id, this.person)
           .then(() => {
             this.$refs.skillSelect.updatePersonSkill(this.id); // add/remove skills to person
 
@@ -300,6 +291,16 @@ export default {
             console.log("Update Person Failed: ", err);
           });
       }
+      let selectedFile = this.$refs.picker.selectedFile;
+      if (selectedFile) {
+        await MemberService.uploadImage(this.user.personId, selectedFile)
+          .then(res => {
+            console.log("Upload image resolved", res);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     },
   },
   mounted() {
@@ -311,7 +312,7 @@ export default {
       });
       MemberService.get(this.id).then(response => {
         this.person = new Person(response.data.data);
-        this.picture = this.person.picture;
+        this.picture = this.person.getPicturePath();
         this.loading = false; // hack for v-select
       });
 

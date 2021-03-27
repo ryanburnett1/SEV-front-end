@@ -4,11 +4,13 @@ class Group {
   id = null;
   name = null;
   people = [];
+  picture = null;
 
   constructor(group) {
     if (group) {
       this.id = group.id;
       this.name = group.name;
+      this.picture = group.picture;
       group.person.forEach(person => {
         this.people.push(new Person(person));
       });
@@ -28,6 +30,12 @@ class Group {
     return this.people.map(x => x.id);
     //what will our role index be for group leader?
     //return person_arr[leader_index];
+  }
+
+  getPicturePath() {
+    if (this.picture == "") return "no-image";
+    if (this.picture == "RANDOM") return "https://picsum.photos/300?random";
+    return process.env.VUE_APP_IMAGE_PATH + this.picture;
   }
 }
 

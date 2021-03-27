@@ -10,6 +10,24 @@
       ></v-text-field>
     </v-row>
     <v-col>
+      <v-row align="center" justify="center">
+        <v-btn-toggle
+          v-model="showFamilies"
+          rounded
+          mandatory
+          group
+          @change="checkPerPage"
+        >
+          <v-btn :value="true">
+            Families
+          </v-btn>
+          <v-btn :value="false">
+            People
+          </v-btn>
+        </v-btn-toggle>
+      </v-row>
+    </v-col>
+    <v-col>
       <v-row>
         <v-col>
           <v-text-field
@@ -37,7 +55,7 @@
             @change="checkPerPage"
           ></v-select>
         </v-col>
-        <v-col>
+        <!-- <v-col>
           <v-select
             v-model="showFamilies"
             color="secondary"
@@ -53,7 +71,7 @@
             prefix="Display As Families: "
             @change="checkPerPage"
           ></v-select>
-        </v-col>
+        </v-col> -->
         <v-col>
           <v-select
             v-model="statusFilter"
@@ -230,6 +248,7 @@ export default {
     },
     // below functions ensure correct data for input fields
     checkPerPage() {
+      console.log("check per page called");
       this.pageNumber = 1;
     },
     checkGoto() {

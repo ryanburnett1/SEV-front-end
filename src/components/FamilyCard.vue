@@ -14,7 +14,7 @@
         <v-skeleton-loader type="image" class="px-4 pt-4">
           <v-avatar size="150" color="primary">
             <v-img
-              :src="family.picture"
+              :src="family.getPicturePath()"
               :lazy-src="require('@/assets/images/placeholder_gray.png')"
             >
             </v-img>

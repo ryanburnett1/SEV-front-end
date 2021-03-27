@@ -13,7 +13,7 @@ class GroupService {
     return Vue.axios.post("/group", data);
   }
 
-  udpate(id, data) {
+  update(id, data) {
     return Vue.axios.put(`/group/${id}`, data);
   }
 
