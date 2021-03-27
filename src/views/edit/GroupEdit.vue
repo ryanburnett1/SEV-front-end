@@ -11,14 +11,7 @@
             </v-row>
             <v-row>
                 <v-col v-for="(person, i) in people" :key="i">
-                    <v-image
-                        max-height="100"
-                        class="mb-2"
-                        :src="picture"
-                        :lazy-src="require('@/assets/images/placeholder_gray.png')"
-                        contain
-                        ></v-image>
-                        <upload-pic @onFileSelected="picture = $event" ref="picker" />
+                    {{person.fullname}}
                 </v-col>
             </v-row>
         </v-card>
@@ -53,7 +46,7 @@ export default {
         },
         data() {
             return {
-                picture: "", 
+                //picture: "", 
                 loading: true,
                 group: new Group(this.group),
                 
