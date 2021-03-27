@@ -7,11 +7,19 @@ class Group {
 
   constructor(group) {
     if (group) {
+      console.log("group constructor");
+      console.log(group);
       this.id = group.id;
       this.name = group.name;
       group.person.forEach(person => {
         this.people.push(new Person(person));
       });
+    }
+    else{
+      console.log("something???");
+      this.id = null;
+      this.name = null;
+      this.people = [];
     }
   }
 
