@@ -65,6 +65,17 @@ const routes = [
     props: true,
     component: () => import(/**/ "@/views/Group.vue"),
   },
+  {
+    path: "/events",
+    name: "Events",
+    meta: {
+      hide: false,
+      requiresAuth: false,
+      icon: "",
+      roles: [],
+    },
+    component: () => import(/**/ "@/views/Events.vue"),
+  },
   // {
   //   path: "/group-edit:/id/:isAdd",
   //   name: "GroupEdit",
