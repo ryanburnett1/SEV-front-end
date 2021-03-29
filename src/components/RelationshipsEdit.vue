@@ -8,7 +8,6 @@
 
 <script>
 import Person from "@/models/person.model";
-//import Person from "@/models/person.model";
 
 export default {
   props: {

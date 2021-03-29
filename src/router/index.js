@@ -206,23 +206,6 @@ const routes = [
     component: () => import(/**/ "@/views/edit/SkillEdit.vue"),
   },
   {
-    path: "/relationships-edit/:id/",
-    name: "RelationshipsEdit",
-    meta: {
-      hide: true,
-      requiresAuth: true,
-      icon: "",
-      roles: [],
-    },
-    props(route) {
-      const props = { ...route.params };
-      props.id = +props.id;
-
-      return props;
-    },
-    component: () => import(/**/ "@/views/edit/RelationshipsEdit.vue"),
-  },
-  {
     path: "/announcement-edit/",
     name: "AnnouncementEdit",
     meta: {
