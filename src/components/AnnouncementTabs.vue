@@ -1,8 +1,8 @@
 <template>
   <v-tabs v-model="tab" color="secondary">
-    <v-tab v-if="familyId">Family</v-tab>
-    <v-tab v-if="groupId">Groups</v-tab>
-    <v-tab v-if="personId">Personal</v-tab>
+    <v-tab v-if="familyId != 0">Family</v-tab>
+    <v-tab v-if="groupId != 0">Groups</v-tab>
+    <v-tab v-if="personId != 0">Personal</v-tab>
 
     <v-tabs-items v-model="tab">
       <v-tab-item>
@@ -103,6 +103,7 @@
 import rest from "@/services/restServices";
 
 export default {
+  props: ["groupId", "personId", "familyId"],
   data() {
     return {
       tab: 0,
@@ -111,9 +112,6 @@ export default {
       familyAnnouncements: [],
       groupAnnouncements: [],
       personalAnnouncements: [],
-      groupId: 1,
-      familyId: 1,
-      personId: 1,
     };
   },
   computed: {

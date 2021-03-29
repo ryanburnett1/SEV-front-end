@@ -19,7 +19,11 @@
       </v-col>
     </v-row>
     <v-row>
-      <announcement-tabs personId="1" :groupId="1" :familyId="1" />
+      <announcement-tabs
+        :personId="$store.getters.getPersonId"
+        :groupId="$store.getters.getGroupId"
+        :familyId="$store.getters.getFamilyId"
+      />
     </v-row>
   </v-container>
 </template>
