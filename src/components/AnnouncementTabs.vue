@@ -2,14 +2,14 @@
   <v-tabs
     v-model="tab"
     color="secondary"
-    v-if="familyId || groupId || personId"
+    v-if="familyId > 0 || groupId > 0 || personId > 0"
   >
-    <v-tab v-if="familyId != 0">Family</v-tab>
-    <v-tab v-if="groupId != 0">Groups</v-tab>
-    <v-tab v-if="personId != 0">Personal</v-tab>
+    <v-tab v-if="familyAnnouncements.length > 0">Family</v-tab>
+    <v-tab v-if="groupAnnouncements.length > 0">Groups</v-tab>
+    <v-tab v-if="personalAnnouncements.length > 0">Personal</v-tab>
 
     <v-tabs-items v-model="tab">
-      <v-tab-item>
+      <v-tab-item v-if="familyAnnouncements.length > 0">
         <v-card flat>
           <v-virtual-scroll
             :items="familyAnnouncements"
@@ -39,7 +39,7 @@
           </v-virtual-scroll>
         </v-card>
       </v-tab-item>
-      <v-tab-item>
+      <v-tab-item v-if="groupAnnouncements.length > 0">
         <v-card flat>
           <v-virtual-scroll
             :items="groupAnnouncements"
@@ -69,7 +69,7 @@
           </v-virtual-scroll>
         </v-card>
       </v-tab-item>
-      <v-tab-item>
+      <v-tab-item v-if="personalAnnouncements.length > 0">
         <v-card flat>
           <v-virtual-scroll
             :items="personalAnnouncements"
@@ -141,15 +141,15 @@ export default {
     },
   },
   mounted() {
-    rest.get("/announcement/person/", this.groupId).then(res => {
+    rest.get("/announcement/person/", this.personId).then(res => {
       this.personalAnnouncements = res.data.data;
     });
 
-    rest.get("/announcement/group/", this.familyId).then(res => {
+    rest.get("/announcement/group/", this.groupId).then(res => {
       this.groupAnnouncements = res.data.data;
     });
 
-    rest.get("/announcement/family/", this.personId).then(res => {
+    rest.get("/announcement/family/", this.familyId).then(res => {
       this.familyAnnouncements = res.data.data;
     });
   },
