@@ -37,6 +37,20 @@
 					<v-card-title>Family Members:</v-card-title>
 				</v-card-actions>
 				<v-divider></v-divider>
+        <v-card-actions class="pl-0">
+          <v-card-title>Perspective from</v-card-title>
+          <v-select :items="persons">
+            <template v-slot:selection="{ item }">
+              <MemberSelectItem :person="item"></MemberSelectItem>
+            </template>
+            <template v-slot:item ="{ item }">
+              <MemberSelectItem :person="item"></MemberSelectItem>
+            </template>
+          </v-select>
+          <v-btn fab>
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+				</v-card-actions>
 				<v-container fluid>
 					<v-row no-gutters>
 						<v-col cols="6" v-for="person in persons" :key="person.id">
@@ -73,7 +87,7 @@
                         </v-row>
                         <v-row class="mt-0">
                           <v-card-subtitle class="ma-0 pa-1 pl-1">
-                              Brother of Bob
+                              Brother of [Person in Perspective]
                           </v-card-subtitle>
                         </v-row>
                         <v-row class="text-body-2 pl-4 pt-2">
@@ -103,15 +117,18 @@ import Person from "@/models/person.model";
 import Family from "@/models/family.model";
 import rest from "@/services/restServices";
 import AdminFab from "@/components/AdminFab.vue";
+import MemberSelectItem from "@/components/MemberSelectItem.vue";
 
 export default {
 	props: ["id"],
 	components: {
 		AdminFab,
+    MemberSelectItem,
 	},
 	data() {
 		return {
 			family: new Family(),
+      personInPerspective: new Person( {firstName: "Bob", lastName: "Guy"} ),
       persons: [],
 		};
 	},
