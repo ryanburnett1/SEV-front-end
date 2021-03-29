@@ -1,5 +1,9 @@
 <template>
-  <v-tabs v-model="tab" color="secondary">
+  <v-tabs
+    v-model="tab"
+    color="secondary"
+    v-if="familyId || groupId || personId"
+  >
     <v-tab v-if="familyId != 0">Family</v-tab>
     <v-tab v-if="groupId != 0">Groups</v-tab>
     <v-tab v-if="personId != 0">Personal</v-tab>
