@@ -42,7 +42,7 @@ class Person {
     return this.firstName + " " + this.lastName;
   }
 
-  preferredName() {
+  getPreferredName() {
     if (this.preferredName) {
       return this.preferredName;
     }
