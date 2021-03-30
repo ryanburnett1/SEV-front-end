@@ -1,24 +1,26 @@
 <template>
     <v-container>
         <v-card>
-            <v-row>
-                <v-text-field
-                    v-model="group.person"
-                    color="secondary"
-                    label="Group Leader"
-                    type="text"
-                ></v-text-field>
-            </v-row>
-            <v-row>
-                <v-col v-for="(person, i) in group.people" :key="i">
-                    {{person.fullName()}}
-                </v-col>
+            <v-row v-for="(person, i) in group.people" :key="i"
+            :align="align"
+            no-gutters
+            style="height: 100px;">
+                {{person.fullName()}}
+            <v-btn icon @click="deleteMember(i)">
+                <v-icon>mdi-trash-can</v-icon>
+            </v-btn>
             </v-row>
         </v-card>
+        <v-btn icon>
+        Add Member<v-icon>mdi-account-plus</v-icon>
+    </v-btn>
     </v-container>
+
 </template>
 
 <script>
+//what do we need to display in the group-edit/display?
+
 import Group from "@/models/group.model";
 //import Person from "@/models/person.model";
 import GroupService from "@/services/groupServices";
@@ -56,6 +58,14 @@ export default {
     methods: {
         cancel() {
             this.$router.back();
+        },
+        deleteMember(personId) {
+            console.log("deleting member: ", personId);
+            if(this.isAddPerson) {
+                console.log("please help God");
+                console.log("personId: ", personId);
+                GroupService.deletePeople(this.group.id, personId);
+            }//to delete group, update with an blank array of id's
         },
         async save() {
             let picker = this.$refs.picker;
@@ -110,7 +120,7 @@ export default {
       console.log("into mounted");
       if(this.isAddPerson) {
           console.log("before getOne()");
-          GroupService.getOne(this.group.id).then(response => {
+          GroupService.getOne(this.id).then(response => {
                   this.group = new Group(response.data.data);
                   console.log("this is working?");
                   console.log(this.group);

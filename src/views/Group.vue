@@ -70,8 +70,6 @@ export default {
         this.groups.push(group);
       });
     });
-    console.log("Groups array:", this.groups);
-    //Object.freeze(this.groups);
   },
 };
 </script>

@@ -17,9 +17,6 @@ class Group {
     }
     else{
       console.log("something???");
-      this.id = null;
-      this.name = null;
-      this.people = [];
     }
   }
 
