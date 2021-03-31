@@ -112,9 +112,10 @@ export default {
       set: function(value) {
         let selected = [];
         if (value) {
-          this.people.forEach(person => {
-            selected.push(person.id);
-          });
+          // this.people.forEach(person => {
+          //   selected.push(person.id);
+          // });
+          selected = this.people.map(p => p.id);
         }
 
         this.selected = selected;
@@ -124,7 +125,7 @@ export default {
   },
   methods: {
     getGroupMembers(group) {
-      console.log(new Person());
+      //console.log(new Person());
       if (this.isGroup)
         return group.person
           .map(p => new Person(p).preferredFullName())
@@ -137,13 +138,20 @@ export default {
   },
   watch: {
     // change current selection to match old
-    previousSelection: function(newVal) {
-      // console.log("Prop changed: ", newVal, " | old: ", oldVal);
-      this.selected = newVal;
+    // previousSelection: function(newVal, oldVal) {
+    //   console.log("Prop changed: ", newVal, " | old: ", oldVal);
+    //   this.selected = newVal;
+    // },
+    previousSelection: {
+      immediate: true,
+      handler(val, oldVal) {
+        console.log("Prop changed: ", val, " | old: ", oldVal);
+        this.selected = val;
+      },
     },
   },
   mounted() {
-    console.log(this.people);
+    //console.log(this.people);
   },
 };
 </script>

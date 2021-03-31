@@ -159,9 +159,9 @@ export default {
     },
     gotoFamilyPage() {
       this.$router.push({
-        name: 'FamilyView', 
-        params:{id: this.family.id}})
-
+        name: "FamilyView",
+        params: { id: this.family.id },
+      });
     },
   },
   mounted() {
@@ -174,9 +174,11 @@ export default {
         RestService.get("/family/", this.person.family[0].id).then(res => {
           this.family = new Family(res.data.data);
           this.family.person.forEach(element => {
-            element.id != this.person.id ? this.familyCardArr.push(new Person(element)) : null;
+            element.id != this.person.id
+              ? this.familyCardArr.push(new Person(element))
+              : null;
+          });
         });
-        })
       }
     });
 

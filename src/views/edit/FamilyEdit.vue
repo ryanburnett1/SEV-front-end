@@ -89,6 +89,78 @@
           ></v-text-field>
         </v-form>
         <v-divider></v-divider>
+        <v-row class="ma-2 pa-2" justify="center">
+          <v-card width="100%" tile>
+            <v-card-actions class="pl-0">
+              <v-card-title>Family Members:</v-card-title>
+              <v-spacer></v-spacer>
+              <selection-list-menu
+                label="Add or Remove Family Members"
+                :people="members"
+                :previousSelection="ids"
+                :doneCallback="test"
+                @onSelectionChanged="ids = $event"
+              ></selection-list-menu>
+            </v-card-actions>
+            <v-divider></v-divider>
+            <v-container fluid>
+              <v-row no-gutters>
+                <v-col cols="6" v-for="person in persons" :key="person.id">
+                  <v-hover v-slot="{ hover }">
+                    <v-card
+                      :elevation="hover ? 6 : 0"
+                      @click="
+                        $router.push({
+                          name: 'MemberView',
+                          params: { id: person.id },
+                        })
+                      "
+                      style="border-radius: 0"
+                    >
+                      <v-container fluid>
+                        <v-row>
+                          <v-col cols="2">
+                            <v-avatar color="primary">
+                              <v-img
+                                :src="person.getPicturePath()"
+                                :lazy-src="
+                                  require('@/assets/images/placeholder_gray.png')
+                                "
+                              ></v-img>
+                            </v-avatar>
+                          </v-col>
+                          <v-col class="ma-0 pa-0 pt-2 pl-4">
+                            <v-row>
+                              <v-card-title>
+                                <v-row>
+                                  {{ person.preferredFullName() }}
+                                </v-row>
+                              </v-card-title>
+                            </v-row>
+                            <v-row class="mt-0">
+                              <v-card-subtitle class="ma-0 pa-1 pl-1">
+                                Brother of Bob
+                              </v-card-subtitle>
+                            </v-row>
+                            <v-row class="text-body-2 pl-4 pt-2">
+                              <v-row v-if="person.address">
+                                Address: {{ person.address }}
+                              </v-row>
+                              <v-row v-else>
+                                No address is stored
+                              </v-row>
+                            </v-row>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                    </v-card>
+                  </v-hover>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card>
+        </v-row>
+        <v-divider></v-divider>
         <v-card-actions>
           <v-btn
             @click="save()"
@@ -115,9 +187,11 @@
 
 <script>
 import Family from "@/models/family.model";
+import Person from "@/models/person.model";
 import RestService from "@/services/restServices";
 import AdminFab from "@/components/AdminFab.vue";
 import UploadPic from "@/components/UploadPic.vue";
+import SelectionListMenu from "@/components/SelectionListMenu.vue";
 
 // used for field validation
 import { ValidationObserver, ValidationProvider } from "vee-validate";
@@ -136,6 +210,7 @@ export default {
     },
   },
   components: {
+    SelectionListMenu,
     AdminFab,
     UploadPic,
     ValidationObserver,
@@ -147,15 +222,33 @@ export default {
       loading: true, // hack for v-select due to async props
       family: new Family(), // empty person for isAdd
       emailTemp: "", // used for email validation - a correct email is critical for the system
+      persons: [],
+      members: [],
+      ids: [],
     };
   },
   methods: {
+    test(selection) {
+      this.ids = selection;
+      this.persons = this.members.filter((f) => selection.includes(f.id));
+    },
+    familyAddRemoveChange(selection) {
+      this.persons.forEach((e, i) => {
+        if (!selection.includes(e.id)) {
+          //console.log(true);
+          this.persons.splice(i, 1);
+        }
+        //console.log("For each person", e);
+      });
+      console.log("selected: ", selection);
+      //console.log(this.persons, selection);
+
+      // send ids to do things here
+    },
     cancel() {
       this.$router.back();
     },
     async save() {
-      
-
       console.log(this.family.picture);
 
       // add new person
@@ -183,7 +276,10 @@ export default {
         const formData = new FormData();
         formData.append("file", picker.selectedFile); // appending file
 
-        await RestService.create("/family/" + this.family.id + "/picture/", formData)
+        await RestService.create(
+          "/family/" + this.family.id + "/picture/",
+          formData
+        )
           .then(res => {
             console.log("Pic Uploaded", res);
           })
@@ -193,15 +289,23 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
+    RestService.getAll("/person/").then(res => {
+      this.members = res.data.data.map(p => new Person(p));
+    });
+
     if (!this.isAdd) {
       // get family info to edit
-      RestService.get("/family/", this.id).then(response => {
+      await RestService.get("/family/", this.id).then(response => {
         this.family = new Family(response.data.data);
         this.emailTemp = this.family.email;
         this.picture = this.family.getPicturePath();
         this.loading = false; // hack for v-select
       });
+      this.family.person.forEach(element => {
+        this.persons.push(new Person(element));
+      });
+      this.ids = this.family.person.map(p => p.id);
 
       // call validation after info has loaded
       this.$nextTick(() => {
