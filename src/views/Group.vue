@@ -26,7 +26,6 @@
           {{ group.name }}
         </v-expansion-panel-header>
         <v-btn icon @click="edit(group.id)">
-
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
         <v-expansion-panel-content v-for="(person, i) in group.people" :key="i">
@@ -55,10 +54,10 @@ export default {
   },
   methods: {
     edit(groupId) {
-      console.log("edit page")
+      console.log("edit page");
       this.$router.push({
-        name:"GroupEdit",
-        params: {id: groupId, isAddPerson: true},
+        name: "GroupEdit",
+        params: { id: groupId, isAddPerson: true },
       });
     },
   },

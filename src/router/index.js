@@ -83,7 +83,7 @@ const routes = [
 
       return props;
     },
-    component: () => import (/**/ "@/views/edit/GroupEdit.vue"),
+    component: () => import(/**/ "@/views/edit/GroupEdit.vue"),
     // props(route) {
     //   const props = { ...route.params };
     //   props.id = +props.id;

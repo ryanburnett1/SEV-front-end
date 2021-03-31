@@ -14,8 +14,7 @@ class Group {
       group.person.forEach(person => {
         this.people.push(new Person(person));
       });
-    }
-    else{
+    } else {
       console.log("something???");
     }
   }
