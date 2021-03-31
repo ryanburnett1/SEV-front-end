@@ -23,18 +23,12 @@ class Relationship {
 
   constructor(relationship) {
     if (relationship) {
-      // just take all variables from person json
-      // change later -- just got tired of all fields not showing
-      for (let v in relationship) {
-        if (relationship[v]) {
-          this[v] = relationship[v]; 
-        }
-      }
+      this.id = relationship.id;
+      this.type1 = relationship.type1;
+      this.type2 = relationship.type2;
+      this.person1Id = relationship.person1Id;
+      this.person2Id = relationship.person2Id;
     }
-  }
-
-  updateDate() {
-    this.updatedAt = Date.now();
   }
 
   sexOptions() {
