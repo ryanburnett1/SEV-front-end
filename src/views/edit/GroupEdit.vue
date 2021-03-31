@@ -6,7 +6,7 @@
             no-gutters
             style="height: 100px;">
                 {{person.fullName()}}
-            <v-btn icon @click="deleteMember(i)">
+            <v-btn icon @click="deleteMember([person.id])">
                 <v-icon>mdi-trash-can</v-icon>
             </v-btn>
             </v-row>
@@ -62,7 +62,6 @@ export default {
         deleteMember(personId) {
             console.log("deleting member: ", personId);
             if(this.isAddPerson) {
-                console.log("please help God");
                 console.log("personId: ", personId);
                 GroupService.deletePeople(this.group.id, personId);
             }//to delete group, update with an blank array of id's
