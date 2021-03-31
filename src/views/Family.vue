@@ -39,7 +39,11 @@
 				<v-divider></v-divider>
         <v-card-actions class="pl-0">
           <v-card-title>Perspective from</v-card-title>
-          <v-select :items="persons">
+          <v-select
+            :items="persons"
+            v-model="personInPerspective"
+            @change="loadRelationshipPerspective"
+            return-object>
             <template v-slot:selection="{ item }">
               <MemberSelectItem :person="item"></MemberSelectItem>
             </template>
@@ -53,7 +57,7 @@
 				</v-card-actions>
 				<v-container fluid>
 					<v-row no-gutters>
-						<v-col cols="6" v-for="person in persons" :key="person.id">
+						<v-col cols="6" v-for="person, index in persons" :key="person.id">
 							<v-hover v-slot="{ hover }">
 								<v-card
 									:elevation="hover ? 6 : 0"
@@ -87,7 +91,7 @@
                         </v-row>
                         <v-row class="mt-0">
                           <v-card-subtitle class="ma-0 pa-1 pl-1">
-                              Brother of [Person in Perspective]
+                              {{ relationships[index] }}
                           </v-card-subtitle>
                         </v-row>
                         <v-row class="text-body-2 pl-4 pt-2">
@@ -115,6 +119,7 @@
 <script>
 import Person from "@/models/person.model";
 import Family from "@/models/family.model";
+import Relationship from "@/models/relationship.model";
 import rest from "@/services/restServices";
 import AdminFab from "@/components/AdminFab.vue";
 import MemberSelectItem from "@/components/MemberSelectItem.vue";
@@ -130,6 +135,7 @@ export default {
 			family: new Family(),
       personInPerspective: new Person( {firstName: "Bob", lastName: "Guy"} ),
       persons: [],
+      relationships: [],
 		};
 	},
 	computed: {},
@@ -140,6 +146,52 @@ export default {
 				params: { id: this.id, isAdd: false },
 			});
 		},
+    async loadRelationshipPerspective() {
+      //reset relationships
+      let tempRels = [];
+      //get all relationships for the person
+      await rest.get(`person/${this.personInPerspective.id}/relationships`).then( response => {
+        let data = response.data.data;
+        if (data) {
+          for (let i = 0; i < data.length; i++) {
+            tempRels.push(new Relationship(data[i]));
+          }
+        }
+      });
+      console.log(tempRels);
+      //get family ids
+      let familyIds = this.persons.map(p => {
+        p.id;
+      });
+      //filter relationships that aren't in the family
+      tempRels.filter(r => {
+        familyIds.includes(r.person1Id) && familyIds.includes(r.person2Id);
+      });
+      //make the relationships array parallel to the persons array
+      this.relationships = [];
+      for (let i = 0; i < this.persons.length; i++) {
+        this.relationships.push("No relationship to " + this.personInPerspective.getPreferredName());
+      }
+      for (let i = 0; i < this.persons.length; i++) {
+        if (this.personInPerspective.id == this.persons[i].id) {
+          this.relationships[i] = "Selected Person";
+        } else {
+          let rel = tempRels.find(r => {
+            return this.persons[i].id == r.person1Id || this.persons[i].id == r.person2Id;
+          });
+          console.log("relationship for id of " + this.persons[i].id + " " + this.persons[i].preferredFullName());
+          console.log(rel);
+          if (rel) {
+            if (rel.person1Id == this.persons[i].id) {
+              this.relationships[i] = rel.type1 + " of " + this.personInPerspective.getPreferredName();
+            }
+            else if (rel.person2Id == this.persons[i].id) {
+              this.relationships[i] = rel.type2 + " of " + this.personInPerspective.getPreferredName();
+            }
+          }
+        }
+      }
+    }
 	},
 	async mounted() {
 		// get family by id prop
@@ -149,6 +201,13 @@ export default {
     this.family.person.forEach(element => {
       this.persons.push(new Person(element));
     });
+
+    //assign the person in perspective to be someone in the family
+    if (this.persons && this.persons.length > 0)
+      this.personInPerspective = this.persons[0];
+
+    //get the relationships for the personInPerpsective in the family
+    await this.loadRelationshipPerspective();
 	},
 };
 </script>
