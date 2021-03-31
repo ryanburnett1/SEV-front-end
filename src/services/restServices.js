@@ -7,7 +7,11 @@ class RESTService {
   }
 
   get(route, id) {
-    return Vue.axios.get(route.concat(id));
+    if (id) {
+      return Vue.axios.get(route.concat(id));
+    } else {
+      return Vue.axios.get(route);
+    }
   }
 
   create(route, data) {
