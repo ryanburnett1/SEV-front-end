@@ -13,11 +13,9 @@ class GroupService {
     return Vue.axios.get(`/group/${id}`);
   }
 
-  deletePeople(groupId, personIds) {
-    console.log(personIds);
-    return Vue.axios.delete(`/group/${groupId}/people`, {
-      ids: personIds,
-    });
+  deletePeople(groupId, personId) {
+    console.log(personId);
+    return Vue.axios.delete(`/group/${groupId}/people/${personId}`);
   }
 
   addPeople(groupId) {

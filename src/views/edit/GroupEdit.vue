@@ -9,7 +9,7 @@
         style="height: 100px;"
       >
         {{ person.fullName() }}
-        <v-btn icon @click="deleteMember([person.id])">
+        <v-btn icon @click="deleteMember(person.id)">
           <v-icon>mdi-trash-can</v-icon>
         </v-btn>
       </v-row>
