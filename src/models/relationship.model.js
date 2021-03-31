@@ -2,24 +2,6 @@
 
 class Relationship {
   id = 0;
-  RELS = {
-    Female: [
-      "Sister",
-      "Daughter",
-      "Mother",
-      "Wife",
-      "Grandmother",
-      "Granddaughter",
-    ],
-    Male: [
-      "Brother",
-      "Son",
-      "Father",
-      "Husband",
-      "Grandfather",
-      "Grandson",
-    ]
-  };
 
   constructor(relationship) {
     if (relationship) {
