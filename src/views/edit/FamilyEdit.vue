@@ -154,8 +154,6 @@ export default {
       this.$router.back();
     },
     async save() {
-      
-
       console.log(this.family.picture);
 
       // add new person
@@ -183,7 +181,10 @@ export default {
         const formData = new FormData();
         formData.append("file", picker.selectedFile); // appending file
 
-        await RestService.create("/family/" + this.family.id + "/picture/", formData)
+        await RestService.create(
+          "/family/" + this.family.id + "/picture/",
+          formData
+        )
           .then(res => {
             console.log("Pic Uploaded", res);
           })

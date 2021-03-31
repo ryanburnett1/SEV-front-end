@@ -20,12 +20,12 @@ export default {
     return {
       relationships: [],
       person: new Person(),
-    }
+    };
   },
   methods: {
     testfunc() {
       console.log(this.person);
-    }
-  }
-}
+    },
+  },
+};
 </script>

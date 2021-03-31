@@ -47,7 +47,7 @@
               @click="
                 $router.push({
                   name: 'AnnouncementEdit',
-                  params: { },
+                  params: {},
                 })
               "
             >
