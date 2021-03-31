@@ -26,6 +26,10 @@ class RESTService {
     return Vue.axios.delete(route.concat(id));
   }
 
+  getDescription(route) {
+    return Vue.axios.get(route + "/description");
+  }
+
   // other unique route queries here
   // example findByAttributeNameHere(data)
   // return get(`/route?attrib=${param}`)
