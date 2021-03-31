@@ -158,7 +158,6 @@ export default {
           }
         }
       });
-      console.log(tempRels);
       //get family ids
       let familyIds = this.persons.map(p => {
         p.id;
@@ -179,8 +178,6 @@ export default {
           let rel = tempRels.find(r => {
             return this.persons[i].id == r.person1Id || this.persons[i].id == r.person2Id;
           });
-          console.log("relationship for id of " + this.persons[i].id + " " + this.persons[i].preferredFullName());
-          console.log(rel);
           if (rel) {
             if (rel.person1Id == this.persons[i].id) {
               this.relationships[i] = rel.type1 + " of " + this.personInPerspective.getPreferredName();
