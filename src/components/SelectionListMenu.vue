@@ -68,8 +68,7 @@ export default {
   computed: {
     filteredData() {
       if (this.search) {
-        return this.people
-        .filter(person =>
+        return this.people.filter(person =>
           person
             .fullName()
             .toLowerCase()

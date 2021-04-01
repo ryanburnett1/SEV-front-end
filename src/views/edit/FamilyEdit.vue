@@ -92,7 +92,7 @@
         <v-row class="ma-2 pa-2" justify="center">
           <v-card width="100%" tile>
             <v-card-actions class="pl-0">
-              <v-card-title>Family Membrers:</v-card-title>
+              <v-card-title>Family Members:</v-card-title>
               <v-spacer></v-spacer>
               <selection-list-menu
                 label="Add or Remove Family Members"
@@ -231,7 +231,7 @@ export default {
   methods: {
     test(selection) {
       this.ids = selection;
-      this.persons = this.members.filter((f) => selection.includes(f.id));
+      this.persons = this.members.filter(f => selection.includes(f.id));
     },
     cancel() {
       this.$router.back();
