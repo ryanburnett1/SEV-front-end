@@ -52,63 +52,21 @@
               <MemberSelectItem :person="item"></MemberSelectItem>
             </template>
           </v-select>
+          <v-spacer></v-spacer>
           <v-btn fab>
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
         </v-card-actions>
         <v-container fluid>
           <v-row no-gutters>
-            <v-col cols="6" v-for="(person, index) in persons" :key="person.id">
-              <v-hover v-slot="{ hover }">
-                <v-card
-                  :elevation="hover ? 6 : 0"
-                  @click="
-                    $router.push({
-                      name: 'MemberView',
-                      params: { id: person.id },
-                    })
-                  "
-                  style="border-radius: 0"
-                >
-                  <v-container fluid>
-                    <v-row>
-                      <v-col cols="2">
-                        <v-avatar color="primary">
-                          <v-img
-                            :src="person.getPicturePath()"
-                            :lazy-src="
-                              require('@/assets/images/placeholder_gray.png')
-                            "
-                          ></v-img>
-                        </v-avatar>
-                      </v-col>
-                      <v-col class="ma-0 pa-0 pt-2 pl-4">
-                        <v-row>
-                          <v-card-title>
-                            <v-row>
-                              {{ person.preferredFullName() }}
-                            </v-row>
-                          </v-card-title>
-                        </v-row>
-                        <v-row class="mt-0">
-                          <v-card-subtitle class="ma-0 pa-1 pl-1">
-                            {{ relationships[index] }}
-                          </v-card-subtitle>
-                        </v-row>
-                        <v-row class="text-body-2 pl-4 pt-2">
-                          <v-row v-if="person.address">
-                            Address: {{ person.address }}
-                          </v-row>
-                          <v-row v-else>
-                            No address is stored
-                          </v-row>
-                        </v-row>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card>
-              </v-hover>
-            </v-col>
+            <RelationshipCard
+              v-for="(person, index) in persons"
+              :key="person.id"
+              :person="person"
+              :relationshipText="relationships[index]"
+              :familyAddress="family.address"
+            >
+            </RelationshipCard>
           </v-row>
         </v-container>
       </v-card>
@@ -124,12 +82,14 @@ import Relationship from "@/models/relationship.model";
 import rest from "@/services/restServices";
 import AdminFab from "@/components/AdminFab.vue";
 import MemberSelectItem from "@/components/MemberSelectItem.vue";
+import RelationshipCard from "@/components/RelationshipCard.vue";
 
 export default {
   props: ["id"],
   components: {
     AdminFab,
     MemberSelectItem,
+    RelationshipCard,
   },
   data() {
     return {
