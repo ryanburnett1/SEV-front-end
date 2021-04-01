@@ -53,9 +53,7 @@
             </template>
           </v-select>
           <v-spacer></v-spacer>
-          <v-btn fab>
-            <v-icon>mdi-pencil</v-icon>
-          </v-btn>
+          <RelationshipsEdit></RelationshipsEdit>
         </v-card-actions>
         <v-container fluid>
           <v-row no-gutters>
@@ -66,12 +64,12 @@
               :key="person.id"
             >
               <RelationshipCard
-              :person="person"
-              :personInPerspective="personInPerspective"
-              :relationship="relationships[index]"
-              :familyAddress="family.address"
-            >
-            </RelationshipCard>
+                :person="person"
+                :personInPerspective="personInPerspective"
+                :relationship="relationships[index]"
+                :familyAddress="family.address"
+              >
+              </RelationshipCard>
             </v-col>
           </v-row>
         </v-container>
@@ -89,6 +87,7 @@ import rest from "@/services/restServices";
 import AdminFab from "@/components/AdminFab.vue";
 import MemberSelectItem from "@/components/MemberSelectItem.vue";
 import RelationshipCard from "@/components/RelationshipCard.vue";
+import RelationshipsEdit from "@/components/RelationshipsEdit.vue";
 
 export default {
   props: ["id"],
@@ -96,6 +95,7 @@ export default {
     AdminFab,
     MemberSelectItem,
     RelationshipCard,
+    RelationshipsEdit,
   },
   data() {
     return {
