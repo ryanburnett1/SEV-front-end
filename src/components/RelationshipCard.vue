@@ -50,6 +50,7 @@
 
 <script>
 import Person from "@/models/person.model";
+import Relationship from "@/models/relationship.model";
 
 export default {
   props: {
@@ -63,13 +64,50 @@ export default {
         status: "Inactive",
       }),
     },
+    personInPerspective: {
+      type: Person,
+      default: new Person({
+        firstName: "Test",
+        lastName: "McTest",
+        picture: "RANDOM",
+        id: -1,
+        status: "Inactive",
+      }),
+    },
     familyAddress: {
       type: String,
       default: undefined,
     },
-    relationshipText: {
-      type: String,
-      default: "None",
+    relationship: {
+      type: Relationship,
+      default: undefined,
+    },
+  },
+  computed: {
+    relationshipText() {
+      if (this.person.id == this.personInPerspective.id) {
+        return "Selected Person";
+      } else {
+        if (this.relationship) {
+          if (this.relationship.person1Id == this.person.id) {
+            return (
+              this.relationship.type1 +
+              " of " +
+              this.personInPerspective.getPreferredName()
+            );
+          } else {
+            return (
+              this.relationship.type2 +
+              " of " +
+              this.personInPerspective.getPreferredName()
+            );
+          }
+        } else {
+          return (
+            "No relationship to " + this.personInPerspective.getPreferredName()
+          );
+        }
+      }
     },
   },
 };

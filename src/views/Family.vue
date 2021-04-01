@@ -63,7 +63,8 @@
               v-for="(person, index) in persons"
               :key="person.id"
               :person="person"
-              :relationshipText="relationships[index]"
+              :personInPerspective="personInPerspective"
+              :relationship="relationships[index]"
               :familyAddress="family.address"
             >
             </RelationshipCard>
@@ -132,13 +133,11 @@ export default {
       //make the relationships array parallel to the persons array
       this.relationships = [];
       for (let i = 0; i < this.persons.length; i++) {
-        this.relationships.push(
-          "No relationship to " + this.personInPerspective.getPreferredName()
-        );
+        this.relationships.push(null);
       }
       for (let i = 0; i < this.persons.length; i++) {
         if (this.personInPerspective.id == this.persons[i].id) {
-          this.relationships[i] = "Selected Person";
+          this.relationships[i] = null;
         } else {
           let rel = tempRels.find(r => {
             return (
@@ -147,17 +146,7 @@ export default {
             );
           });
           if (rel) {
-            if (rel.person1Id == this.persons[i].id) {
-              this.relationships[i] =
-                rel.type1 +
-                " of " +
-                this.personInPerspective.getPreferredName();
-            } else if (rel.person2Id == this.persons[i].id) {
-              this.relationships[i] =
-                rel.type2 +
-                " of " +
-                this.personInPerspective.getPreferredName();
-            }
+            this.relationships[i] = rel;
           }
         }
       }
