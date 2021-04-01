@@ -239,25 +239,29 @@ export default {
     async save() {
       // add new person
       if (this.isAdd) {
+        this.family.members = [1, 2];
         await RestService.create("/family/", this.family)
-          .then(() => {
-            //this.$router.back();
+          .then(res => {
+            console.log("CREATED FAMILY", res);
+            this.family.id = res.data.data.id;
           })
           .catch(err => {
             console.log("Failed to create new Family: ", err);
           });
       } else {
         // edit person
+        console.log("Edit Persons: ", this.family.person);
         await RestService.update("/family/", this.id, this.family)
-          .then(() => {
-            //this.$router.back();
+          .then(res => {
+            console.log("UPDATED FAMILY", res);
           })
           .catch(err => {
             console.log("Update Family Failed: ", err);
           });
       }
-      await RestService.update("/family/persons/", this.id, this.ids)
-        .then(() => {
+      await RestService.update("/family/persons/", this.family.id, this.ids)
+        .then(res => {
+          console.log("UPDATED FAMILY PERSONS", res);
           this.$router.back();
         })
         .catch(err => {

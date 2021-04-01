@@ -137,7 +137,6 @@ export default {
           cancelColor: "success",
         })
       ) {
-        console.log("Delete was selcted");
         await rest
           .delete("/family/", this.id)
           .then(response => {
