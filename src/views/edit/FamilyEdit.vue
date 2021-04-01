@@ -92,7 +92,7 @@
         <v-row class="ma-2 pa-2" justify="center">
           <v-card width="100%" tile>
             <v-card-actions class="pl-0">
-              <v-card-title>Family Members:</v-card-title>
+              <v-card-title>Family Membrers:</v-card-title>
               <v-spacer></v-spacer>
               <selection-list-menu
                 label="Add or Remove Family Members"
@@ -105,6 +105,7 @@
             <v-divider></v-divider>
             <v-container fluid>
               <v-row no-gutters>
+                <v-col v-if="persons.length <= 0">No family members</v-col>
                 <v-col cols="6" v-for="person in persons" :key="person.id">
                   <v-hover v-slot="{ hover }">
                     <v-card
@@ -232,30 +233,15 @@ export default {
       this.ids = selection;
       this.persons = this.members.filter((f) => selection.includes(f.id));
     },
-    familyAddRemoveChange(selection) {
-      this.persons.forEach((e, i) => {
-        if (!selection.includes(e.id)) {
-          //console.log(true);
-          this.persons.splice(i, 1);
-        }
-        //console.log("For each person", e);
-      });
-      console.log("selected: ", selection);
-      //console.log(this.persons, selection);
-
-      // send ids to do things here
-    },
     cancel() {
       this.$router.back();
     },
     async save() {
-      console.log(this.family.picture);
-
       // add new person
       if (this.isAdd) {
         await RestService.create("/family/", this.family)
           .then(() => {
-            this.$router.back();
+            //this.$router.back();
           })
           .catch(err => {
             console.log("Failed to create new Family: ", err);
@@ -264,12 +250,19 @@ export default {
         // edit person
         await RestService.update("/family/", this.id, this.family)
           .then(() => {
-            this.$router.back();
+            //this.$router.back();
           })
           .catch(err => {
             console.log("Update Family Failed: ", err);
           });
       }
+      await RestService.update("/family/persons/", this.id, this.ids)
+        .then(() => {
+          this.$router.back();
+        })
+        .catch(err => {
+          console.log("Update Family Persons Failed: ", err);
+        });
       // get image to upload to db - going to change after @burnett1 changes backend code
       let picker = this.$refs.picker;
       if (picker.selectedFile) {
