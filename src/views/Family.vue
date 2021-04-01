@@ -53,7 +53,10 @@
             </template>
           </v-select>
           <v-spacer></v-spacer>
-          <RelationshipsEdit></RelationshipsEdit>
+          <RelationshipsEdit
+            :person="personInPerspective"
+            :relationships="relationships"
+          ></RelationshipsEdit>
         </v-card-actions>
         <v-container fluid>
           <v-row no-gutters>
