@@ -59,15 +59,20 @@
         </v-card-actions>
         <v-container fluid>
           <v-row no-gutters>
-            <RelationshipCard
+            <v-col
+              class="pa-2"
+              cols="6"
               v-for="(person, index) in persons"
               :key="person.id"
+            >
+              <RelationshipCard
               :person="person"
               :personInPerspective="personInPerspective"
               :relationship="relationships[index]"
               :familyAddress="family.address"
             >
             </RelationshipCard>
+            </v-col>
           </v-row>
         </v-container>
       </v-card>
