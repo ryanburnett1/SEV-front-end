@@ -11,7 +11,6 @@ class Group {
       this.id = group.id;
       this.name = group.name;
       this.picture = group.picture;
-
       group.person.forEach(person => {
         this.person.push(new Person(person));
       });

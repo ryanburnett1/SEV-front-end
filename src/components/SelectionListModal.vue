@@ -1,15 +1,6 @@
 <template>
   <v-dialog v-model="dialog" :fullscreen="dialogProps.fullscreen">
     <template v-slot:activator="{ on, attrs }">
-      <!-- <v-text-field
-        :label="textFieldProps.label"
-        :outlined="textFieldProps.outlined"
-        readonly
-        :value="getSelectionData"
-        v-bind="attrs"
-        v-on="on"
-      >
-      </v-text-field> -->
       <v-btn v-bind="attrs" v-on="on">{{ label }}</v-btn>
     </template>
     <v-container fluid>
@@ -30,7 +21,7 @@
 
         <v-card-actions v-if="dialogProps.fullscreen">
           <v-spacer></v-spacer>
-          <v-btn @click="dialog = false">Done</v-btn>
+          <v-btn @click="done">Done</v-btn>
         </v-card-actions>
       </v-card>
     </v-container>
@@ -53,6 +44,7 @@ export default {
       type: Array,
       default: () => [],
     },
+    doneCallback: Function,
     group: {
       type: Boolean,
       default: false,
@@ -81,13 +73,12 @@ export default {
   computed: {
     filteredData() {
       if (this.search) {
-        return this.people;
-        // .filter(person =>
-        //   person
-        //     .fullName()
-        //     .toLowerCase()
-        //     .match(this.search.toLowerCase())
-        // );
+        return this.people.filter(person =>
+          person
+            .fullName()
+            .toLowerCase()
+            .match(this.search.toLowerCase())
+        );
       } else {
         return this.people;
       }
@@ -97,6 +88,10 @@ export default {
     },
   },
   methods: {
+    done() {
+      if (this.doneCallback) this.doneCallback(this.$refs.list.selected);
+      this.dialog = false;
+    },
     updateSelection(selection) {
       this.emitSelectionChanged(selection);
     },
@@ -104,7 +99,9 @@ export default {
       this.$emit("onSelectionChanged", event);
     },
   },
-  mounted() {},
+  mounted() {
+    //console.log(this.people);
+  },
 };
 </script>
 
