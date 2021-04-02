@@ -146,7 +146,9 @@ export default {
     },
   },
   mounted() {
-    console.log(this.people);
+    // console.log(this.people);
+    // console.log("isFamily: ", this.isFamily);
+    // console.log("isGroup: ", this.isGroup);
   },
 };
 </script>

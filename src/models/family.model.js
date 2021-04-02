@@ -29,6 +29,11 @@ class Family {
     return ["Active", "Inactive", "Disabled", "Relocated"];
   }
 
+  getPicturePath() {
+    if (this.picture == "") return "no-image";
+    if (this.picture == "RANDOM") return "https://picsum.photos/300?random";
+    return process.env.VUE_APP_IMAGE_PATH + this.picture;
+  }
 }
 
 export default Family;

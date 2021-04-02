@@ -53,8 +53,14 @@ export default {
       type: Array,
       default: () => [],
     },
-    family: Boolean,
-    group: Boolean,
+    group: {
+      type: Boolean,
+      default: false,
+    },
+    family: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: { MemberSelectionList },
   data() {

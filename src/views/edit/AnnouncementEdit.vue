@@ -169,25 +169,25 @@
                     </v-row>
                     <v-row>
                       <v-col>
-                        <SelectionListMenu
+                        <SelectionListModal
                           :people="members"
                           :previousSelection="editedItem.person"
                           @onSelectionChanged="editedItem.person = $event"
-                        ></SelectionListMenu>
-                        <SelectionListMenu
+                        ></SelectionListModal>
+                        <SelectionListModal
                           label="Select Groups"
                           :people="groups"
                           :previousSelection="editedItem.group"
                           group
                           @onSelectionChanged="editedItem.group = $event"
-                        ></SelectionListMenu>
-                        <SelectionListMenu
+                        ></SelectionListModal>
+                        <SelectionListModal
                           label="Select Families"
                           :people="families"
                           family
                           :previousSelection="editedItem.family"
                           @onSelectionChanged="editedItem.family = $event"
-                        ></SelectionListMenu>
+                        ></SelectionListModal>
                         <!-- <MemberSelectionList
                           :people="members"
                           @onSelectionChanged="
@@ -251,7 +251,9 @@ import RESTService from "@/services/restServices";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 // import MemberSelectionList from "@/components/MemberSelectionList.vue";
 import Person from "@/models/person.model";
-import SelectionListMenu from "@/components/SelectionListMenu.vue";
+import Group from "@/models/group.model";
+import Family from "@/models/family.model";
+import SelectionListModal from "@/components/SelectionListModal.vue";
 
 export default {
   props: [],
@@ -259,7 +261,7 @@ export default {
     ValidationObserver,
     ValidationProvider,
     // MemberSelectionList,
-    SelectionListMenu,
+    SelectionListModal,
   },
   data() {
     return {
@@ -519,10 +521,10 @@ export default {
       this.members = response.data.data.map(p => new Person(p));
     });
     RESTService.getAll("/group").then(response => {
-      this.groups = response.data.data;
+      this.groups = response.data.data.map(g => new Group(g));
     });
     RESTService.getAll("/family").then(response => {
-      this.families = response.data.data;
+      this.families = response.data.data.map(f => new Family(f));
     });
   },
 };
