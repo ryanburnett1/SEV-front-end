@@ -28,6 +28,12 @@ class Person {
     }
   }
 
+  getPicturePath() {
+    if (this.picture == "") return "no-image";
+    if (this.picture == "RANDOM") return "https://picsum.photos/300?random";
+    return process.env.VUE_APP_IMAGE_PATH + this.picture;
+  }
+
   getSkillIds() {
     return this.skill.map(skill => skill.id)
   }

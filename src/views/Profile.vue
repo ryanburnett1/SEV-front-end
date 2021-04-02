@@ -63,7 +63,7 @@
         <v-row>
           <v-col cols="1" xl="1" lg="1" md="1" sm="1" xs="1">
             <v-avatar color="primary">
-              <v-img :src="person.picture"></v-img>
+              <v-img :src="person.getPicturePath()"></v-img>
             </v-avatar>
           </v-col>
           <v-col cols="11" xl="11" lg="11" md="11" sm="11" xs="11">
