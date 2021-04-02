@@ -33,13 +33,12 @@
             active-class="accent--text text--accent-4"
           >
             <template v-slot:default="{ active }">
+              <!-- Picture -->
               <v-list-item-avatar rounded size="60">
-                <v-img :src="item.picture"></v-img>
+                <v-img :src="item.getPicturePath()"></v-img>
               </v-list-item-avatar>
 
-              <!-- <v-list-item-subtitle v-html="'other'">
-              </v-list-item-subtitle> -->
-
+              <!-- Group -->
               <v-list-item-content v-if="isGroup">
                 <v-list-item-title v-html="item.name"></v-list-item-title>
                 <v-list-item-subtitle>{{
@@ -47,18 +46,22 @@
                 }}</v-list-item-subtitle>
               </v-list-item-content>
 
+              <!-- Family -->
               <v-list-item-content v-else-if="isFamily">
                 <v-list-item-title v-html="item.name"></v-list-item-title>
                 <v-list-item-subtitle>{{
                   getGroupMembers(item)
                 }}</v-list-item-subtitle>
               </v-list-item-content>
+
+              <!-- Person -->
               <v-list-item-content v-else>
                 <v-list-item-title
                   v-html="item.preferredFullName()"
                 ></v-list-item-title>
               </v-list-item-content>
 
+              <!-- Checkbox -->
               <v-list-item-action>
                 <v-checkbox
                   :input-value="active"
@@ -128,7 +131,7 @@ export default {
       if (this.isGroup)
         return group.person
           .map(p => new Person(p).preferredFullName())
-          .toString();
+          .join(", ");
       return "";
     },
     emitSelectionChanged(event) {

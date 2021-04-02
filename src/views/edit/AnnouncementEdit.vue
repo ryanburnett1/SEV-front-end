@@ -169,23 +169,23 @@
                     </v-row>
                     <v-row>
                       <v-col>
-                        <SelectionListMenu
+                        <MemberSelectionList
                           :people="members"
                           :previousSelection="editedItem.person"
                           @onSelectionChanged="editedItem.person = $event"
-                        ></SelectionListMenu>
-                        <SelectionListMenu
+                        ></MemberSelectionList>
+                        <MemberSelectionList
                           :people="groups"
                           :previousSelection="editedItem.group"
-                          group
+                          isGroup
                           @onSelectionChanged="editedItem.group = $event"
-                        ></SelectionListMenu>
-                        <SelectionListMenu
+                        ></MemberSelectionList>
+                        <MemberSelectionList
                           :people="families"
-                          family
+                          isFamily
                           :previousSelection="editedItem.family"
                           @onSelectionChanged="editedItem.family = $event"
-                        ></SelectionListMenu>
+                        ></MemberSelectionList>
                         <!-- <MemberSelectionList
                           :people="members"
                           @onSelectionChanged="
@@ -247,17 +247,15 @@
 <script>
 import RESTService from "@/services/restServices";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-// import MemberSelectionList from "@/components/MemberSelectionList.vue";
+import MemberSelectionList from "@/components/MemberSelectionList.vue";
 import Person from "@/models/person.model";
-import SelectionListMenu from "../../components/SelectionListMenu.vue";
 
 export default {
   props: [],
   components: {
     ValidationObserver,
     ValidationProvider,
-    // MemberSelectionList,
-    SelectionListMenu,
+    MemberSelectionList,
   },
   data() {
     return {
