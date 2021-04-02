@@ -9,6 +9,8 @@ const state = {
   isLogin: false,
   session: null,
   user: null,
+  group: null,
+  family: null,
   token: null,
   darkMode: true,
 };
@@ -138,6 +140,8 @@ const getters = {
   getUserToken: state => state.token,
   getSessionId: state => state.session.id,
   getUserEmail: state => state.user.email,
+  getGroupId: state => state.session.user.person.group[0].id,
+  getFamilyId: state => state.session.user.person.family[0].id,
   isAdmin: state => state.user.role == "Admin",
 };
 

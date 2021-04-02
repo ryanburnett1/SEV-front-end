@@ -169,23 +169,25 @@
                     </v-row>
                     <v-row>
                       <v-col>
-                        <MemberSelectionList
+                        <SelectionListMenu
                           :people="members"
                           :previousSelection="editedItem.person"
                           @onSelectionChanged="editedItem.person = $event"
-                        ></MemberSelectionList>
-                        <MemberSelectionList
+                        ></SelectionListMenu>
+                        <SelectionListMenu
+                          label="Select Groups"
                           :people="groups"
                           :previousSelection="editedItem.group"
-                          isGroup
+                          group
                           @onSelectionChanged="editedItem.group = $event"
-                        ></MemberSelectionList>
-                        <MemberSelectionList
+                        ></SelectionListMenu>
+                        <SelectionListMenu
+                          label="Select Families"
                           :people="families"
-                          isFamily
+                          family
                           :previousSelection="editedItem.family"
                           @onSelectionChanged="editedItem.family = $event"
-                        ></MemberSelectionList>
+                        ></SelectionListMenu>
                         <!-- <MemberSelectionList
                           :people="members"
                           @onSelectionChanged="
@@ -247,15 +249,17 @@
 <script>
 import RESTService from "@/services/restServices";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-import MemberSelectionList from "@/components/MemberSelectionList.vue";
+// import MemberSelectionList from "@/components/MemberSelectionList.vue";
 import Person from "@/models/person.model";
+import SelectionListMenu from "@/components/SelectionListMenu.vue";
 
 export default {
   props: [],
   components: {
     ValidationObserver,
     ValidationProvider,
-    MemberSelectionList,
+    // MemberSelectionList,
+    SelectionListMenu,
   },
   data() {
     return {
