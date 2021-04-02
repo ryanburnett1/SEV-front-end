@@ -6,9 +6,7 @@
         <v-divider></v-divider>
         <v-container fluid>
           <v-row>
-            start and end times
-            all day checkbox
-            repeat options
+            start and end times, all day checkbox, repeat options
             <v-col cols="6"> Description: {{ user.email }} </v-col>
             announcement
           </v-row>
@@ -30,6 +28,6 @@ export default {
   },
   mounted() {
     // get info for event
-  }
+  },
 };
 </script>
