@@ -34,7 +34,7 @@
           >
             <template v-slot:default="{ active }">
               <v-list-item-avatar rounded size="60">
-                <v-img :src="item.picture"></v-img>
+                <v-img :src="item.getPicturePath()"></v-img>
               </v-list-item-avatar>
 
               <!-- <v-list-item-subtitle v-html="'other'">
