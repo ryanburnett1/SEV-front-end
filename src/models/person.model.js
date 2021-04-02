@@ -14,6 +14,7 @@ class Person {
   marital_status = "";
   status = this.statusOptions()[0];
   title = "";
+  receiveAnnouncements = true;
   skill = [];
 
   constructor(person) {
@@ -22,14 +23,14 @@ class Person {
       // change later -- just got tired of all fields not showing
       for (let v in person) {
         if (person[v]) {
-          this[v] = person[v]; 
+          this[v] = person[v];
         }
       }
     }
   }
 
   getSkillIds() {
-    return this.skill.map(skill => skill.id)
+    return this.skill.map(skill => skill.id);
   }
 
   fullName() {

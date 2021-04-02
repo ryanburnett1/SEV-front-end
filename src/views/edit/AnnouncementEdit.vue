@@ -251,7 +251,7 @@ import RESTService from "@/services/restServices";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 // import MemberSelectionList from "@/components/MemberSelectionList.vue";
 import Person from "@/models/person.model";
-import SelectionListMenu from "../../components/SelectionListMenu.vue";
+import SelectionListMenu from "@/components/SelectionListMenu.vue";
 
 export default {
   props: [],
