@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import Person from "@/models/person.model";
+import MemberSelectionList from "./MemberSelectionList.vue";
 
 export default {
   props: {
@@ -47,10 +47,6 @@ export default {
       default: () => [],
     },
     doneCallback: Function,
-    maxHeight: {
-      type: Number,
-      default: 600,
-    },
     group: {
       type: Boolean,
       default: false,
@@ -77,9 +73,6 @@ export default {
     }
   },
   computed: {
-    isScroll() {
-      return this.people.length * 100 > this.maxHeight;
-    },
     filteredData() {
       if (this.search) {
         return this.people.filter(person =>
@@ -95,23 +88,7 @@ export default {
     getSelectionData() {
       return this.selected.map(x => x.preferredFullName()).toString();
     },
-    selectAll: {
-      get: function() {
-        return this.people ? this.selected.length == this.people.length : false;
-      },
-      set: function(value) {
-        let selected = [];
-        if (value) {
-          // this.people.forEach(person => {
-          //   selected.push(person.id);
-          // });
-          selected = this.people.map(p => p.id);
-        }
-
-        this.selected = selected;
-        this.emitSelectionChanged(this.selected);
-      },
-  }},
+  },
   methods: {
     done() {
       this.doneCallback(this.$refs.list.selected);
@@ -120,30 +97,8 @@ export default {
     updateSelection(selection) {
       this.emitSelectionChanged(selection);
     },
-    getGroupMembers(group) {
-      //console.log(new Person());
-      if (this.isGroup)
-        return group.person
-          .map(p => new Person(p).preferredFullName())
-          .toString();
-      return "";
-    },
     emitSelectionChanged(event) {
       this.$emit("onSelectionChanged", event);
-    },
-  },
-  watch: {
-    // change current selection to match old
-    // previousSelection: function(newVal, oldVal) {
-    //   console.log("Prop changed: ", newVal, " | old: ", oldVal);
-    //   this.selected = newVal;
-    // },
-    previousSelection: {
-      immediate: true,
-      handler(val, oldVal) {
-        console.log("Prop changed: ", val, " | old: ", oldVal);
-        this.selected = val;
-      },
     },
   },
   mounted() {
