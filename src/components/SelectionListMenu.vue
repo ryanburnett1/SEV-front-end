@@ -30,7 +30,8 @@
 </template>
 
 <script>
-import MemberSelectionList from "./MemberSelectionList.vue";
+import Person from "@/models/person.model";
+
 export default {
   props: {
     label: {
@@ -45,9 +46,19 @@ export default {
       type: Array,
       default: () => [],
     },
-    family: Boolean,
-    group: Boolean,
     doneCallback: Function,
+    maxHeight: {
+      type: Number,
+      default: 600,
+    },
+    group: {
+      type: Boolean,
+      default: false,
+    },
+    family: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: { MemberSelectionList },
   data() {
@@ -66,6 +77,9 @@ export default {
     };
   },
   computed: {
+    isScroll() {
+      return this.people.length * 100 > this.maxHeight;
+    },
     filteredData() {
       if (this.search) {
         return this.people.filter(person =>
@@ -81,6 +95,22 @@ export default {
     getSelectionData() {
       return this.selected.map(x => x.preferredFullName()).toString();
     },
+    selectAll: {
+      get: function() {
+        return this.people ? this.selected.length == this.people.length : false;
+      },
+      set: function(value) {
+        let selected = [];
+        if (value) {
+          // this.people.forEach(person => {
+          //   selected.push(person.id);
+          // });
+          selected = this.people.map(p => p.id);
+        }
+
+        this.selected = selected;
+        this.emitSelectionChanged(this.selected);
+      },
   },
   methods: {
     done() {
@@ -90,11 +120,35 @@ export default {
     updateSelection(selection) {
       this.emitSelectionChanged(selection);
     },
+    getGroupMembers(group) {
+      //console.log(new Person());
+      if (this.isGroup)
+        return group.person
+          .map(p => new Person(p).preferredFullName())
+          .toString();
+      return "";
+    },
     emitSelectionChanged(event) {
       this.$emit("onSelectionChanged", event);
     },
   },
-  mounted() {},
+  watch: {
+    // change current selection to match old
+    // previousSelection: function(newVal, oldVal) {
+    //   console.log("Prop changed: ", newVal, " | old: ", oldVal);
+    //   this.selected = newVal;
+    // },
+    previousSelection: {
+      immediate: true,
+      handler(val, oldVal) {
+        console.log("Prop changed: ", val, " | old: ", oldVal);
+        this.selected = val;
+      },
+    },
+  },
+  mounted() {
+    //console.log(this.people);
+  },
 };
 </script>
 
