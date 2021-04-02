@@ -7,22 +7,39 @@
     </template>
     <v-card>
       <v-container fluid>
-        <v-row class="pt-2" align="center" justify="center">
+        <v-row class="pl-4 pt-4" align="start" justify="start">
           <v-avatar color="primary" size="72">
             <v-img
-              :src="person.getPicturePath()"
+              :src="personInPerspective.getPicturePath()"
               :lazy-src="require('@/assets/images/placeholder_gray.png')"
             ></v-img>
           </v-avatar>
         </v-row>
-        <v-row align="center" justify="center">
+        <v-row align="start" justify="start">
           <v-card-title>
             <span class="headline"
-              >Edit {{ person.getPreferredName() }}'s Relationships</span
+              >Edit {{ personInPerspective.getPreferredName() }}'s
+              Relationships</span
             >
           </v-card-title>
         </v-row>
-        <v-row align="center" justify="center">
+        <v-row
+          align="start"
+          justify="start"
+          v-for="(person, index) in persons"
+          :key="person.id"
+        >
+          <v-col>
+            <RelationshipCardEdit
+              :person="person"
+              :personInPerspective="personInPerspective"
+              :relationship="relationships[index]"
+              :familyAddress="undefined"
+            >
+            </RelationshipCardEdit>
+          </v-col>
+        </v-row>
+        <v-row align="start" justify="start">
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="dialog = false">
@@ -41,18 +58,20 @@
 <script>
 import Person from "@/models/person.model";
 //import Relationship from "@/models/relationship.model";
+import RelationshipCardEdit from "@/components/RelationshipCardEdit.vue";
 
 export default {
   props: {
-    person: {
+    personInPerspective: {
       type: Person,
-      default: new Person({
-        firstName: "Test",
-        lastName: "McTest",
-        picture: "RANDOM",
-        id: -1,
-        status: "Inactive",
-      }),
+      default: function() {
+        return new Person();
+      },
+    },
+    persons: {
+      //person array
+      type: Array,
+      default: () => [],
     },
     relationships: {
       //relationship array
@@ -65,9 +84,12 @@ export default {
       dialog: false,
     };
   },
+  components: {
+    RelationshipCardEdit,
+  },
   methods: {
     testfunc() {
-      console.log(this.person);
+      console.log(this.personInPerspective);
     },
   },
 };

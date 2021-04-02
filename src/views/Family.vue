@@ -54,7 +54,8 @@
           </v-select>
           <v-spacer></v-spacer>
           <RelationshipsEdit
-            :person="personInPerspective"
+            :persons="persons"
+            :personInPerspective="personInPerspective"
             :relationships="relationships"
           ></RelationshipsEdit>
         </v-card-actions>
