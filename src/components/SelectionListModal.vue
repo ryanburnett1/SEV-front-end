@@ -20,13 +20,13 @@
           v-model="search"
           color="white"
         ></v-text-field> -->
-        <MemberSelectionList
+        <SelectionList
           :people="filteredData"
           :isFamily="family"
           :isGroup="group"
           :previousSelection="previousSelection"
           @onSelectionChanged="updateSelection"
-        ></MemberSelectionList>
+        ></SelectionList>
 
         <v-card-actions v-if="dialogProps.fullscreen">
           <v-spacer></v-spacer>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import MemberSelectionList from "./MemberSelectionList.vue";
+import SelectionList from "./SelectionList.vue";
 export default {
   props: {
     label: {
@@ -62,7 +62,7 @@ export default {
       default: false,
     },
   },
-  components: { MemberSelectionList },
+  components: { SelectionList },
   data() {
     return {
       dialog: false,

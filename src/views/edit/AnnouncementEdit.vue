@@ -188,12 +188,6 @@
                           :previousSelection="editedItem.family"
                           @onSelectionChanged="editedItem.family = $event"
                         ></SelectionListModal>
-                        <!-- <MemberSelectionList
-                          :people="members"
-                          @onSelectionChanged="
-                            selectedMembers = $event.map(member => member.id)
-                          "
-                        /> -->
                       </v-col>
                     </v-row>
                   </v-container>
@@ -249,7 +243,7 @@
 <script>
 import RESTService from "@/services/restServices";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-// import MemberSelectionList from "@/components/MemberSelectionList.vue";
+// import SelectionList from "@/components/SelectionList.vue";
 import Person from "@/models/person.model";
 import Group from "@/models/group.model";
 import Family from "@/models/family.model";
@@ -260,7 +254,7 @@ export default {
   components: {
     ValidationObserver,
     ValidationProvider,
-    // MemberSelectionList,
+    // SelectionList,
     SelectionListModal,
   },
   data() {
