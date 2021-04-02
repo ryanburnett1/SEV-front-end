@@ -14,34 +14,49 @@
         ></v-checkbox>
       </v-toolbar-items>
     </v-toolbar>
-    <v-list
-      subheader
-      two-line
+    <v-virtual-scroll
+      :items="people"
+      item-height="77"
+      :height="people.length * 77"
       :max-height="isScroll ? maxHeight : ''"
       :class="isScroll ? 'overflow-y-auto' : ''"
     >
-      <v-list-item-group
-        multiple
-        v-model="selected"
-        @change="emitSelectionChanged"
-      >
-        <template v-for="(person, index) in people">
-          <v-divider :key="`divider-${index}`"></v-divider>
+      <template v-slot="{ item }">
+        <v-list-item-group
+          multiple
+          v-model="selected"
+          @change="emitSelectionChanged"
+        >
           <v-list-item
-            :key="`item-${index}`"
-            :value="person"
+            :value="item.id"
+            :key="item.id"
             active-class="accent--text text--accent-4"
           >
             <template v-slot:default="{ active }">
               <v-list-item-avatar rounded size="60">
-                <v-img :src="person.getPicturePath()"></v-img>
+                <v-img :src="item.getPicturePath()"></v-img>
               </v-list-item-avatar>
 
-              <v-list-item-content>
+              <!-- <v-list-item-subtitle v-html="'other'">
+              </v-list-item-subtitle> -->
+
+              <v-list-item-content v-if="isGroup">
+                <v-list-item-title v-html="item.name"></v-list-item-title>
+                <v-list-item-subtitle>{{
+                  getGroupMembers(item)
+                }}</v-list-item-subtitle>
+              </v-list-item-content>
+
+              <v-list-item-content v-else-if="isFamily">
+                <v-list-item-title v-html="item.name"></v-list-item-title>
+                <v-list-item-subtitle>{{
+                  getGroupMembers(item)
+                }}</v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-content v-else>
                 <v-list-item-title
-                  v-html="person.preferredFullName()"
+                  v-html="item.preferredFullName()"
                 ></v-list-item-title>
-                <v-list-item-subtitle v-html="'other'"></v-list-item-subtitle>
               </v-list-item-content>
 
               <v-list-item-action>
@@ -52,19 +67,33 @@
               </v-list-item-action>
             </template>
           </v-list-item>
-        </template>
-      </v-list-item-group>
-    </v-list>
+        </v-list-item-group>
+      </template>
+    </v-virtual-scroll>
   </v-card>
 </template>
 
 <script>
+import Person from "@/models/person.model";
+
 export default {
   props: {
     people: Array,
+    previousSelection: {
+      type: Array,
+      default: () => [],
+    },
     maxHeight: {
       type: Number,
       default: 600,
+    },
+    isGroup: {
+      type: Boolean,
+      default: false,
+    },
+    isFamily: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -83,9 +112,10 @@ export default {
       set: function(value) {
         let selected = [];
         if (value) {
-          this.people.forEach(person => {
-            selected.push(person);
-          });
+          // this.people.forEach(person => {
+          //   selected.push(person.id);
+          // });
+          selected = this.people.map(p => p.id);
         }
 
         this.selected = selected;
@@ -94,11 +124,35 @@ export default {
     },
   },
   methods: {
+    getGroupMembers(group) {
+      //console.log(new Person());
+      if (this.isGroup)
+        return group.person
+          .map(p => new Person(p).preferredFullName())
+          .toString();
+      return "";
+    },
     emitSelectionChanged(event) {
       this.$emit("onSelectionChanged", event);
     },
   },
-  mounted() {},
+  watch: {
+    // change current selection to match old
+    // previousSelection: function(newVal, oldVal) {
+    //   console.log("Prop changed: ", newVal, " | old: ", oldVal);
+    //   this.selected = newVal;
+    // },
+    previousSelection: {
+      immediate: true,
+      handler(val, oldVal) {
+        console.log("Prop changed: ", val, " | old: ", oldVal);
+        this.selected = val;
+      },
+    },
+  },
+  mounted() {
+    //console.log(this.people);
+  },
 };
 </script>
 

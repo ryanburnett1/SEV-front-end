@@ -1,10 +1,10 @@
 <template>
   <v-container fluid>
     <v-row>
-      <member-selection-list
+      <SelectionListMenu
         :people="members"
         @onSelectionChanged="print"
-      ></member-selection-list>
+      ></SelectionListMenu>
     </v-row>
   </v-container>
 </template>
@@ -12,12 +12,12 @@
 <script>
 import MemberService from "@/services/memberServices.js";
 import Person from "@/models/person.model.js";
-import MemberSelectionList from "../components/MemberSelectionList.vue";
+import SelectionListMenu from "../components/SelectionListMenu.vue";
 
 export default {
   name: "Test",
   components: {
-    MemberSelectionList,
+    SelectionListMenu,
   },
   data() {
     return {

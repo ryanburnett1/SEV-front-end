@@ -225,7 +225,10 @@ export default {
   methods: {
     // goto page to create new family
     addFamily() {
-      this.$router.push({});
+      this.$router.push({
+        name: "FamilyEdit",
+        params: { id: 0, isAdd: true }
+      });
     },
     // goto page to create new user, member/person
     addUser() {

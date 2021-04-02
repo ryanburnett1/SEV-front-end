@@ -16,7 +16,7 @@
           ></v-img>
           <upload-pic @onFileSelected="picture = $event" ref="picker" />
           <v-row>
-            <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
+            <v-col cols="12" xl="5" lg="5" md="5" sm="5" xs="12">
               <v-text-field
                 v-model="person.title"
                 color="secondary"
@@ -24,7 +24,7 @@
                 type="text"
               ></v-text-field>
             </v-col>
-            <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
+            <v-col cols="12" xl="5" lg="5" md="5" sm="5" xs="10">
               <v-select
                 v-model="person.marital_status"
                 color="secondary"
@@ -32,6 +32,14 @@
                 label="Marital Status"
                 :items="person.maritalStatusOptions()"
               ></v-select>
+            </v-col>
+            <v-col cols="12" xl="2" lg="2" md="2" sm="2" xs="2">
+              <v-switch
+                v-model="person.receiveAnnouncements"
+                inset
+                color="success"
+                label="Receive Email/SMS announcements"
+              ></v-switch>
             </v-col>
           </v-row>
           <v-row>
