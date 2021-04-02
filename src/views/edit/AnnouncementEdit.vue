@@ -175,12 +175,14 @@
                           @onSelectionChanged="editedItem.person = $event"
                         ></SelectionListMenu>
                         <SelectionListMenu
+                          label="Select Groups"
                           :people="groups"
                           :previousSelection="editedItem.group"
                           group
                           @onSelectionChanged="editedItem.group = $event"
                         ></SelectionListMenu>
                         <SelectionListMenu
+                          label="Select Families"
                           :people="families"
                           family
                           :previousSelection="editedItem.family"

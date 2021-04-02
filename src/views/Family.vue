@@ -79,7 +79,8 @@
         </v-container>
       </v-card>
     </v-row>
-    <admin-fab :editFunction="edit"></admin-fab>
+    <admin-fab :editFunction="edit" :deleteFunction="deleteFamily"></admin-fab>
+    <confirmation-dialog ref="confirm"></confirmation-dialog>
   </v-container>
 </template>
 
@@ -92,6 +93,7 @@ import AdminFab from "@/components/AdminFab.vue";
 import MemberSelectItem from "@/components/MemberSelectItem.vue";
 import RelationshipCard from "@/components/RelationshipCard.vue";
 import RelationshipsEdit from "@/components/RelationshipsEdit.vue";
+import ConfirmationDialog from "@/components/ConfirmationDialog";
 
 export default {
   props: ["id"],
@@ -100,6 +102,7 @@ export default {
     MemberSelectItem,
     RelationshipCard,
     RelationshipsEdit,
+    ConfirmationDialog,
   },
   data() {
     return {
@@ -158,6 +161,28 @@ export default {
             this.relationships[i] = rel;
           }
         }
+      }
+    },
+    async deleteFamily() {
+      let message = `Are your sure you want to delete the ${this.family.name} Family?\nThis will delete the family but not the members or relationships of the family`;
+
+      if (
+        await this.$refs.confirm.open("Confirm Delete", message, {
+          color: "error",
+          confirmText: "Delete",
+          confirmColor: "error",
+          cancelColor: "success",
+        })
+      ) {
+        await rest
+          .delete("/family/", this.id)
+          .then(response => {
+            console.log("FAMILY DELETED: ", response);
+            this.$router.back();
+          })
+          .catch(error => {
+            console.log("DELETE FAMILY ERROR: ", error);
+          });
       }
     },
   },

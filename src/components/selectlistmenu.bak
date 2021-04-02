@@ -31,7 +31,6 @@
 
 <script>
 import MemberSelectionList from "./MemberSelectionList.vue";
-
 export default {
   props: {
     label: {
@@ -46,15 +45,9 @@ export default {
       type: Array,
       default: () => [],
     },
+    family: Boolean,
+    group: Boolean,
     doneCallback: Function,
-    group: {
-      type: Boolean,
-      default: false,
-    },
-    family: {
-      type: Boolean,
-      default: false,
-    },
   },
   components: { MemberSelectionList },
   data() {
@@ -70,7 +63,7 @@ export default {
       dialogProps: {
         fullscreen: true,
       },
-    }
+    };
   },
   computed: {
     filteredData() {
@@ -101,9 +94,7 @@ export default {
       this.$emit("onSelectionChanged", event);
     },
   },
-  mounted() {
-    //console.log(this.people);
-  },
+  mounted() {},
 };
 </script>
 

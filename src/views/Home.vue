@@ -19,16 +19,11 @@
       </v-col>
     </v-row>
     <v-row>
-      <announcement-tabs />
-    </v-row>
-    <!-- <v-row>
-			<member-selection-list
-				:people="members"
-				@onSelectionChanged="print"
-			></member-selection-list>
-		</v-row> -->
-    <v-row>
-      <v-col> </v-col>
+      <announcement-tabs
+        :personId="$store.getters.getPersonId"
+        :groupId="$store.getters.getGroupId"
+        :familyId="$store.getters.getFamilyId"
+      />
     </v-row>
   </v-container>
 </template>
