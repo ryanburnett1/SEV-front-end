@@ -74,7 +74,7 @@ export default {
       dialogProps: {
         fullscreen: true,
       },
-    };
+    }
   },
   computed: {
     isScroll() {
@@ -111,7 +111,7 @@ export default {
         this.selected = selected;
         this.emitSelectionChanged(this.selected);
       },
-  },
+  }},
   methods: {
     done() {
       this.doneCallback(this.$refs.list.selected);
