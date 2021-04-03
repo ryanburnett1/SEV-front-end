@@ -14,7 +14,13 @@
         </v-btn>
       </v-row>
     </v-card>
-    <v-btn icon> Add Member<v-icon>mdi-account-plus</v-icon> </v-btn>
+    <selection-list-menu
+                label="Add New Group Member"
+                :people="members"
+                :previousSelection="ids"
+                :doneCallback="test"
+                @onSelectionChanged="ids = $event"
+              ></selection-list-menu>
   </v-container>
 </template>
 
@@ -64,6 +70,10 @@ export default {
         console.log("personId: ", personId);
         GroupService.deletePeople(this.group.id, personId);
       } //to delete group, update with an blank array of id's
+    },
+    addMember(person) {
+      console.log("adding member: ", person);
+      GroupService.update(person);
     },
     async save() {
       let picker = this.$refs.picker;
