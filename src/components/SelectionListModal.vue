@@ -12,6 +12,7 @@
           color="white"
         ></v-text-field> -->
         <SelectionList
+          ref="list"
           :people="filteredData"
           :isFamily="family"
           :isGroup="group"
@@ -44,7 +45,12 @@ export default {
       type: Array,
       default: () => [],
     },
-    doneCallback: Function,
+    doneCallback: {
+      type: Function,
+      default: function() {
+        return;
+      },
+    },
     group: {
       type: Boolean,
       default: false,
