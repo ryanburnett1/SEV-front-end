@@ -31,10 +31,9 @@
         >
           <v-col>
             <RelationshipCardEdit
-              :person="person"
               :personInPerspective="personInPerspective"
+              :person="person"
               :relationship="relationships[index]"
-              :familyAddress="undefined"
             >
             </RelationshipCardEdit>
           </v-col>
@@ -61,6 +60,7 @@ import Person from "@/models/person.model";
 import RelationshipCardEdit from "@/components/RelationshipCardEdit.vue";
 
 export default {
+  //persons and relationships are meant to be parallel to each other
   props: {
     personInPerspective: {
       type: Person,
@@ -77,6 +77,12 @@ export default {
       //relationship array
       type: Array,
       default: () => [],
+    },
+    restrictToFamily: {
+      type: Boolean,
+      default: function() {
+        return false;
+      },
     },
   },
   data() {

@@ -54,9 +54,10 @@
           </v-select>
           <v-spacer></v-spacer>
           <RelationshipsEdit
-            :persons="persons"
             :personInPerspective="personInPerspective"
-            :relationships="relationships"
+            :persons="minimalPersons"
+            :relationships="minimalRels"
+            :restrictToFamily="true"
           ></RelationshipsEdit>
         </v-card-actions>
         <v-container fluid>
@@ -110,6 +111,8 @@ export default {
       personInPerspective: new Person({ firstName: "Bob", lastName: "Guy" }),
       persons: [],
       relationships: [],
+      minimalRels: [],
+      minimalPersons: [],
     };
   },
   computed: {},
@@ -122,7 +125,7 @@ export default {
     },
     async loadRelationshipPerspective() {
       //reset relationships
-      let tempRels = [];
+      this.minimalRels = [];
       //get all relationships for the person
       await rest
         .get(`person/${this.personInPerspective.id}/relationships`)
@@ -130,17 +133,30 @@ export default {
           let data = response.data.data;
           if (data) {
             for (let i = 0; i < data.length; i++) {
-              tempRels.push(new Relationship(data[i]));
+              this.minimalRels.push(new Relationship(data[i]));
             }
           }
         });
       //get family ids
       let familyIds = this.persons.map(p => {
-        p.id;
+        return p.id;
       });
       //filter relationships that aren't in the family
-      tempRels.filter(r => {
-        familyIds.includes(r.person1Id) && familyIds.includes(r.person2Id);
+      this.minimalRels = this.minimalRels.filter(r => {
+        return (
+          familyIds.includes(r.person1Id) && familyIds.includes(r.person2Id)
+        );
+      });
+      //make the minimalPersons array parallel to the minimalRels
+      this.minimalPersons = [];
+      this.minimalRels.forEach(r => {
+        let newPerson = this.persons.find(p => {
+          return (
+            p.id != this.personInPerspective.id &&
+            (p.id == r.person1Id || p.id == r.person2Id)
+          );
+        });
+        this.minimalPersons.push(newPerson);
       });
       //make the relationships array parallel to the persons array
       this.relationships = [];
@@ -151,7 +167,7 @@ export default {
         if (this.personInPerspective.id == this.persons[i].id) {
           this.relationships[i] = null;
         } else {
-          let rel = tempRels.find(r => {
+          let rel = this.minimalRels.find(r => {
             return (
               this.persons[i].id == r.person1Id ||
               this.persons[i].id == r.person2Id
