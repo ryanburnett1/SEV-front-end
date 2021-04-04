@@ -169,31 +169,25 @@
                     </v-row>
                     <v-row>
                       <v-col>
-                        <SelectionListMenu
+                        <SelectionListModal
                           :people="members"
                           :previousSelection="editedItem.person"
                           @onSelectionChanged="editedItem.person = $event"
-                        ></SelectionListMenu>
-                        <SelectionListMenu
+                        ></SelectionListModal>
+                        <SelectionListModal
                           label="Select Groups"
                           :people="groups"
                           :previousSelection="editedItem.group"
                           group
                           @onSelectionChanged="editedItem.group = $event"
-                        ></SelectionListMenu>
-                        <SelectionListMenu
+                        ></SelectionListModal>
+                        <SelectionListModal
                           label="Select Families"
                           :people="families"
                           family
                           :previousSelection="editedItem.family"
                           @onSelectionChanged="editedItem.family = $event"
-                        ></SelectionListMenu>
-                        <!-- <MemberSelectionList
-                          :people="members"
-                          @onSelectionChanged="
-                            selectedMembers = $event.map(member => member.id)
-                          "
-                        /> -->
+                        ></SelectionListModal>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -249,19 +243,19 @@
 <script>
 import RESTService from "@/services/restServices";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-// import MemberSelectionList from "@/components/MemberSelectionList.vue";
+// import SelectionList from "@/components/SelectionList.vue";
 import Person from "@/models/person.model";
-import Family from "@/models/family.model";
 import Group from "@/models/group.model";
-import SelectionListMenu from "../../components/SelectionListMenu.vue";
+import Family from "@/models/family.model";
+import SelectionListModal from "@/components/SelectionListModal.vue";
 
 export default {
   props: [],
   components: {
     ValidationObserver,
     ValidationProvider,
-    // MemberSelectionList,
-    SelectionListMenu,
+    // SelectionList,
+    SelectionListModal,
   },
   data() {
     return {

@@ -192,7 +192,7 @@ import Person from "@/models/person.model";
 import RestService from "@/services/restServices";
 import AdminFab from "@/components/AdminFab.vue";
 import UploadPic from "@/components/UploadPic.vue";
-import SelectionListMenu from "@/components/SelectionListMenu.vue";
+//import SelectionList from "@/components/SelectionList.vue";
 
 // used for field validation
 import { ValidationObserver, ValidationProvider } from "vee-validate";
@@ -211,7 +211,7 @@ export default {
     },
   },
   components: {
-    SelectionListMenu,
+    //SelectionList,
     AdminFab,
     UploadPic,
     ValidationObserver,

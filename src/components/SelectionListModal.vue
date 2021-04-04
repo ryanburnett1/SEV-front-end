@@ -11,14 +11,13 @@
           v-model="search"
           color="white"
         ></v-text-field> -->
-        <MemberSelectionList
-          ref="list"
+        <SelectionList
           :people="filteredData"
           :isFamily="family"
           :isGroup="group"
           :previousSelection="previousSelection"
           @onSelectionChanged="updateSelection"
-        ></MemberSelectionList>
+        ></SelectionList>
 
         <v-card-actions v-if="dialogProps.fullscreen">
           <v-spacer></v-spacer>
@@ -30,7 +29,7 @@
 </template>
 
 <script>
-import MemberSelectionList from "./MemberSelectionList.vue";
+import SelectionList from "./SelectionList.vue";
 export default {
   props: {
     label: {
@@ -45,11 +44,17 @@ export default {
       type: Array,
       default: () => [],
     },
-    family: Boolean,
-    group: Boolean,
     doneCallback: Function,
+    group: {
+      type: Boolean,
+      default: false,
+    },
+    family: {
+      type: Boolean,
+      default: false,
+    },
   },
-  components: { MemberSelectionList },
+  components: { SelectionList },
   data() {
     return {
       dialog: false,
@@ -84,7 +89,7 @@ export default {
   },
   methods: {
     done() {
-      this.doneCallback(this.$refs.list.selected);
+      if (this.doneCallback) this.doneCallback(this.$refs.list.selected);
       this.dialog = false;
     },
     updateSelection(selection) {
@@ -94,7 +99,9 @@ export default {
       this.$emit("onSelectionChanged", event);
     },
   },
-  mounted() {},
+  mounted() {
+    //console.log(this.people);
+  },
 };
 </script>
 
