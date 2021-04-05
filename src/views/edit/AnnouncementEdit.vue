@@ -191,7 +191,8 @@
                       </v-col>
                       <v-col>
                         <event-select
-                          @onEventSelcted="editedItem.eventId = $event"
+                          :current="editedItem.event"
+                          @onEventSelected="editedItem.event = $event"
                         />
                       </v-col>
                     </v-row>
@@ -274,13 +275,13 @@ export default {
       // temporary storage for the item being created/edited
       editedItem: {
         title: "",
-        eventId: "",
         description: "",
         draft: false,
         reoccuring: false,
         sent: false,
         email: false,
         sms: false,
+        event: [],
         person: [],
         group: [],
         family: [],
@@ -290,13 +291,13 @@ export default {
       // default info for new item - this.editItem=defaultItem when creating new announcement
       defaultItem: {
         title: "",
-        eventId: "",
         description: "",
         draft: false,
         reoccuring: false,
         sent: false,
         email: false,
         sms: false,
+        event: [],
         person: [],
         group: [],
         family: [],
@@ -470,7 +471,7 @@ export default {
           });
 
           RESTService.put(`announcement/${announcement.id}/events`, {
-            ids: announcement.eventId,
+            ids: announcement.event,
           });
         });
       } else {
@@ -491,6 +492,10 @@ export default {
           });
           RESTService.put(`/announcement/${newAnnouncement.id}/families`, {
             ids: newAnnouncement.family,
+          });
+
+          RESTService.put(`announcement/${newAnnouncement.id}/events`, {
+            ids: newAnnouncement.event,
           });
         });
 
@@ -518,10 +523,12 @@ export default {
         announcement.announcementDate = new Date(announcement.announcementDate);
         announcement.expirationDate = new Date(announcement.expirationDate);
 
+        console.log(announcement);
         // get ids for selection
         announcement.person = announcement.person.map(p => p.id);
         announcement.family = announcement.family.map(p => p.id);
         announcement.group = announcement.group.map(p => p.id);
+        announcement.event = announcement.event.map(p => p.id);
 
         this.dbAnnouncementList.push(announcement);
       });
