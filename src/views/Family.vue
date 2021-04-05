@@ -54,6 +54,8 @@
           </v-select>
           <v-spacer></v-spacer>
           <RelationshipsEdit
+            :key="relsEditKey"
+            @close="relationshipsEditClose"
             :personInPerspective="personInPerspective"
             :persons="minimalPersons"
             :relationships="minimalRels"
@@ -107,6 +109,7 @@ export default {
   },
   data() {
     return {
+      relsEditKey: 0,
       family: new Family(),
       personInPerspective: new Person({ firstName: "Bob", lastName: "Guy" }),
       //all of the people in the family
@@ -133,6 +136,12 @@ export default {
         name: "FamilyEdit",
         params: { id: this.id, isAdd: false },
       });
+    },
+    relationshipsEditClose(event) {
+      if (event.isSave) {
+        console.log("isSave");
+      }
+      this.relsEditKey = !this.relsEditKey;
     },
     async loadRelationshipPerspective() {
       //reset relationships

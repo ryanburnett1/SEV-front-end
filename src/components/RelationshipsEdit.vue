@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="80%">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn fab v-bind="attrs" v-on="on">
+      <v-btn @click="initData" fab v-bind="attrs" v-on="on">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </template>
@@ -15,42 +15,55 @@
             ></v-img>
           </v-avatar>
         </v-row>
-        <v-row align="start" justify="start">
-          <v-card-title>
+        <v-row class="pl-4" align="start" justify="start">
+          <v-card-title class="pa-0 ma-0">
             <span class="headline"
               >Edit {{ personInPerspective.getPreferredName() }}'s
               Relationships</span
             >
           </v-card-title>
         </v-row>
-        <v-row>
+        <v-row class="pl-1">
           <v-col>
-            <v-select
-              :items="filteredSelectablePersons"
-              v-model="newPerson"
-              return-object
-            >
-              <template v-slot:selection="{ item }">
-                <MemberSelectItem :person="item"></MemberSelectItem>
-              </template>
-              <template v-slot:item="{ item }">
-                <MemberSelectItem :person="item"></MemberSelectItem>
-              </template>
-            </v-select>
+            <p v-if="this.filteredSelectablePersons.length < 1">
+              No relationships can be added. Everyone already has a relationship
+              to {{ this.personInPerspective.getPreferredName() }}.
+            </p>
+            <v-row v-else class="pl-3">
+              <v-select
+                :items="filteredSelectablePersons"
+                v-model="newPerson"
+                return-object
+              >
+                <template v-slot:selection="{ item }">
+                  <MemberSelectItem :person="item"></MemberSelectItem>
+                </template>
+                <template v-slot:item="{ item }">
+                  <MemberSelectItem :person="item"></MemberSelectItem>
+                </template>
+              </v-select>
+              <v-btn
+                @click="addRelationship"
+                height="auto"
+                class="fab primary ml-4 mt-4"
+              >
+                <v-icon>mdi-account-plus</v-icon>
+              </v-btn>
+            </v-row>
           </v-col>
           <v-col></v-col>
         </v-row>
         <v-row
           align="start"
           justify="start"
-          v-for="(person, index) in persons"
+          v-for="(person, index) in personsCopy"
           :key="person.id"
         >
           <v-col>
             <RelationshipCardEdit
               :personInPerspective="personInPerspective"
               :person="person"
-              :relationship="relationships[index]"
+              :relationship="relsCopy[index]"
               @change="relationshipChanged($event, index)"
             >
             </RelationshipCardEdit>
@@ -59,10 +72,10 @@
         <v-row align="start" justify="start">
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false">
+            <v-btn @click="closeDialog(false)" color="blue darken-1" text>
               Close
             </v-btn>
-            <v-btn color="blue darken-1" text @click="dialog = false">
+            <v-btn @click="closeDialog(true)" color="blue darken-1" text>
               Save
             </v-btn>
           </v-card-actions>
@@ -110,6 +123,8 @@ export default {
   data() {
     return {
       dialog: false,
+      relsCopy: [],
+      personsCopy: [],
       newPerson: new Person(),
       newRelationship: new Relationship(),
     };
@@ -117,8 +132,16 @@ export default {
   computed: {
     //returns all people that don't have any relationships yet
     filteredSelectablePersons() {
-      return this.selectablePersons.filter(p => {
-        return !this.persons.includes(p);
+      return this.selectablePersons.filter(person => {
+        if (
+          this.personsCopy.find(p => {
+            return p.id == person.id;
+          })
+        ) {
+          return false;
+        } else {
+          return true;
+        }
       });
     },
   },
@@ -127,21 +150,69 @@ export default {
     MemberSelectItem,
   },
   methods: {
-    //calculates inverse relationships when a relationship is changed
+    //create a deep copy of props and init people to add
+    initData() {
+      this.relsCopy = [];
+      for (let i = 0; i < this.relationships.length; i++) {
+        this.relsCopy.push(new Relationship(this.relationships[i]));
+      }
+      this.personsCopy = [];
+      for (let i = 0; i < this.persons.length; i++) {
+        this.personsCopy.push(new Person(this.persons[i]));
+      }
+
+      this.newPerson = this.selectablePersons[0]
+        ? new Person(this.selectablePersons[0])
+        : new Person();
+
+      this.newRelationship = new Relationship();
+    },
+    //calculates inverse relsCopy when a relationship is changed
     relationshipChanged(value, index) {
-      if (this.relationships[index].person1Id == this.persons[index].id) {
-        this.relationships[index].type1 = value;
-        this.relationships[index].type2 = invertRelationship(
+      if (this.relsCopy[index].person1Id == this.personsCopy[index].id) {
+        this.relsCopy[index].type1 = value;
+        this.relsCopy[index].type2 = invertRelationship(
           value,
-          this.persons[index].sex
+          this.personsCopy[index].sex
         );
       } else {
-        this.relationships[index].type2 = value;
-        this.relationships[index].type1 = invertRelationship(
+        this.relsCopy[index].type2 = value;
+        this.relsCopy[index].type1 = invertRelationship(
           value,
-          this.persons[index].sex
+          this.personsCopy[index].sex
         );
       }
+    },
+    //returns all people that don't have any relationships yet
+    getFilteredSelectablePersons() {
+      return this.selectablePersons.filter(person => {
+        if (
+          this.personsCopy.find(p => {
+            return p.id == person.id;
+          })
+        ) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+    },
+    addRelationship() {
+      this.personsCopy.push(this.newPerson);
+      this.relsCopy.push(this.newRelationship);
+      let filteredPersons = this.getFilteredSelectablePersons();
+      if (filteredPersons.length > 0) {
+        this.newPerson = filteredPersons[0];
+      }
+    },
+    closeDialog(isSave) {
+      this.dialog = false;
+      //make a deep copy of relationships to return
+      let returnedRels = [];
+      for (let i = 0; i < this.relsCopy.length; i++) {
+        returnedRels.push(new Relationship(this.relsCopy[i]));
+      }
+      this.$emit("close", { isSave: isSave, relationships: returnedRels });
     },
   },
 };
