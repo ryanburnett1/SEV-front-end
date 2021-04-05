@@ -1,11 +1,19 @@
 <template>
-  <v-select :items="events" item-value="id" item-text="name" @></v-select>
+  <v-select
+    :items="events"
+    item-value="id"
+    item-text="name"
+    :value="current[0]"
+    clearable
+    @input="onEventSelected"
+  ></v-select>
 </template>
 
 <script>
 import RestService from "@/services/restServices";
 
 export default {
+  props: ["current"],
   data: () => ({
     events: [],
   }),
