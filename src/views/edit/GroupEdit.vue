@@ -4,7 +4,6 @@
       <v-row
         v-for="(person, i) in group.people"
         :key="i"
-        :align="align"
         no-gutters
         style="height: 100px;"
       >
@@ -14,23 +13,85 @@
         </v-btn>
       </v-row>
     </v-card>
+    <v-card  width="100%" title>
+    <v-card-actions class="pl-0">
+    <v-spacer></v-spacer>
     <selection-list-menu
-                label="Add New Group Member"
-                :people="members"
-                :previousSelection="ids"
-                :doneCallback="test"
-                @onSelectionChanged="ids = $event"
-              ></selection-list-menu>
+      label="Add New Group Member"
+      :people="members"
+      :previousSelection="ids"
+      :doneCallback="test"
+      @onSelectionChanged="ids = $event"
+      ></selection-list-menu>
+    </v-card-actions>
+    <v-container fluid>
+      <v-row no-gutters>
+        <v-col cols="6" v-for="person in persons" :key="person.id">
+          <v-hover v-slot="{ hover }">
+            <v-card
+              :elevation="hover ? 6 : 0"
+              @click="
+              $router.push({
+                name: 'MemberView',
+                params: {id: person.id},
+                })"
+                style = "border-radius: 0"
+            >
+              <v-container fluid>
+                  <v-row>
+                    <v-col cols="2">
+                      <v-avatar color="primary">
+                        <v-img
+                          :src="person.getPicturePath()"
+                          :lazy-src="
+                            require('@/assets/images/placeholder_gray.png')
+                          "
+                        ></v-img>
+                      </v-avatar>
+                    </v-col>
+                    <v-col class="ma-0 pa-0 pt-2 pl-4">
+                      <v-row>
+                        <v-card-title>
+                          <v-row>
+                            {{ person.preferredFullName() }}
+                          </v-row>
+                        </v-card-title>
+                      </v-row>
+                      <v-row class="mt-0">
+                        <v-card-subtitle class="ma-0 pa-1 pl-1">
+                          Brother of Bob
+                        </v-card-subtitle>
+                      </v-row>
+                      <v-row class="text-body-2 pl-4 pt-2">
+                        <v-row v-if="person.address">
+                          Address: {{ person.address }}
+                        </v-row>
+                        <v-row v-else>
+                          No address is stored
+                        </v-row>
+                      </v-row>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card>
+            </v-hover>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card>
+    <admin-fab :cancelFunction="cancel" :saveFunction="save"></admin-fab>
   </v-container>
 </template>
 
 <script>
 //what do we need to display in the group-edit/display?
 
+import Person from "@/models/person.model";
 import Group from "@/models/group.model";
-//import Person from "@/models/person.model";
 import GroupService from "@/services/groupServices";
-//import PersonService from "@/services/memberServices";
+import SelectionListMenu from "@/components/SelectionListMenu.vue";
+import AdminFab from "@/components/AdminFab.vue";
+import RestService from "@/services/restServices";
 
 // import {ValidationObserver, ValidationProvider} from "vee-validate";
 
@@ -49,18 +110,25 @@ export default {
       default: true,
     },
   },
-  // components: {
-  //     ValidationObserver,
-  //     ValidationProvider,
-  // },
+  components: {
+      SelectionListMenu,
+      AdminFab,
+  },
   data() {
     return {
       //picture: "",
       loading: true,
       group: new Group(),
+      persons: [],
+      members: [],
+      ids: [],
     };
   },
   methods: {
+    test(selection) {
+      this.ids = selection;
+      this.persons = this.members.filter(f => selection.includes(f.id));
+    },
     cancel() {
       this.$router.back();
     },
@@ -76,38 +144,19 @@ export default {
       GroupService.update(person);
     },
     async save() {
-      let picker = this.$refs.picker;
-      if (picker.selectedFile) {
-        const formData = new FormData();
-        formData.append("file", picker.selectedFile);
-
-        // await GroupService.add(formData)
-        // .then(response => {
-        //     GroupService.add(this.group.data.data);
-        // })
+      if(this.isAddPerson) {
+        this.group.members = [1, 2];
+        await GroupService.update(this.id, this.group)
+        .then(res => {
+          console.log("Added to Group", res);
+        })
+        .catch(err => {
+          console.log("Update Group Failed: ",err);
+        });
       }
-      //this needs to be different for adding a person, and adding a group
+      await GroupService.update(this.id, this.group)
 
-      if (this.isAddPerson) {
-        //adding a person
-        GroupService.create(this.person)
-          .then(response => {
-            this.group = response.data.data;
-
-            GroupService.update(this.group.id, this.formData)
-              .then(() => {
-                this.$router.back();
-              })
-              .catch(err => {
-                console.log("Add Group Member Failed: ", err);
-              });
-          })
-          .catch(err => {
-            console.log("Add Group Member failed: ", err);
-          });
-      }
-      //do i need to instantiate a new group here?
-      else if (this.isAddGroup) {
+      if (this.isAddGroup) {
         GroupService.create(this.group)
           .then(response => {
             this.group = response.data.data;
@@ -123,16 +172,21 @@ export default {
             console.log("adding new group failed: ", err);
           });
       }
-    },
+    }
   },
   mounted() {
     console.log("into mounted");
+    RestService.getAll("/person/").then(res => {
+      this.members = res.data.data.map(p => new Person(p));
+    });
+
     if (this.isAddPerson) {
       console.log("before getOne()");
       GroupService.getOne(this.id).then(response => {
         this.group = new Group(response.data.data);
         console.log("this is working?");
-        console.log(this.group);
+
+      this.ids = this.group.people.map(p => p.id);
       });
     }
   },

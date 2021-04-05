@@ -26,7 +26,7 @@ class GroupService {
     return Vue.axios.post("/group", data);
   } //create a group
 
-  udpate(id, data) {
+  update(id, data) {
     return Vue.axios.put(`/group/${id}`, data);
   } //update a group
 
