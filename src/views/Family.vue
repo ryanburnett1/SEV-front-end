@@ -109,13 +109,18 @@ export default {
     return {
       family: new Family(),
       personInPerspective: new Person({ firstName: "Bob", lastName: "Guy" }),
+      //all of the people in the family
       persons: [],
+      //a parallel array to persons
       relationships: [],
-      minimalRels: [],
+      //only the people in relationships
       minimalPersons: [],
+      //a parallell array to minPersons
+      minimalRels: [],
     };
   },
   computed: {
+    //all of the people but the person in perspective
     personsNotSelected() {
       return this.persons.filter(p => {
         return p.id != this.personInPerspective.id;

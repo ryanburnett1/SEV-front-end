@@ -90,6 +90,7 @@ export default {
     },
     persons: {
       //person array
+      //all of the people that have a relatioship
       type: Array,
       default: () => [],
     },
@@ -100,6 +101,7 @@ export default {
     },
     selectablePersons: {
       //person array
+      //all of the people that can be selected for a new relationship
       type: Array,
       default: () => [],
     },
