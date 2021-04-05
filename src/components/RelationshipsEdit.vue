@@ -247,6 +247,7 @@ export default {
         this.newPerson.sex
       );
       this.newRelationship = new Relationship({
+        id: undefined,
         person1Id: this.personInPerspective.id,
         person2Id: this.newPerson.id,
         type1: p1Relationship,

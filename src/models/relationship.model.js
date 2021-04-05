@@ -20,7 +20,7 @@ class Relationship {
     ]
   }
   
-  id = 0;
+  id = undefined;
 
   constructor(relationship) {
     if (relationship) {

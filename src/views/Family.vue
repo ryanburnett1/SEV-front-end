@@ -138,8 +138,14 @@ export default {
       });
     },
     relationshipsEditClose(event) {
+      //all relationships with no ids are new ones
       if (event.isSave) {
         console.log("isSave");
+        console.log(this.minimalRels);
+        console.log(event);
+        // event.relationships.forEach(rel => {
+
+        // })
       }
       this.relsEditKey = !this.relsEditKey;
     },
