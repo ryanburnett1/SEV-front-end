@@ -39,6 +39,7 @@ import Relationship from "@/models/relationship.model";
 export default {
   props: {
     person: {
+      //the person on the card (can edit his/her relationship)
       type: Person,
       default: new Person({
         firstName: "Test",
@@ -48,6 +49,12 @@ export default {
         status: "Inactive",
       }),
     },
+    //the relationship between person and personInPerspective
+    relationship: {
+      type: Relationship,
+      default: undefined,
+    },
+    //the person we are editing relationships of
     personInPerspective: {
       type: Person,
       default: new Person({
@@ -57,10 +64,6 @@ export default {
         id: -1,
         status: "Inactive",
       }),
-    },
-    relationship: {
-      type: Relationship,
-      default: undefined,
     },
     value: {},
   },

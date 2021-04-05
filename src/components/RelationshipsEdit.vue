@@ -7,7 +7,6 @@
     </template>
     <v-card>
       <v-container fluid>
-        <v-btn @click="showRels">Show relationships</v-btn>
         <v-row class="pl-4 pt-4" align="start" justify="start">
           <v-avatar color="primary" size="72">
             <v-img
@@ -83,6 +82,7 @@ export default {
   //persons and relationships are meant to be parallel to each other
   props: {
     personInPerspective: {
+      //the person we are editing relationships of
       type: Person,
       default: function() {
         return new Person();
@@ -96,6 +96,7 @@ export default {
     },
     relationships: {
       //relationship array
+      //parallel array to persons
       type: Array,
       default: () => [],
     },
@@ -126,6 +127,7 @@ export default {
     MemberSelectItem,
   },
   methods: {
+    //calculates inverse relationships when a relationship is changed
     relationshipChanged(value, index) {
       if (this.relationships[index].person1Id == this.persons[index].id) {
         this.relationships[index].type1 = value;
@@ -140,12 +142,6 @@ export default {
           this.persons[index].sex
         );
       }
-      console.log("thingy");
-      console.log(this.relationships);
-    },
-    showRels() {
-      console.log(this.persons);
-      console.log(this.relationships);
     },
   },
 };
