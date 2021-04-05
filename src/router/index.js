@@ -47,7 +47,7 @@ const routes = [
     meta: {
       hide: false,
       requiresAuth: true, // can change to true later or use ternary now
-      icon: "mdi-account-group",
+      icon: "mdi-book-account",
       roles: [],
     },
     component: () =>
@@ -59,7 +59,7 @@ const routes = [
     meta: {
       hide: false,
       requiresAuth: false,
-      icon: "",
+      icon: "mdi-account-group",
       roles: [],
     },
     props: true,
