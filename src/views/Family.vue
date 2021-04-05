@@ -57,7 +57,7 @@
             :personInPerspective="personInPerspective"
             :persons="minimalPersons"
             :relationships="minimalRels"
-            :restrictToFamily="true"
+            :selectablePersons="personsNotSelected"
           ></RelationshipsEdit>
         </v-card-actions>
         <v-container fluid>
@@ -115,7 +115,13 @@ export default {
       minimalPersons: [],
     };
   },
-  computed: {},
+  computed: {
+    personsNotSelected() {
+      return this.persons.filter(p => {
+        return p.id != this.personInPerspective.id;
+      });
+    },
+  },
   methods: {
     edit() {
       this.$router.push({

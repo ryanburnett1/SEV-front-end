@@ -1,6 +1,25 @@
 /* eslint-disable */
 
 class Relationship {
+  static relationshipOptions = {
+    Female: [
+      "Sister",
+      "Daughter",
+      "Mother",
+      "Wife",
+      "Grandmother",
+      "Granddaughter",
+    ],
+    Male: [
+      "Brother",
+      "Son",
+      "Father",
+      "Husband",
+      "Grandfather",
+      "Grandson",
+    ]
+  }
+  
   id = 0;
 
   constructor(relationship) {
