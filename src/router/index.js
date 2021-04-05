@@ -54,7 +54,7 @@ const routes = [
       import(/* webpackChunkName: "directory" */ "@/views/Directory.vue"),
   },
   {
-    path: "/group-view/:id",
+    path: "/group-view",
     name: "Groups",
     meta: {
       hide: false,
@@ -64,6 +64,26 @@ const routes = [
     },
     props: true,
     component: () => import(/**/ "@/views/Group.vue"),
+  },
+  {
+    path: "/group-edit/:id/:isAdd",
+    name: "GroupEdit",
+    meta: {
+      hide: true,
+      requiresAuth: true,
+      icon: "",
+      roles: [],
+    },
+    props(route) {
+      const props = { ...route.params };
+      props.id = +props.id;
+      if (typeof props.isAdd === typeof "") {
+        props.isAdd = props.isAdd == "true";
+      }
+
+      return props;
+    },
+    component: () => import(/**/ "@/views/edit/GroupEdit.vue"),
   },
   // {
   //   path: "/group-edit:/id/:isAdd",
