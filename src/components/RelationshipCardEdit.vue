@@ -10,20 +10,29 @@
         </v-avatar>
         <v-col class="ma-0 pa-0 pt-2 pl-4">
           <v-row>
-            <v-card-title>
+            <v-col>
               <v-row>
-                {{ person.preferredFullName() }}
+                <v-card-title>
+                  <v-row>
+                    {{ person.preferredFullName() }}
+                  </v-row>
+                </v-card-title>
               </v-row>
-            </v-card-title>
-          </v-row>
-          <v-row class="mt-0">
-            <v-select
-              :items="relationshipOptions"
-              @change="valueChanged"
-              :value="selectedRelationship"
-              dense
-              solo
-            ></v-select>
+              <v-row class="mt-0">
+                <v-select
+                  :items="relationshipOptions"
+                  @change="valueChanged"
+                  :value="selectedRelationship"
+                  dense
+                  solo
+                ></v-select>
+              </v-row>
+            </v-col>
+            <v-col>
+              <v-btn fab @click="deleteEvent">
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </v-col>
           </v-row>
         </v-col>
         <v-col> </v-col>
@@ -82,6 +91,9 @@ export default {
   methods: {
     valueChanged(value) {
       this.$emit("change", value);
+    },
+    deleteEvent() {
+      this.$emit("delete", this.person.id);
     },
   },
 };

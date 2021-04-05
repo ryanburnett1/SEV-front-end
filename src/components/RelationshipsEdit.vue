@@ -30,28 +30,31 @@
               to {{ this.personInPerspective.getPreferredName() }}.
             </p>
             <v-row v-else class="pl-3">
-              <v-select
-                :items="filteredSelectablePersons"
-                v-model="newPerson"
-                return-object
-              >
-                <template v-slot:selection="{ item }">
-                  <MemberSelectItem :person="item"></MemberSelectItem>
-                </template>
-                <template v-slot:item="{ item }">
-                  <MemberSelectItem :person="item"></MemberSelectItem>
-                </template>
-              </v-select>
-              <v-btn
-                @click="addRelationship"
-                height="auto"
-                class="fab primary ml-4 mt-4"
-              >
-                <v-icon>mdi-account-plus</v-icon>
-              </v-btn>
+              <v-col>
+                <v-select
+                  :items="filteredSelectablePersons"
+                  v-model="newPerson"
+                  return-object
+                >
+                  <template v-slot:selection="{ item }">
+                    <MemberSelectItem :person="item"></MemberSelectItem>
+                  </template>
+                  <template v-slot:item="{ item }">
+                    <MemberSelectItem :person="item"></MemberSelectItem>
+                  </template>
+                </v-select>
+              </v-col>
+              <v-col>
+                <v-btn
+                  @click="addRelationship"
+                  height="auto"
+                  class="fab primary ml-4 mt-4"
+                >
+                  <v-icon>mdi-account-plus</v-icon>
+                </v-btn>
+              </v-col>
             </v-row>
           </v-col>
-          <v-col></v-col>
         </v-row>
         <v-row
           align="start"
@@ -65,6 +68,7 @@
               :person="person"
               :relationship="relsCopy[index]"
               @change="relationshipChanged($event, index)"
+              @delete="deleteRelationship($event)"
             >
             </RelationshipCardEdit>
           </v-col>
@@ -168,7 +172,7 @@ export default {
           Relationship.relationshipOptions[this.personInPerspective.sex][0];
         let p2Relationship = invertRelationship(
           p1Relationship,
-          this.personInPerspective.sex
+          this.newPerson.sex
         );
 
         this.newRelationship = new Relationship({
@@ -198,6 +202,26 @@ export default {
         );
       }
     },
+    deleteRelationship(personId) {
+      let indexToDelete = 0;
+      for (let i = 0; i < this.personsCopy.length; i++) {
+        if (this.personsCopy[i].id == personId) {
+          console.log("found");
+          indexToDelete = i;
+        }
+      }
+      this.relsCopy.splice(indexToDelete, 1);
+      this.personsCopy.splice(indexToDelete, 1);
+      console.log(this.personsCopy);
+
+      //assign the new person to be the first available selectable person
+      let filteredPersons = this.getFilteredSelectablePersons();
+      if (filteredPersons.length > 0) {
+        this.newPerson = filteredPersons[0];
+      } else {
+        this.newPerson = new Person();
+      }
+    },
     //returns all people that don't have any relationships yet
     getFilteredSelectablePersons() {
       return this.selectablePersons.filter(person => {
@@ -220,7 +244,7 @@ export default {
         Relationship.relationshipOptions[this.personInPerspective.sex][0];
       let p2Relationship = invertRelationship(
         p1Relationship,
-        this.personInPerspective.sex
+        this.newPerson.sex
       );
       this.newRelationship = new Relationship({
         person1Id: this.personInPerspective.id,
@@ -228,6 +252,7 @@ export default {
         type1: p1Relationship,
         type2: p2Relationship,
       });
+      console.log(this.newRelationship);
       this.relsCopy.push(new Relationship(this.newRelationship));
       //assign the new person to be the first available selectable person
       let filteredPersons = this.getFilteredSelectablePersons();
