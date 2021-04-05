@@ -189,6 +189,11 @@
                           @onSelectionChanged="editedItem.family = $event"
                         ></SelectionListModal>
                       </v-col>
+                      <v-col>
+                        <event-select
+                          @onEventSelcted="editedItem.eventId = $event"
+                        />
+                      </v-col>
                     </v-row>
                   </v-container>
                 </v-card-text>
@@ -248,6 +253,7 @@ import Person from "@/models/person.model";
 import Group from "@/models/group.model";
 import Family from "@/models/family.model";
 import SelectionListModal from "@/components/SelectionListModal.vue";
+import EventSelect from "@/components/EventSelect.vue";
 
 export default {
   props: [],
@@ -256,6 +262,7 @@ export default {
     ValidationProvider,
     // SelectionList,
     SelectionListModal,
+    EventSelect,
   },
   data() {
     return {
@@ -267,6 +274,7 @@ export default {
       // temporary storage for the item being created/edited
       editedItem: {
         title: "",
+        eventId: "",
         description: "",
         draft: false,
         reoccuring: false,
@@ -282,6 +290,7 @@ export default {
       // default info for new item - this.editItem=defaultItem when creating new announcement
       defaultItem: {
         title: "",
+        eventId: "",
         description: "",
         draft: false,
         reoccuring: false,
@@ -458,6 +467,10 @@ export default {
           });
           RESTService.put(`announcement/${announcement.id}/families`, {
             ids: announcement.family,
+          });
+
+          RESTService.put(`announcement/${announcement.id}/events`, {
+            ids: announcement.eventId,
           });
         });
       } else {
