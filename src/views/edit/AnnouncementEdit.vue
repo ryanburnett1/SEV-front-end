@@ -461,19 +461,23 @@ export default {
           });
         });
       } else {
+        let newAnnouncement = Object.assign({}, this.editedItem);
+        console.log(newAnnouncement);
+
         // create new announcement
         RESTService.create("/announcement", this.editedItem).then(response => {
+          newAnnouncement.id = response.data.data.id;
           this.editedItem.id = response.data.data.id;
 
           // update people, groups, and family for announcement
-          RESTService.put(`announcement/${this.editedItem.id}/people`, {
-            ids: this.editedItem.person,
+          RESTService.put(`/announcement/${newAnnouncement.id}/people`, {
+            ids: newAnnouncement.person,
           });
-          RESTService.put(`announcement/${this.editedItem.id}/group`, {
-            ids: this.editedItem.group,
+          RESTService.put(`/announcement/${newAnnouncement.id}/groups`, {
+            ids: newAnnouncement.group,
           });
-          RESTService.put(`announcement/${this.editedItem.id}/families`, {
-            ids: this.editedItem.family,
+          RESTService.put(`/announcement/${newAnnouncement.id}/families`, {
+            ids: newAnnouncement.family,
           });
         });
 

@@ -145,7 +145,7 @@ export default {
       this.personalAnnouncements = res.data.data;
     });
 
-    rest.get("/announcement/group/", this.groupId).then(res => {
+    rest.get("/announcement/groups/", this.groupId).then(res => {
       this.groupAnnouncements = res.data.data;
     });
 
