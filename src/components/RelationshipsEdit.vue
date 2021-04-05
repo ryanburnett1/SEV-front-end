@@ -161,11 +161,26 @@ export default {
         this.personsCopy.push(new Person(this.persons[i]));
       }
 
-      this.newPerson = this.selectablePersons[0]
-        ? new Person(this.selectablePersons[0])
-        : new Person();
+      let filteredPersons = this.getFilteredSelectablePersons();
+      if (filteredPersons.length > 0) {
+        this.newPerson = filteredPersons[0];
+        let p1Relationship =
+          Relationship.relationshipOptions[this.personInPerspective.sex][0];
+        let p2Relationship = invertRelationship(
+          p1Relationship,
+          this.personInPerspective.sex
+        );
 
-      this.newRelationship = new Relationship();
+        this.newRelationship = new Relationship({
+          person1Id: this.personInPerspective.id,
+          person2Id: this.newPerson.id,
+          type1: p1Relationship,
+          type2: p2Relationship,
+        });
+      } else {
+        this.newPerson = new Person();
+        this.newRelationship = new Relationship();
+      }
     },
     //calculates inverse relsCopy when a relationship is changed
     relationshipChanged(value, index) {
@@ -198,11 +213,28 @@ export default {
       });
     },
     addRelationship() {
-      this.personsCopy.push(this.newPerson);
-      this.relsCopy.push(this.newRelationship);
+      //add the newPerson to the list of people with relationships
+      this.personsCopy.push(new Person(this.newPerson));
+      //add a default relationship for that new person
+      let p1Relationship =
+        Relationship.relationshipOptions[this.personInPerspective.sex][0];
+      let p2Relationship = invertRelationship(
+        p1Relationship,
+        this.personInPerspective.sex
+      );
+      this.newRelationship = new Relationship({
+        person1Id: this.personInPerspective.id,
+        person2Id: this.newPerson.id,
+        type1: p1Relationship,
+        type2: p2Relationship,
+      });
+      this.relsCopy.push(new Relationship(this.newRelationship));
+      //assign the new person to be the first available selectable person
       let filteredPersons = this.getFilteredSelectablePersons();
       if (filteredPersons.length > 0) {
         this.newPerson = filteredPersons[0];
+      } else {
+        this.newPerson = new Person();
       }
     },
     closeDialog(isSave) {
