@@ -54,6 +54,29 @@ const routes = [
       import(/* webpackChunkName: "directory" */ "@/views/Directory.vue"),
   },
   {
+    path: "/event",
+    name: "Event",
+    meta: {
+      hide: true,
+      requiresAuth: true, // can change to true later or use ternary now
+      icon: "mdi-book-account",
+      roles: [],
+    },
+    component: () => import(/* webpackChunkName: "home" */ "@/views/Event.vue"),
+  },
+  {
+    path: "/event-edit",
+    name: "EventEdit",
+    meta: {
+      hide: true,
+      requiresAuth: true, // can change to true later or use ternary now
+      icon: "mdi-book-account",
+      roles: [],
+    },
+    component: () =>
+      import(/* webpackChunkName: "home" */ "@/views/edit/EventEdit.vue"),
+  },
+  {
     path: "/group-view",
     name: "Groups",
     meta: {

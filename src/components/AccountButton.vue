@@ -56,13 +56,29 @@
           link
           @click="
             $router.push({
-              name: 'AnnouncementEdit',
+              name: 'EventEdit',
               params: {},
             })
           "
         >
           <v-list-item-icon>
             <v-icon>mdi-calendar-clock</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Manage Events</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item
+          v-if="$store.getters.isAdmin"
+          link
+          @click="
+            $router.push({
+              name: 'AnnouncementEdit',
+              params: {},
+            })
+          "
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-bullhorn</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Manage Announcements</v-list-item-title>
         </v-list-item>
