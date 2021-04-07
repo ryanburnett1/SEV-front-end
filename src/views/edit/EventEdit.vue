@@ -115,12 +115,6 @@
                           ref="datep"
                           v-model="editedItem.startTime"
                           label="Select Event Starting Date/Time."
-                          :dateFormat="dateFormat"
-                          :timeFormat="timeFormat"
-                          :textFieldProps="textProps"
-                          :timePickerProps="timeProps"
-                          :datePickerProps="dateProps"
-                          @update="test()"
                         >
                           <template v-slot:dateIcon>
                             <v-icon>mdi-calendar</v-icon>
@@ -218,11 +212,6 @@ export default {
     };
   },
   computed: {
-    minTime() {
-      return this.$refs.datep.datetime <= new Date()
-        ? new Date().toTimeString()
-        : null;
-    },
     // sets title of create/edit form
     formTitle() {
       return this.editedIndex === -1 ? "New Event" : "Edit Event";
@@ -258,16 +247,6 @@ export default {
     // different date time format from the one used by datetime-picker | DO NOT use this.dateFormat and this.timeFormat
     dateFormatter(date) {
       return this.$moment(date).format("MMMM Do, YYYY hh:mma");
-    },
-    test() {
-      let picker = this.$refs.datep;
-      console.log(picker);
-
-      return new Date().toTimeString();
-
-      // return this.$refs.datep.datetime <= new Date()
-      //   ? new Date().toTimeString()
-      //   : null;
     },
     editItem(item) {
       // deep copy item we want to edit
@@ -349,6 +328,11 @@ export default {
     // get list of skils from db
     RESTService.getAll("/eventInstance").then(response => {
       this.dbEventList = response.data.data;
+      this.dbEventList = this.dbEventList.map(e => {
+        e.startTime = new Date(e.startTime);
+        e.endTime = new Date(e.endTime);
+        return e;
+      }); // will be done in the event.model
     });
   },
 };
