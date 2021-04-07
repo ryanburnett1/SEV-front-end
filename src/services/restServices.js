@@ -7,7 +7,11 @@ class RESTService {
   }
 
   get(route, id) {
-    return Vue.axios.get(route.concat(id));
+    if (id) {
+      return Vue.axios.get(route.concat(id));
+    } else {
+      return Vue.axios.get(route);
+    }
   }
 
   create(route, data) {
@@ -24,6 +28,10 @@ class RESTService {
 
   delete(route, id) {
     return Vue.axios.delete(route.concat(id));
+  }
+
+  getDescription(route) {
+    return Vue.axios.get(route + "/description");
   }
 
   // other unique route queries here
