@@ -159,6 +159,7 @@ export default {
     },
   },
   mounted() {
+    console.log("THINGS");
     rest.get("/announcement/person/", this.personId).then(res => {
       this.personalAnnouncements = res.data.data;
     });
