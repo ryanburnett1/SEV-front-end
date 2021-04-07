@@ -54,6 +54,7 @@
           </v-select>
           <v-spacer></v-spacer>
           <RelationshipsEdit
+            v-if="isLoggedIn && $store.getters.isAdmin"
             :key="relsEditKey"
             @close="relationshipsEditClose"
             :personInPerspective="personInPerspective"
@@ -128,6 +129,9 @@ export default {
       return this.persons.filter(p => {
         return p.id != this.personInPerspective.id;
       });
+    },
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
     },
   },
   methods: {
