@@ -23,6 +23,7 @@
                   :items="relationshipOptions"
                   @change="valueChanged"
                   :value="selectedRelationship"
+                  item-color="blue"
                   dense
                   solo
                 ></v-select>

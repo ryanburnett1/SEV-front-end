@@ -7,20 +7,20 @@
     </template>
     <v-card>
       <v-container fluid>
-        <v-row class="pl-4 pt-4" align="start" justify="start">
-          <v-avatar color="primary" size="72">
+        <v-row class="pt-4 pb-4" align="start" justify="start">
+          <v-card-title class="py-0 pr-8">
+            <span class="headline">Editing Relationships For:</span>
+          </v-card-title>
+          <v-avatar color="primary" size="32">
             <v-img
               :src="personInPerspective.getPicturePath()"
               :lazy-src="require('@/assets/images/placeholder_gray.png')"
             ></v-img>
           </v-avatar>
-        </v-row>
-        <v-row class="pl-4" align="start" justify="start">
-          <v-card-title class="pa-0 ma-0">
-            <span class="headline"
-              >Edit {{ personInPerspective.getPreferredName() }}'s
-              Relationships</span
-            >
+          <v-card-title class="py-0 pl-3">
+            <span class="headline">{{
+              personInPerspective.preferredFullName()
+            }}</span>
           </v-card-title>
         </v-row>
         <v-row class="pl-1">
@@ -29,7 +29,7 @@
               No relationships can be added. Everyone already has a relationship
               to {{ this.personInPerspective.getPreferredName() }}.
             </p>
-            <v-row v-else class="pl-3">
+            <v-row v-else class="pl-0">
               <v-col>
                 <v-select
                   :items="filteredSelectablePersons"
@@ -45,11 +45,7 @@
                 </v-select>
               </v-col>
               <v-col>
-                <v-btn
-                  @click="addRelationship"
-                  height="auto"
-                  class="fab primary ml-4 mt-4"
-                >
+                <v-btn @click="addRelationship" class="fab primary ml-4 mt-4">
                   <v-icon>mdi-account-plus</v-icon>
                 </v-btn>
               </v-col>
