@@ -67,7 +67,9 @@ export default {
   computed: {
     filterGroups() {
       return this.search != null
-        ? this.groups.filter(g => g.name.includes(this.search))
+        ? this.groups.filter(g =>
+            g.name.toLowerCase().includes(this.search.toLowerCase())
+          )
         : this.groups;
     },
   },
