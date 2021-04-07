@@ -169,10 +169,10 @@ export default {
     };
   },
   computed: {
-    nonServiceSkills: function(){
+    nonServiceSkills: function() {
       return this.person.skill.filter(skill => !skill.serviceSkill);
     },
-    serviceSkills: function(){
+    serviceSkills: function() {
       return this.person.skill.filter(skill => skill.serviceSkill);
     },
   },

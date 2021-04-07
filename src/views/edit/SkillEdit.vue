@@ -132,7 +132,7 @@
             </v-dialog>
           </v-toolbar>
         </template>
-        <template v-slot:item.serviceSkill ="{ item }">
+        <template v-slot:item.serviceSkill="{ item }">
           {{ getServiceSkill(item) }}
         </template>
         <template v-slot:item.actions="{ item }">
@@ -191,7 +191,7 @@ export default {
         },
         {
           text: "Service Skill",
-          value: "serviceSkill"
+          value: "serviceSkill",
         },
         {
           text: "Actions",
@@ -215,13 +215,12 @@ export default {
         });
       }
     },
-    getServiceSkill(item){
+    getServiceSkill(item) {
       let result = "ERROR";
-      if(item.serviceSkill){
-        result = "✔️"
-      }
-      else {
-        result = "❌"
+      if (item.serviceSkill) {
+        result = "✔️";
+      } else {
+        result = "❌";
       }
       return result;
     },
