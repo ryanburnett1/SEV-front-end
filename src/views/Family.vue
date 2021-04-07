@@ -165,7 +165,7 @@ export default {
               added.push(rel);
             } else {
               //find the matching relationship by id
-              let foundIndex = this.relsCopy.findIndex(r => {
+              let foundIndex = relsCopy.findIndex(r => {
                 return r.id == rel.id;
               });
               //if a match was found, check if it has different data
@@ -177,7 +177,7 @@ export default {
                 }
                 //remove found relationship from relsCopy
                 if (relsCopy.length == 1) {
-                  relsCopy.clear();
+                  relsCopy = [];
                 } else {
                   relsCopy.splice(foundIndex, 1);
                 }
@@ -192,6 +192,7 @@ export default {
             relsCopy.forEach(r => {
               deleted.push(r);
             });
+            relsCopy = [];
           }
           //make the proper requests for updated, added, and deleted
           //wrap each request in a promise
@@ -200,9 +201,9 @@ export default {
             requests.push(
               new Promise(resolve => {
                 rest
-                  .update("relationship", updated[i].id, updated[i])
+                  .update("relationship/", updated[i].id, updated[i])
                   .then(value => {
-                    console.log("then executed");
+                    console.log("updated executed");
                     console.log(value);
                     resolve(value);
                   });
@@ -213,7 +214,7 @@ export default {
             requests.push(
               new Promise(resolve => {
                 rest.create("relationship", added[i]).then(value => {
-                  console.log("then executed");
+                  console.log("added executed");
                   console.log(value);
                   resolve(value);
                 });
@@ -223,8 +224,8 @@ export default {
           for (let i = 0; i < deleted.length; i++) {
             requests.push(
               new Promise(resolve => {
-                rest.delete("relationship", deleted[i].id).then(value => {
-                  console.log("then executed");
+                rest.delete("relationship/", deleted[i].id).then(value => {
+                  console.log("deleted executed");
                   console.log(value);
                   resolve(value);
                 });
@@ -260,6 +261,7 @@ export default {
             console.log("all finished");
             console.log(values);
           });
+          d = new Date();
           console.log(d.getTime());
         }
         //wait for the getting of all relationships
