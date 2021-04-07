@@ -5,8 +5,9 @@
         :headers="headers"
         :search="search"
         :items="dbSkillList"
-        sort-by="name"
+        sort-by="['name', 'serviceSkill']"
         class="elevation-1"
+        multi-sort
       >
         <template v-slot:top>
           <v-toolbar flat>
@@ -83,6 +84,16 @@
                         </validation-provider>
                       </v-col>
                     </v-row>
+                    <v-row>
+                      <v-col>
+                        <v-switch
+                          v-model="editedItem.serviceSkill"
+                          color="success"
+                          label="Service Skill"
+                          inset
+                        ></v-switch>
+                      </v-col>
+                    </v-row>
                   </v-container>
                 </v-card-text>
 
@@ -121,6 +132,9 @@
             </v-dialog>
           </v-toolbar>
         </template>
+        <template v-slot:item.serviceSkill="{ item }">
+          {{ getServiceSkill(item) }}
+        </template>
         <template v-slot:item.actions="{ item }">
           <v-icon small class="mr-2" @click="editItem(item)">
             mdi-pencil
@@ -149,11 +163,12 @@ export default {
       dialog: false, // hide/open edit/create dialog
       dialogDelete: false, // hide/open delete dialog
       editedIndex: -1, // current item we are editing locally
-      editedItem: { name: "", description: "" }, // temporary storage for the item being created/edited
+      editedItem: { name: "", description: "", serviceSkill: false }, // temporary storage for the item being created/edited
       // default info for new item - this.editItem=defaultItem when creating new skill
       defaultItem: {
         name: "",
         description: "",
+        serviceSkill: false,
       },
       search: "", // search skills by name
     };
@@ -173,6 +188,10 @@ export default {
         {
           text: "Description",
           value: "description",
+        },
+        {
+          text: "Service Skill",
+          value: "serviceSkill",
         },
         {
           text: "Actions",
@@ -195,6 +214,15 @@ export default {
           this.$refs.observer.validate();
         });
       }
+    },
+    getServiceSkill(item) {
+      let result = "ERROR";
+      if (item.serviceSkill) {
+        result = "✔️";
+      } else {
+        result = "❌";
+      }
+      return result;
     },
     deleteItem(item) {
       // get item we want to delete
@@ -262,6 +290,7 @@ export default {
     // get list of skils from db
     RESTService.getAll("/skill").then(response => {
       this.dbSkillList = response.data.data;
+      console.log(this.dbSkillList);
     });
   },
 };

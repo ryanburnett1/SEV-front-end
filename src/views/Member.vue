@@ -53,14 +53,31 @@
     <v-row
       class="ma-2 pa-2"
       justify="center"
-      v-if="!!person.skill && person.skill.length > 0"
+      v-if="!!nonServiceSkills && nonServiceSkills.length > 0"
     >
       <v-card width="100%">
-        <v-card-title>Skills:</v-card-title>
+        <v-card-title>Non-Service Skills:</v-card-title>
         <v-divider></v-divider>
         <v-container fluid>
           <v-row>
-            <v-col cols="6" v-for="skill in person.skill" :key="skill.id">
+            <v-col cols="6" v-for="skill in nonServiceSkills" :key="skill.id">
+              {{ skill.name }}
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card>
+    </v-row>
+    <v-row
+      class="ma-2 pa-2"
+      justify="center"
+      v-if="!!serviceSkills && serviceSkills.length > 0"
+    >
+      <v-card width="100%">
+        <v-card-title>Service Skills:</v-card-title>
+        <v-divider></v-divider>
+        <v-container fluid>
+          <v-row>
+            <v-col cols="6" v-for="skill in serviceSkills" :key="skill.id">
               {{ skill.name }}
             </v-col>
           </v-row>
@@ -147,9 +164,18 @@ export default {
       person: new Person(),
       family: new Family(),
       familyCardArr: [],
+      //normSkills: [],
+      //servSkills: [],
     };
   },
-  computed: {},
+  computed: {
+    nonServiceSkills: function() {
+      return this.person.skill.filter(skill => !skill.serviceSkill);
+    },
+    serviceSkills: function() {
+      return this.person.skill.filter(skill => skill.serviceSkill);
+    },
+  },
   methods: {
     edit() {
       this.$router.push({
@@ -168,7 +194,11 @@ export default {
     // get the person by prop id
     MemberService.get(this.id).then(response => {
       this.person = new Person(response.data.data); // create a new Person Class for data
+      /*if (this.person.skill) {
+        this.person.skill.forEach(element => {
 
+        })
+      }*/
       // if person has a family add them for easy of navigation
       if (this.person.family) {
         RestService.get("/family/", this.person.family[0].id).then(res => {
