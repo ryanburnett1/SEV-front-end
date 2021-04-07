@@ -54,7 +54,7 @@ const routes = [
       import(/* webpackChunkName: "directory" */ "@/views/Directory.vue"),
   },
   {
-    path: "/event",
+    path: "/event/:id",
     name: "Event",
     meta: {
       hide: true,
@@ -62,6 +62,7 @@ const routes = [
       icon: "mdi-book-account",
       roles: [],
     },
+    props: true,
     component: () => import(/* webpackChunkName: "home" */ "@/views/Event.vue"),
   },
   {
