@@ -11,11 +11,7 @@
           {{ title }}
         </v-toolbar-title>
       </v-toolbar>
-      <v-card-text
-        v-show="!!message"
-        class="pa-4 black--text"
-        v-html="message"
-      ></v-card-text>
+      <v-card-text v-show="!!message" dark v-html="message"></v-card-text>
       <v-card-actions class="pt-3">
         <v-spacer></v-spacer>
         <v-btn
@@ -49,7 +45,7 @@ export default {
       message: null,
       title: null,
       options: {
-        color: "grey lighten-2",
+        color: "white lighten-2",
         width: 400,
         zIndex: 200,
         noconfirm: false,

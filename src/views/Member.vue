@@ -140,7 +140,8 @@
         </v-container>
       </v-card>
     </v-row>
-    <admin-fab :editFunction="edit"></admin-fab>
+    <admin-fab :editFunction="edit" :deleteFunction="deleteMember"></admin-fab>
+    <confirmation-dialog ref="confirm"></confirmation-dialog>
   </v-container>
 </template>
 
@@ -152,11 +153,13 @@ import UserService from "@/services/userServices";
 import AdminFab from "@/components/AdminFab.vue";
 import Family from "@/models/family.model";
 import RestService from "@/services/restServices";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 
 export default {
   props: ["id"],
   components: {
     AdminFab,
+    ConfirmationDialog,
   },
   data() {
     return {
@@ -177,6 +180,29 @@ export default {
     },
   },
   methods: {
+    async deleteMember() {
+      let message = `Are your sure you want to delete ${this.person.preferredFullName()}?\n`;
+
+      if (
+        await this.$refs.confirm.open("Confirm Delete", message, {
+          color: "error",
+          confirmText: "Delete",
+          confirmColor: "error",
+          cancelColor: "success",
+        })
+      ) {
+        await MemberService.delete(this.id)
+          .then(response => {
+            console.log("MEMBER DELETED: ", response);
+            this.$router.back();
+          })
+          .catch(error => {
+            console.log("DELETE MEMBER ERROR: ", error);
+          });
+      }
+    },
+    del() {},
+
     edit() {
       this.$router.push({
         name: "MemberEdit",

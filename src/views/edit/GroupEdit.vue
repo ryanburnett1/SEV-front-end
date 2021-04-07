@@ -64,19 +64,19 @@
                           </v-row>
                         </v-card-title>
                       </v-row>
-                      <v-row class="mt-0">
+                      <!-- <v-row class="mb-1">
                         <v-card-subtitle class="ma-0 pa-1 pl-1">
                           Brother of Bob
                         </v-card-subtitle>
-                      </v-row>
-                      <v-row class="text-body-2 pl-4 pt-2">
+                      </v-row> -->
+                      <!-- <v-row class="text-body-2 pl-4 pt-2">
                         <v-row v-if="person.address">
                           Address: {{ person.address }}
                         </v-row>
                         <v-row v-else>
                           No address is stored
                         </v-row>
-                      </v-row>
+                      </v-row> -->
                     </v-col>
                   </v-row>
                 </v-container>
