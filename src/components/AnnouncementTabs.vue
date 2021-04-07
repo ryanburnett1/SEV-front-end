@@ -23,6 +23,12 @@
                 :key="item.id"
                 active-class="accent--text text--accent-4"
                 link
+                @click="
+                  $router.push({
+                    name: 'Event',
+                    params: { id: item.event[0].id },
+                  })
+                "
               >
                 <v-list-item-avatar rounded size="60" v-if="item.picture">
                   <v-img :src="item.picture"></v-img>
@@ -53,6 +59,12 @@
                 :key="item.id"
                 active-class="accent--text text--accent-4"
                 link
+                @click="
+                  $router.push({
+                    name: 'Event',
+                    params: { id: item.event[0].id },
+                  })
+                "
               >
                 <v-list-item-avatar rounded size="60" v-if="item.picture">
                   <v-img :src="item.picture"></v-img>
@@ -83,6 +95,12 @@
                 :key="item.id"
                 active-class="accent--text text--accent-4"
                 link
+                @click="
+                  $router.push({
+                    name: 'Event',
+                    params: { id: item.event[0].id },
+                  })
+                "
               >
                 <v-list-item-avatar rounded size="60" v-if="item.picture">
                   <v-img :src="item.picture"></v-img>

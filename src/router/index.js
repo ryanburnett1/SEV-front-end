@@ -47,23 +47,66 @@ const routes = [
     meta: {
       hide: false,
       requiresAuth: true, // can change to true later or use ternary now
-      icon: "mdi-account-group",
+      icon: "mdi-book-account",
       roles: [],
     },
     component: () =>
       import(/* webpackChunkName: "directory" */ "@/views/Directory.vue"),
   },
   {
-    path: "/group-view/:id",
+    path: "/event",
+    name: "Event",
+    meta: {
+      hide: true,
+      requiresAuth: true, // can change to true later or use ternary now
+      icon: "mdi-book-account",
+      roles: [],
+    },
+    component: () => import(/* webpackChunkName: "home" */ "@/views/Event.vue"),
+  },
+  {
+    path: "/event-edit",
+    name: "EventEdit",
+    meta: {
+      hide: true,
+      requiresAuth: true, // can change to true later or use ternary now
+      icon: "mdi-book-account",
+      roles: [],
+    },
+    component: () =>
+      import(/* webpackChunkName: "home" */ "@/views/edit/EventEdit.vue"),
+  },
+  {
+    path: "/group-view",
     name: "Groups",
     meta: {
       hide: false,
       requiresAuth: false,
-      icon: "",
+      icon: "mdi-account-group",
       roles: [],
     },
     props: true,
     component: () => import(/**/ "@/views/Group.vue"),
+  },
+  {
+    path: "/group-edit/:id/:isAdd",
+    name: "GroupEdit",
+    meta: {
+      hide: true,
+      requiresAuth: true,
+      icon: "",
+      roles: [],
+    },
+    props(route) {
+      const props = { ...route.params };
+      props.id = +props.id;
+      if (typeof props.isAdd === typeof "") {
+        props.isAdd = props.isAdd == "true";
+      }
+
+      return props;
+    },
+    component: () => import(/**/ "@/views/edit/GroupEdit.vue"),
   },
   // {
   //   path: "/group-edit:/id/:isAdd",
