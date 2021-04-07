@@ -169,31 +169,31 @@
                     </v-row>
                     <v-row>
                       <v-col>
-                        <SelectionListMenu
+                        <SelectionListModal
                           :people="members"
                           :previousSelection="editedItem.person"
                           @onSelectionChanged="editedItem.person = $event"
-                        ></SelectionListMenu>
-                        <SelectionListMenu
+                        ></SelectionListModal>
+                        <SelectionListModal
                           label="Select Groups"
                           :people="groups"
                           :previousSelection="editedItem.group"
                           group
                           @onSelectionChanged="editedItem.group = $event"
-                        ></SelectionListMenu>
-                        <SelectionListMenu
+                        ></SelectionListModal>
+                        <SelectionListModal
                           label="Select Families"
                           :people="families"
                           family
                           :previousSelection="editedItem.family"
                           @onSelectionChanged="editedItem.family = $event"
-                        ></SelectionListMenu>
-                        <!-- <MemberSelectionList
-                          :people="members"
-                          @onSelectionChanged="
-                            selectedMembers = $event.map(member => member.id)
-                          "
-                        /> -->
+                        ></SelectionListModal>
+                      </v-col>
+                      <v-col>
+                        <event-select
+                          :current="editedItem.event"
+                          @onEventSelected="editedItem.event = $event"
+                        />
                       </v-col>
                     </v-row>
                   </v-container>
@@ -249,19 +249,21 @@
 <script>
 import RESTService from "@/services/restServices";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-// import MemberSelectionList from "@/components/MemberSelectionList.vue";
+// import SelectionList from "@/components/SelectionList.vue";
 import Person from "@/models/person.model";
-import Family from "@/models/family.model";
 import Group from "@/models/group.model";
-import SelectionListMenu from "../../components/SelectionListMenu.vue";
+import Family from "@/models/family.model";
+import SelectionListModal from "@/components/SelectionListModal.vue";
+import EventSelect from "@/components/EventSelect.vue";
 
 export default {
   props: [],
   components: {
     ValidationObserver,
     ValidationProvider,
-    // MemberSelectionList,
-    SelectionListMenu,
+    // SelectionList,
+    SelectionListModal,
+    EventSelect,
   },
   data() {
     return {
@@ -279,6 +281,7 @@ export default {
         sent: false,
         email: false,
         sms: false,
+        event: [],
         person: [],
         group: [],
         family: [],
@@ -294,6 +297,7 @@ export default {
         sent: false,
         email: false,
         sms: false,
+        event: [],
         person: [],
         group: [],
         family: [],
@@ -465,21 +469,33 @@ export default {
           RESTService.put(`announcement/${announcement.id}/families`, {
             ids: announcement.family,
           });
+
+          RESTService.put(`announcement/${announcement.id}/events`, {
+            ids: announcement.event,
+          });
         });
       } else {
+        let newAnnouncement = Object.assign({}, this.editedItem);
+        console.log(newAnnouncement);
+
         // create new announcement
         RESTService.create("/announcement", this.editedItem).then(response => {
+          newAnnouncement.id = response.data.data.id;
           this.editedItem.id = response.data.data.id;
 
           // update people, groups, and family for announcement
-          RESTService.put(`announcement/${this.editedItem.id}/people`, {
-            ids: this.editedItem.person,
+          RESTService.put(`/announcement/${newAnnouncement.id}/people`, {
+            ids: newAnnouncement.person,
           });
-          RESTService.put(`announcement/${this.editedItem.id}/group`, {
-            ids: this.editedItem.group,
+          RESTService.put(`/announcement/${newAnnouncement.id}/groups`, {
+            ids: newAnnouncement.group,
           });
-          RESTService.put(`announcement/${this.editedItem.id}/families`, {
-            ids: this.editedItem.family,
+          RESTService.put(`/announcement/${newAnnouncement.id}/families`, {
+            ids: newAnnouncement.family,
+          });
+
+          RESTService.put(`announcement/${newAnnouncement.id}/events`, {
+            ids: newAnnouncement.event,
           });
         });
 
@@ -507,10 +523,12 @@ export default {
         announcement.announcementDate = new Date(announcement.announcementDate);
         announcement.expirationDate = new Date(announcement.expirationDate);
 
+        console.log(announcement);
         // get ids for selection
         announcement.person = announcement.person.map(p => p.id);
         announcement.family = announcement.family.map(p => p.id);
         announcement.group = announcement.group.map(p => p.id);
+        announcement.event = announcement.event.map(p => p.id);
 
         this.dbAnnouncementList.push(announcement);
       });

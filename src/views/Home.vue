@@ -32,12 +32,12 @@
 import MemberService from "@/services/memberServices.js";
 import Person from "@/models/person.model.js";
 import AnnouncementTabs from "@/components/AnnouncementTabs.vue";
-// import MemberSelectionList from "../components/MemberSelectionList.vue";
+// import SelectionList from "../components/SelectionList.vue";
 
 export default {
   name: "Home",
   components: {
-    // MemberSelectionList,
+    // SelectionList,
     AnnouncementTabs,
   },
   data() {
