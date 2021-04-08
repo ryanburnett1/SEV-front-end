@@ -6,7 +6,7 @@
   >
     <v-skeleton-loader type="card">
       <v-card
-        v-if="!!person"
+        v-if="!!family"
         :disabled="disabled"
         :class="{ 'on-hover': hover, 'max-auto': true }"
         :elevation="hover ? 16 : 2"
@@ -14,17 +14,17 @@
         <v-skeleton-loader type="image" class="px-4 pt-4">
           <v-avatar size="150" color="primary">
             <v-img
-              :src="person.getPicturePath()"
+              :src="family.getPicturePath()"
               :lazy-src="require('@/assets/images/placeholder_gray.png')"
             >
             </v-img>
           </v-avatar>
         </v-skeleton-loader>
         <v-card-title class="px-4 pt-2 pb-0">
-          {{ person.preferredFullName() }}
+          {{ family.name }}
         </v-card-title>
         <v-card-text v-if="$store.getters.isAdmin" class="px-4 pb-4">
-          id: {{ person.id }}
+          id: {{ family.id }}
         </v-card-text>
       </v-card>
     </v-skeleton-loader>
@@ -32,18 +32,21 @@
 </template>
 
 <script>
-import Person from "@/models/person.model";
+import Family from "@/models/family.model";
 
 export default {
   props: {
-    person: {
-      type: Person,
-      default: new Person({
-        firstName: "Test",
-        lastName: "McTest",
-        picture: "RANDOM",
+    family: {
+      type: Family,
+      default: new Family({
         id: -1,
-        status: "Inactive",
+        address: "123 NoWhere St.",
+        email: "mctestsfam@email.com",
+        members: [1, 2, 3],
+        name: "Mc Tests",
+        phone: "1234567890",
+        picture: "https://picsum.photos/1920/1080?random",
+        status: "Active",
       }),
     },
   },
@@ -54,7 +57,7 @@ export default {
   },
   computed: {
     disabled() {
-      return this.person.status == "Disabled";
+      return this.family.status == "Disabled";
     },
   },
   methods: {},

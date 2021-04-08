@@ -7,7 +7,7 @@
     </template>
     <v-list nav>
       <v-list-item-group>
-        <v-list-item @click="$store.dispatch('logout')">
+        <v-list-item @click="logout">
           <v-list-item-icon>
             <v-icon>mdi-logout-variant</v-icon>
           </v-list-item-icon>
@@ -18,6 +18,69 @@
             <v-icon>mdi-account-box</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Profile</v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          v-if="$store.getters.isAdmin"
+          link
+          @click="
+            $router.push({
+              name: 'MemberEdit',
+              params: { id: 0, isAdd: true },
+            })
+          "
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-account-multiple-plus</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Add New Member</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item
+          v-if="$store.getters.isAdmin"
+          link
+          @click="
+            $router.push({
+              name: 'SkillEdit',
+              params: { isAdd: true },
+            })
+          "
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-hard-hat</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Manage Skills</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item
+          v-if="$store.getters.isAdmin"
+          link
+          @click="
+            $router.push({
+              name: 'EventEdit',
+              params: {},
+            })
+          "
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-calendar-clock</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Manage Events</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item
+          v-if="$store.getters.isAdmin"
+          link
+          @click="
+            $router.push({
+              name: 'AnnouncementEdit',
+              params: {},
+            })
+          "
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-bullhorn</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Manage Announcements</v-list-item-title>
         </v-list-item>
         <v-list-item @click="toggleTheme()">
           <v-list-item-icon>
@@ -58,6 +121,12 @@ export default {
       });
 
       // go to user profile, member self edit, whatever
+    },
+    logout() {
+      this.$gAuth.signOut().then(res => {
+        console.log(res);
+      });
+      this.$store.dispatch("logout");
     },
   },
   computed: {

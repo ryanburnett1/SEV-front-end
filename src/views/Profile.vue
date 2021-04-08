@@ -1,50 +1,15 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col cols="1" v-if="$store.getters.isAdmin">
-        <v-navigation-drawer permanent expand-on-hover absolute>
-          <v-list nav dense>
-            <v-list-item
-              link
-              @click="
-                $router.push({
-                  name: 'MemberEdit',
-                  params: { id: 0, isAdd: true },
-                })
-              "
-            >
-              <v-list-item-icon>
-                <v-icon>mdi-account-multiple-plus</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>Add New Member</v-list-item-title>
-            </v-list-item>
-
-            <v-list-item
-              link
-              @click="
-                $router.push({
-                  name: 'SkillEdit',
-                  params: { isAdd: true },
-                })
-              "
-            >
-              <v-list-item-icon>
-                <v-icon>mdi-hard-hat</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>Add Skill</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-navigation-drawer>
-      </v-col>
-      <v-col>
+      <v-col cols="10" xl="10" lg="10" md="10" sm="10" xs="10">
         <v-row>
-          <v-col cols="1">
+          <v-col cols="1" xl="1" lg="1" md="1" sm="1" xs="1">
             <v-avatar color="primary">
-              <v-img :src="person.picture"></v-img>
+              <v-img :src="person.getPicturePath()"></v-img>
             </v-avatar>
           </v-col>
-          <v-col>
-            <h1>{{ person.fullName() }}</h1>
+          <v-col cols="11" xl="11" lg="11" md="11" sm="11" xs="11">
+            <h1>{{ person.preferredFullName() }}</h1>
             <v-subheader>{{ person.title }}</v-subheader>
           </v-col>
         </v-row>
@@ -62,33 +27,16 @@
             </v-btn>
           </v-col>
         </v-row>
-        <!-- <v-row>
+        <v-row>
           <v-col>
-            <v-tabs v-model="tab" color="secondary">
-              <v-tab>Public Annoucments</v-tab>
-              <v-tab>Life Group Annoucments</v-tab>
-
-              <v-tabs-items v-model="tab">
-                <v-tab-item>
-                  <v-card flat>
-                    <v-card-text
-                      >Normal, church-wide announcements are displayed
-                      here</v-card-text
-                    >
-                  </v-card>
-                </v-tab-item>
-                <v-tab-item>
-                  <v-card flat>
-                    <v-card-text
-                      >Announcements specific to the groups you are in are
-                      displayed here</v-card-text
-                    >
-                  </v-card>
-                </v-tab-item>
-              </v-tabs-items>
-            </v-tabs>
+            <h2>Announcements:</h2>
+            <announcement-tabs
+              :personId="$store.getters.getPersonId"
+              :groupId="$store.getters.getGroupId"
+              :familyId="$store.getters.getFamilyId"
+            />
           </v-col>
-        </v-row> -->
+        </v-row>
       </v-col>
     </v-row>
     <admin-fab
@@ -105,12 +53,14 @@ import AdminFab from "@/components/AdminFab.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import Person from "@/models/person.model";
 import MemberService from "@/services/memberServices.js";
+import AnnouncementTabs from "@/components/AnnouncementTabs.vue";
 
 export default {
   props: ["id"],
   components: {
     AdminFab,
     ConfirmationDialog,
+    AnnouncementTabs,
   },
   data() {
     return {

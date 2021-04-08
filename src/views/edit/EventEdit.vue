@@ -4,14 +4,28 @@
       <v-data-table
         :headers="headers"
         :search="search"
-        :items="dbSkillList"
-        sort-by="['name', 'serviceSkill']"
+        :items="dbEventList"
+        sort-by="name"
         class="elevation-1"
-        multi-sort
       >
+        <template
+          v-for="(header, index) in headers.filter(
+            header =>
+              header.hasOwnProperty('formatter') ||
+              header.hasOwnProperty('selection')
+          )"
+          v-slot:[`item.${header.value}`]="{ value }"
+        >
+          <div v-if="header.selection" :key="index">
+            <v-simple-checkbox disabled :value="value"></v-simple-checkbox>
+          </div>
+          <div v-else :key="index">
+            {{ header.formatter(value) }}
+          </div>
+        </template>
         <template v-slot:top>
           <v-toolbar flat>
-            <v-toolbar-title>Skills</v-toolbar-title>
+            <v-toolbar-title>Events</v-toolbar-title>
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-spacer></v-spacer>
             <v-text-field
@@ -33,7 +47,7 @@
                   v-bind="attrs"
                   v-on="on"
                 >
-                  New Skill
+                  New Event
                 </v-btn>
               </template>
               <v-card>
@@ -86,12 +100,29 @@
                     </v-row>
                     <v-row>
                       <v-col>
-                        <v-switch
-                          v-model="editedItem.serviceSkill"
-                          color="success"
-                          label="Service Skill"
-                          inset
-                        ></v-switch>
+                        <v-text-field
+                          v-model="editedItem.location"
+                          color="secondary"
+                          label="Event Location"
+                          filled
+                          maxlength="255"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>
+                        <v-datetime-picker
+                          ref="datep"
+                          v-model="editedItem.startTime"
+                          label="Select Event Starting Date/Time."
+                        >
+                          <template v-slot:dateIcon>
+                            <v-icon>mdi-calendar</v-icon>
+                          </template>
+                          <template v-slot:timeIcon>
+                            <v-icon>mdi-clock</v-icon>
+                          </template>
+                        </v-datetime-picker>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -132,9 +163,6 @@
             </v-dialog>
           </v-toolbar>
         </template>
-        <template v-slot:item.serviceSkill="{ item }">
-          {{ getServiceSkill(item) }}
-        </template>
         <template v-slot:item.actions="{ item }">
           <v-icon small class="mr-2" @click="editItem(item)">
             mdi-pencil
@@ -159,24 +187,34 @@ export default {
   },
   data() {
     return {
-      dbSkillList: [], // list of skills fresh from db
+      dbEventList: [], // list of events fresh from db
       dialog: false, // hide/open edit/create dialog
       dialogDelete: false, // hide/open delete dialog
       editedIndex: -1, // current item we are editing locally
-      editedItem: { name: "", description: "", serviceSkill: false }, // temporary storage for the item being created/edited
-      // default info for new item - this.editItem=defaultItem when creating new skill
+      editedItem: {
+        name: "",
+        description: "",
+        location: "",
+        startTime: new Date(),
+        endTime: new Date(),
+        isAllDay: false,
+      }, // temporary storage for the item being created/edited
+      // default info for new item - this.editItem=defaultItem when creating new event
       defaultItem: {
         name: "",
         description: "",
-        serviceSkill: false,
+        location: "",
+        startTime: new Date(),
+        endTime: new Date(),
+        isAllDay: false,
       },
-      search: "", // search skills by name
+      search: "", // search events by name
     };
   },
   computed: {
     // sets title of create/edit form
     formTitle() {
-      return this.editedIndex === -1 ? "New Skill" : "Edit Skill";
+      return this.editedIndex === -1 ? "New Event" : "Edit Event";
     },
     // headers for v-table
     headers() {
@@ -190,8 +228,13 @@ export default {
           value: "description",
         },
         {
-          text: "Service Skill",
-          value: "serviceSkill",
+          text: "Location",
+          value: "location",
+        },
+        {
+          text: "Start DateTime",
+          value: "startTime",
+          formatter: this.dateFormatter,
         },
         {
           text: "Actions",
@@ -201,9 +244,13 @@ export default {
     },
   },
   methods: {
+    // different date time format from the one used by datetime-picker | DO NOT use this.dateFormat and this.timeFormat
+    dateFormatter(date) {
+      return this.$moment(date).format("MMMM Do, YYYY hh:mma");
+    },
     editItem(item) {
       // deep copy item we want to edit
-      this.editedIndex = this.dbSkillList.indexOf(item);
+      this.editedIndex = this.dbEventList.indexOf(item);
       this.editedItem = Object.assign({}, item);
 
       this.dialog = true; // show edit dialog
@@ -215,26 +262,17 @@ export default {
         });
       }
     },
-    getServiceSkill(item) {
-      let result = "ERROR";
-      if (item.serviceSkill) {
-        result = "✔️";
-      } else {
-        result = "❌";
-      }
-      return result;
-    },
     deleteItem(item) {
       // get item we want to delete
-      this.editedIndex = this.dbSkillList.indexOf(item);
+      this.editedIndex = this.dbEventList.indexOf(item);
       this.editedItem = Object.assign({}, item);
 
       this.dialogDelete = true; // show delete dialog
     },
     deleteItemConfirm() {
       // delete item from db and remove from local array
-      RESTService.delete("/skill/", this.editedItem.id);
-      this.dbSkillList.splice(this.editedIndex, 1);
+      RESTService.delete("/eventInstance/", this.editedItem.id);
+      this.dbEventList.splice(this.editedIndex, 1);
       this.closeDelete();
     },
     close() {
@@ -256,23 +294,23 @@ export default {
       });
     },
     save() {
-      // if skill is not new update
+      // if event is not new update
       if (this.editedIndex > -1) {
         // deep copy item and use old id to overwrite properly - !IMPORTANT FOR LOGIC CHANGING WILL BREAK, DON'T REMEBER WHY THOUGH
-        let skill = this.dbSkillList[this.editedIndex];
-        Object.assign(skill, this.editedItem);
+        let event = this.dbEventList[this.editedIndex];
+        Object.assign(event, this.editedItem);
 
-        RESTService.update("/skill/", skill.id, skill);
+        RESTService.update("/eventInstance/", event.id, event);
       } else {
-        // create new skill
-        RESTService.create("/skill", this.editedItem).then(response => {
+        // create new event
+        RESTService.create("/eventInstance", this.editedItem).then(response => {
           this.editedItem.id = response.data.data.id;
         });
 
-        this.dbSkillList.push(this.editedItem); // add to local array to display/edit
+        this.dbEventList.push(this.editedItem); // add to local array to display/edit
       }
 
-      this.$store.dispatch("retrieveSkillList"); // update global list of skills
+      // this.$store.dispatch("retrieveSkillList"); // update global list of events
       this.close(); // close dialog
     },
   },
@@ -288,9 +326,13 @@ export default {
   },
   mounted() {
     // get list of skils from db
-    RESTService.getAll("/skill").then(response => {
-      this.dbSkillList = response.data.data;
-      console.log(this.dbSkillList);
+    RESTService.getAll("/eventInstance").then(response => {
+      this.dbEventList = response.data.data;
+      this.dbEventList = this.dbEventList.map(e => {
+        e.startTime = new Date(e.startTime);
+        e.endTime = new Date(e.endTime);
+        return e;
+      }); // will be done in the event.model
     });
   },
 };

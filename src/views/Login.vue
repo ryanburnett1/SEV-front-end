@@ -63,6 +63,13 @@
                 >
                   Login
                 </v-btn>
+                <v-btn
+                  class="ml-2"
+                  @click.prevent="loginWithGoogle"
+                  v-show="false"
+                >
+                  <v-icon>mdi-google</v-icon>
+                </v-btn>
                 <v-spacer></v-spacer>
                 <v-btn
                   color="primary"
@@ -184,6 +191,25 @@ export default {
         email: this.user.email,
         password: this.user.password,
       });
+    },
+    loginWithGoogle() {
+      this.$gAuth
+        .signIn()
+        .then(GoogleUser => {
+          const profile = GoogleUser.getBasicProfile();
+          const auth = GoogleUser.getAuthResponse();
+
+          let user = {
+            email: profile.getEmail(),
+            token: auth.id_token,
+            // expirationDate: new Date(auth.expires_at),
+          };
+
+          this.$store.dispatch("loginWithGoogle", { user });
+        })
+        .catch(error => {
+          console.log("error: " + error);
+        });
     },
   },
 };

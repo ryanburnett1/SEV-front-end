@@ -2,6 +2,7 @@
 
 class Person {
   id = 0;
+  address = "";
   firstName = "";
   lastName = "";
   middleName = "";
@@ -11,8 +12,9 @@ class Person {
   birthday = "";
   sex = "";
   marital_status = "";
-  status = "";
+  status = this.statusOptions()[0];
   title = "";
+  receiveAnnouncements = true;
   skill = [];
 
   constructor(person) {
@@ -21,18 +23,40 @@ class Person {
       // change later -- just got tired of all fields not showing
       for (let v in person) {
         if (person[v]) {
-          this[v] = person[v]; 
+          this[v] = person[v];
         }
       }
     }
   }
 
+  getPicturePath() {
+    if (this.picture == "") return "no-image";
+    if (this.picture == "RANDOM") return "https://picsum.photos/300?random";
+    return process.env.VUE_APP_IMAGE_PATH + this.picture;
+  }
+
   getSkillIds() {
-    return this.skill.map(skill => skill.id)
+    return this.skill.map(skill => skill.id);
   }
 
   fullName() {
     return this.firstName + " " + this.lastName;
+  }
+
+  getPreferredName() {
+    if (this.preferredName) {
+      return this.preferredName;
+    }
+
+    return this.firstName;
+  }
+
+  preferredFullName() {
+    if (this.preferredName) {
+      return this.preferredName + " " + this.lastName;
+    }
+
+    return this.fullName();
   }
 
   updateDate() {
@@ -60,7 +84,7 @@ class Person {
   }
 
   statusOptions() {
-    return ["Active", "Inactive", "Disabled"];
+    return ["Active", "Inactive", "Disabled", "Relocated", "Deceased"];
   }
 }
 

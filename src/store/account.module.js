@@ -2,26 +2,48 @@
 import router from "@/router/index.js";
 // import User from "@/models/user.model";
 import userService from "@/services/userServices";
+import rest from "@/services/restServices";
 import axios from "axios";
 
 const state = {
   isLogin: false,
   session: null,
   user: null,
+  group: null,
+  family: null,
   token: null,
   darkMode: true,
 };
 
 const actions = {
   login({ commit }, { email, password }) {
-    commit("loginRequest", { email });
+    commit("loginRequest", { email }); // set email in state for further use
 
     userService
       .login({ email, password })
       .then(response => {
+        // retreive session form backend and db
         let session = response.data.data;
 
-        // console.log(session);
+        if (session) {
+          commit("loginSuccess", session);
+          router.push("/");
+        } else {
+          commit("loginFailure");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  loginWithGoogle({ commit }, { user }) {
+    commit("loginRequest", { email: user.email });
+
+    rest
+      .create(`/user/auth/google`, user)
+      .then(response => {
+        let session = response.data.data;
+        console.log(session);
 
         if (session) {
           commit("loginSuccess", session);
@@ -52,14 +74,9 @@ const actions = {
     ax.post(`/user/auth`, { userId, token }).then(res => {
       commit("reloginSuccess", res.data.data);
     });
-
-    // userService.getUser(userId, token).then(res => {
-    //   console.log(res)
-    // })
   },
   logout({ commit, getters }) {
     // console.log(getters.getUserToken, getters.getUserId, getters.getSessionId);
-
     userService
       .logout({
         userId: getters.getUserId,
@@ -93,11 +110,11 @@ const mutations = {
     state.token = null;
   },
   reloginSuccess(state, user) {
-    state.isLoggedIn = true;
+    state.isLogin = true;
     state.user = user;
   },
   loginSuccess(state, session) {
-    state.isLoggedIn = true;
+    state.isLogin = true;
     state.session = session;
     state.user = session.user;
     state.token = session.token;
@@ -123,6 +140,8 @@ const getters = {
   getUserToken: state => state.token,
   getSessionId: state => state.session.id,
   getUserEmail: state => state.user.email,
+  getGroupId: state => state.session.user.person.group[0].id,
+  getFamilyId: state => state.session.user.person.family[0].id,
   isAdmin: state => state.user.role == "Admin",
 };
 

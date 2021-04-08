@@ -5,6 +5,14 @@ class GroupService {
     return Vue.axios.get("/group");
   }
 
+  updatePeople(id, ids) {
+    return Vue.axios.put(`/group/${id}/people`, { ids });
+  }
+
+  get(id) {
+    return Vue.axios.get(`/group/${id}`);
+  }
+
   getAllPeople(id) {
     return Vue.axios.get(`/group/${id}`);
   }
@@ -13,7 +21,7 @@ class GroupService {
     return Vue.axios.post("/group", data);
   }
 
-  udpate(id, data) {
+  update(id, data) {
     return Vue.axios.put(`/group/${id}`, data);
   }
 

@@ -17,40 +17,13 @@
       <v-col>
         <h3>Announcements:</h3>
       </v-col>
-      <v-col> </v-col>
     </v-row>
-    <!-- <v-row>
-			<member-selection-list
-				:people="members"
-				@onSelectionChanged="print"
-			></member-selection-list>
-		</v-row> -->
     <v-row>
-      <v-col>
-        <v-tabs v-model="tab" color="secondary">
-          <v-tab>Church</v-tab>
-          <v-tab>Groups</v-tab>
-
-          <v-tabs-items v-model="tab">
-            <v-tab-item>
-              <v-card flat>
-                <v-card-text
-                  >Announcements for the whole church are displayed
-                  here.</v-card-text
-                >
-              </v-card>
-            </v-tab-item>
-            <v-tab-item>
-              <v-card flat>
-                <v-card-text
-                  >Announcements for the groups you are in are displayed
-                  displayed here.</v-card-text
-                >
-              </v-card>
-            </v-tab-item>
-          </v-tabs-items>
-        </v-tabs>
-      </v-col>
+      <announcement-tabs
+        :personId="$store.getters.getPersonId"
+        :groupId="$store.getters.getGroupId"
+        :familyId="$store.getters.getFamilyId"
+      />
     </v-row>
   </v-container>
 </template>
@@ -58,12 +31,14 @@
 <script>
 import MemberService from "@/services/memberServices.js";
 import Person from "@/models/person.model.js";
-// import MemberSelectionList from "../components/MemberSelectionList.vue";
+import AnnouncementTabs from "@/components/AnnouncementTabs.vue";
+// import SelectionList from "../components/SelectionList.vue";
 
 export default {
   name: "Home",
   components: {
-    // MemberSelectionList,
+    // SelectionList,
+    AnnouncementTabs,
   },
   data() {
     return {
@@ -80,7 +55,6 @@ export default {
         { id: 8, url: "https://picsum.photos/200/300?random=9" },
         { id: 9, url: "https://picsum.photos/200/300?random=10" },
       ],
-      tab: 0,
     };
   },
   mounted() {
