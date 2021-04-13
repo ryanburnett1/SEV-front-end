@@ -91,7 +91,6 @@
         <v-btn @click="cancel()" color="error">Cancel</v-btn>
       </v-card-actions>
     </v-card>
-    <admin-fab :cancelFunction="cancel" :saveFunction="save"></admin-fab>
   </v-container>
 </template>
 
@@ -102,7 +101,6 @@ import Person from "@/models/person.model";
 import Group from "@/models/group.model";
 import GroupService from "@/services/groupServices";
 import RestService from "@/services/restServices";
-import AdminFab from "@/components/AdminFab.vue";
 import SelectionListModal from "@/components/SelectionListModal.vue";
 
 // import {ValidationObserver, ValidationProvider} from "vee-validate";
@@ -120,7 +118,6 @@ export default {
   },
   components: {
     SelectionListModal,
-    AdminFab,
   },
   data() {
     return {
