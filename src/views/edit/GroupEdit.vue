@@ -11,16 +11,6 @@
       </v-row>
     </v-card>
     <v-card width="100%" title>
-      <v-card-actions class="pl-0">
-        <v-spacer></v-spacer>
-        <SelectionListModal
-          label="Add New Group Member"
-          :people="members"
-          :previousSelection="ids"
-          :doneCallback="test"
-          @onSelectionChanged="ids = $event"
-        ></SelectionListModal>
-      </v-card-actions>
       <v-container fluid>
         <v-row>
           <v-col>
@@ -29,6 +19,18 @@
               label="Group Name"
               v-model="group.name"
             ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-card-actions class="pl-0">
+              <v-spacer></v-spacer>
+              <SelectionListModal
+                label="Add/Remove Group Members"
+                :people="members"
+                :previousSelection="ids"
+                :doneCallback="test"
+                @onSelectionChanged="ids = $event"
+              ></SelectionListModal>
+            </v-card-actions>
           </v-col>
         </v-row>
         <v-row no-gutters>
