@@ -6,10 +6,13 @@
         v-model="select"
         :loading="loading"
         :items="groups"
+        item-text="name"
+        item-value="name"
         :search-input.sync="search"
         cache-items
         class="mx-4"
         flat
+        clearable
         hide-no-data
         hide-details
         label="Search for Groups"
@@ -21,7 +24,7 @@
     </v-toolbar>
 
     <v-expansion-panels>
-      <v-expansion-panel v-for="group in groups" :key="group.id">
+      <v-expansion-panel v-for="group in filterGroups" :key="group.id">
         <v-expansion-panel-header>
           {{ group.name }}
         </v-expansion-panel-header>
@@ -61,6 +64,15 @@ export default {
       items: [],
       search: "",
     };
+  },
+  computed: {
+    filterGroups() {
+      return this.search != null
+        ? this.groups.filter(g =>
+            g.name.toLowerCase().includes(this.search.toLowerCase())
+          )
+        : this.groups;
+    },
   },
   methods: {
     create() {

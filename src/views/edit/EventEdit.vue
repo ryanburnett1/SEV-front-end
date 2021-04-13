@@ -8,6 +8,21 @@
         sort-by="name"
         class="elevation-1"
       >
+        <template
+          v-for="(header, index) in headers.filter(
+            header =>
+              header.hasOwnProperty('formatter') ||
+              header.hasOwnProperty('selection')
+          )"
+          v-slot:[`item.${header.value}`]="{ value }"
+        >
+          <div v-if="header.selection" :key="index">
+            <v-simple-checkbox disabled :value="value"></v-simple-checkbox>
+          </div>
+          <div v-else :key="index">
+            {{ header.formatter(value) }}
+          </div>
+        </template>
         <template v-slot:top>
           <v-toolbar flat>
             <v-toolbar-title>Events</v-toolbar-title>
@@ -81,6 +96,33 @@
                             maxlength="255"
                           ></v-textarea>
                         </validation-provider>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>
+                        <v-text-field
+                          v-model="editedItem.location"
+                          color="secondary"
+                          label="Event Location"
+                          filled
+                          maxlength="255"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>
+                        <v-datetime-picker
+                          ref="datep"
+                          v-model="editedItem.startTime"
+                          label="Select Event Starting Date/Time."
+                        >
+                          <template v-slot:dateIcon>
+                            <v-icon>mdi-calendar</v-icon>
+                          </template>
+                          <template v-slot:timeIcon>
+                            <v-icon>mdi-clock</v-icon>
+                          </template>
+                        </v-datetime-picker>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -186,6 +228,15 @@ export default {
           value: "description",
         },
         {
+          text: "Location",
+          value: "location",
+        },
+        {
+          text: "Start DateTime",
+          value: "startTime",
+          formatter: this.dateFormatter,
+        },
+        {
           text: "Actions",
           value: "actions",
         },
@@ -193,6 +244,10 @@ export default {
     },
   },
   methods: {
+    // different date time format from the one used by datetime-picker | DO NOT use this.dateFormat and this.timeFormat
+    dateFormatter(date) {
+      return this.$moment(date).format("MMMM Do, YYYY hh:mma");
+    },
     editItem(item) {
       // deep copy item we want to edit
       this.editedIndex = this.dbEventList.indexOf(item);
@@ -273,6 +328,11 @@ export default {
     // get list of skils from db
     RESTService.getAll("/eventInstance").then(response => {
       this.dbEventList = response.data.data;
+      this.dbEventList = this.dbEventList.map(e => {
+        e.startTime = new Date(e.startTime);
+        e.endTime = new Date(e.endTime);
+        return e;
+      }); // will be done in the event.model
     });
   },
 };

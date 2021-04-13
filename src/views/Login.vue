@@ -63,7 +63,11 @@
                 >
                   Login
                 </v-btn>
-                <v-btn class="ml-2" @click.prevent="loginWithGoogle">
+                <v-btn
+                  class="ml-2"
+                  @click.prevent="loginWithGoogle"
+                  v-show="false"
+                >
                   <v-icon>mdi-google</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
