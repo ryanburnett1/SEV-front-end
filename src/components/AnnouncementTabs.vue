@@ -108,6 +108,13 @@
                 <v-list-item-content>
                   <v-list-item-title>
                     {{ item.title }}
+                    | location:
+                    {{ item.event[0].location }} | Time:
+                    {{
+                      $moment(item.event[0].startTime).format(
+                        "MMMM Do, YYYY hh:mma"
+                      )
+                    }}
                   </v-list-item-title>
                   {{ item.description }}
                 </v-list-item-content>

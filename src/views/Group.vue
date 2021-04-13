@@ -39,6 +39,7 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
+    <v-btn @click="create()">Add Group</v-btn>
 
     <admin-fab :createFunction="create"></admin-fab>
   </v-container>
