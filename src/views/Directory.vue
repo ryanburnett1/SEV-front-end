@@ -234,7 +234,6 @@ export default {
     },
     changeDirectorySearch() {
       this.$store.commit("setDirectorySearch", this.search);
-      console.log("Updated")
     },
     // goto page to create new family
     addFamily() {
