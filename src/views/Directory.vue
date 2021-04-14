@@ -16,7 +16,7 @@
           rounded
           mandatory
           group
-          @change="checkPerPage"
+          @change="checkPerPage(); changeShowFamilies();"
         >
           <v-btn :value="true">
             Families
@@ -169,7 +169,7 @@ export default {
       search: "", // used in filteredData to find members by name
       members: [], // members of the congregation
       families: [], // families of the congregation
-      showFamilies: true, // if==true show family oriented directory
+      showFamilies: this.$store.getters.isShowFamilies, // if==true show family oriented directory
       statusFilter: "Active", // used in filteredData to find members from status ex: active, disabled, etc.
     };
   },
@@ -223,6 +223,9 @@ export default {
     },
   },
   methods: {
+    changeShowFamilies(){
+      this.$store.commit("setShowFamilies", this.showFamilies);
+    },
     // goto page to create new family
     addFamily() {
       this.$router.push({
@@ -251,7 +254,6 @@ export default {
     },
     // below functions ensure correct data for input fields
     checkPerPage() {
-      console.log("check per page called");
       this.pageNumber = 1;
     },
     checkGoto() {
