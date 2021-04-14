@@ -16,7 +16,10 @@
           rounded
           mandatory
           group
-          @change="checkPerPage(); changeShowFamilies();"
+          @change="
+            checkPerPage();
+            changeShowFamilies();
+          "
         >
           <v-btn :value="true">
             Families
@@ -223,7 +226,7 @@ export default {
     },
   },
   methods: {
-    changeShowFamilies(){
+    changeShowFamilies() {
       this.$store.commit("setShowFamilies", this.showFamilies);
     },
     // goto page to create new family
