@@ -13,6 +13,8 @@ const state = {
   family: null,
   token: null,
   darkMode: true,
+  showFamilies: true,
+  directorySearch: "",
 };
 
 const actions = {
@@ -103,11 +105,19 @@ const mutations = {
     console.log(isDark);
     state.darkMode = isDark;
   },
+  setShowFamilies(state, showFamilies) {
+    state.showFamilies = showFamilies;
+  },
+  setDirectorySearch(state, search) {
+    state.directorySearch = search;
+  },
   resetState(state) {
     state.isLogin = false;
     state.session = null;
     state.user = null;
     state.token = null;
+    state.showFamilies = true;
+    state.directorySearch = "";
   },
   reloginSuccess(state, user) {
     state.isLogin = true;
@@ -143,6 +153,8 @@ const getters = {
   getGroupId: state => state.session.user.person.group[0].id,
   getFamilyId: state => state.session.user.person.family[0].id,
   isAdmin: state => state.user.role == "Admin",
+  isShowFamilies: state => state.showFamilies,
+  getDirectorySearch: state => state.directorySearch,
 };
 
 export const account = {
