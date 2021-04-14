@@ -19,27 +19,7 @@
             :class="isScrollFamily ? 'overflow-y-auto' : ''"
           >
             <template v-slot="{ item }">
-              <v-list-item
-                :key="item.id"
-                active-class="accent--text text--accent-4"
-                link
-                @click="
-                  $router.push({
-                    name: 'Event',
-                    params: { id: item.event[0].id },
-                  })
-                "
-              >
-                <v-list-item-avatar rounded size="60" v-if="item.picture">
-                  <v-img :src="item.picture"></v-img>
-                </v-list-item-avatar>
-                <v-list-item-content>
-                  <v-list-item-title>
-                    {{ item.title }}
-                  </v-list-item-title>
-                  {{ item.description }}
-                </v-list-item-content>
-              </v-list-item>
+              <AnnouncementTabItem :item="item" />
               <v-divider></v-divider>
             </template>
           </v-virtual-scroll>
@@ -55,27 +35,7 @@
             :class="isScrollGroup ? 'overflow-y-auto' : ''"
           >
             <template v-slot="{ item }">
-              <v-list-item
-                :key="item.id"
-                active-class="accent--text text--accent-4"
-                link
-                @click="
-                  $router.push({
-                    name: 'Event',
-                    params: { id: item.event[0].id },
-                  })
-                "
-              >
-                <v-list-item-avatar rounded size="60" v-if="item.picture">
-                  <v-img :src="item.picture"></v-img>
-                </v-list-item-avatar>
-                <v-list-item-content>
-                  <v-list-item-title>
-                    {{ item.title }}
-                  </v-list-item-title>
-                  {{ item.description }}
-                </v-list-item-content>
-              </v-list-item>
+              <AnnouncementTabItem :item="item" />
               <v-divider></v-divider>
             </template>
           </v-virtual-scroll>
@@ -91,34 +51,7 @@
             :class="isScrollPersonal ? 'overflow-y-auto' : ''"
           >
             <template v-slot="{ item }">
-              <v-list-item
-                :key="item.id"
-                active-class="accent--text text--accent-4"
-                link
-                @click="
-                  $router.push({
-                    name: 'Event',
-                    params: { id: item.event[0].id },
-                  })
-                "
-              >
-                <v-list-item-avatar rounded size="60" v-if="item.picture">
-                  <v-img :src="item.picture"></v-img>
-                </v-list-item-avatar>
-                <v-list-item-content>
-                  <v-list-item-title>
-                    {{ item.title }}
-                    | location:
-                    {{ item.event[0].location }} | Time:
-                    {{
-                      $moment(item.event[0].startTime).format(
-                        "MMMM Do, YYYY hh:mma"
-                      )
-                    }}
-                  </v-list-item-title>
-                  {{ item.description }}
-                </v-list-item-content>
-              </v-list-item>
+              <AnnouncementTabItem :item="item" />
               <v-divider></v-divider>
             </template>
           </v-virtual-scroll>
@@ -130,6 +63,7 @@
 
 <script>
 import rest from "@/services/restServices";
+import AnnouncementTabItem from "@/components/AnnouncementTabItem.vue";
 
 export default {
   props: ["groupId", "personId", "familyId"],
@@ -142,6 +76,9 @@ export default {
       groupAnnouncements: [],
       personalAnnouncements: [],
     };
+  },
+  components: {
+    AnnouncementTabItem,
   },
   computed: {
     isScrollPersonal() {
