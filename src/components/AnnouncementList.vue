@@ -20,7 +20,7 @@ export default {
   props: ["items"],
   data() {
     return {
-      itemHeight: 100,
+      itemHeight: 150,
       maxHeight: 600,
     };
   },
