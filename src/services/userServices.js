@@ -38,6 +38,10 @@ class UserService {
     return Vue.axios.get(`/user/person/${personId}`);
   }
 
+  getByPeople(ids) {
+    return Vue.axios.get(`/user/people/${ids}`);
+  }
+
   // other unique route queries here
   // example findByAttributeNameHere(data)
   // return get(`/route?attrib=${param}`)

@@ -2,6 +2,7 @@
 
 class Person {
   id = 0;
+  emailAddress = "";
   address = "";
   firstName = "";
   lastName = "";
@@ -16,6 +17,7 @@ class Person {
   title = "";
   receiveAnnouncements = true;
   skill = [];
+  user = {};
 
   constructor(person) {
     if (person) {
@@ -41,6 +43,17 @@ class Person {
 
   fullName() {
     return this.firstName + " " + this.lastName;
+  }
+
+  email() {
+    console.log(this)
+    if(this.emailAddress){
+      return this.emailAddress;
+    }
+    else {
+      console.log("No email address Stored");
+      return this.user.emailAddress;
+    }
   }
 
   preferredName() {

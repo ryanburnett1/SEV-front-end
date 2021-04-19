@@ -8,6 +8,7 @@
         style="height: 100px;"
       >
         {{ person.fullName() }}
+        {{ person.email() }}
       </v-row>
     </v-card>
     <v-card width="100%" title>
