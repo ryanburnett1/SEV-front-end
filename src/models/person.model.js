@@ -88,6 +88,10 @@ class Person {
     return masked;
   }
 
+  cellPhoneNumber() {
+    return this.phoneCell;
+  }
+
   sexOptions() {
     return ["Male", "Female"];
   }

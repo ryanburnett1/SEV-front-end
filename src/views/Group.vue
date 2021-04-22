@@ -28,12 +28,16 @@
         <v-btn icon @click="edit(group)">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
+        <v-btn icon @click="deleteG(group)">
+          <v-icon>mdi-trash-can</v-icon>
+        </v-btn>
         <v-expansion-panel-content
           v-for="person in group.person"
           :key="person.id"
         >
           {{ person.preferredFullName() }}
           {{ person.user.email }}
+          {{ person.cellPhoneNumber() }}
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -78,6 +82,12 @@ export default {
         name: "GroupEdit",
         params: { id: group.id, isAdd: false },
       });
+    },
+    deleteG(group) {
+      // this.$router.delete({
+      //   params: {id: group.id}
+      // });
+      GroupService.delete(group.id);
     },
   },
   mounted() {
