@@ -108,6 +108,13 @@
                 <v-list-item-content>
                   <v-list-item-title>
                     {{ item.title }}
+                    | location:
+                    {{ item.event[0].location }} | Time:
+                    {{
+                      $moment(item.event[0].startTime).format(
+                        "MMMM Do, YYYY hh:mma"
+                      )
+                    }}
                   </v-list-item-title>
                   {{ item.description }}
                 </v-list-item-content>
@@ -159,6 +166,7 @@ export default {
     },
   },
   mounted() {
+    // console.log("THINGS");
     rest.get("/announcement/person/", this.personId).then(res => {
       this.personalAnnouncements = res.data.data;
     });

@@ -12,16 +12,6 @@
       </v-row>
     </v-card>
     <v-card width="100%" title>
-      <v-card-actions class="pl-0">
-        <v-spacer></v-spacer>
-        <SelectionListModal
-          label="Add New Group Member"
-          :people="members"
-          :previousSelection="ids"
-          :doneCallback="test"
-          @onSelectionChanged="ids = $event"
-        ></SelectionListModal>
-      </v-card-actions>
       <v-container fluid>
         <v-row>
           <v-col>
@@ -31,10 +21,22 @@
               v-model="group.name"
             ></v-text-field>
           </v-col>
+          <v-col>
+            <v-card-actions class="pl-0">
+              <v-spacer></v-spacer>
+              <SelectionListModal
+                label="Add/Remove Group Members"
+                :people="members"
+                :previousSelection="ids"
+                :doneCallback="test"
+                @onSelectionChanged="ids = $event"
+              ></SelectionListModal>
+            </v-card-actions>
+          </v-col>
         </v-row>
         <v-row no-gutters>
           <v-col cols="6" v-for="person in persons" :key="person.id">
-            <v-hover v-slot="{ hover }">
+            <v-hover v-slot="{ hover }" class="ma-1">
               <v-card
                 :elevation="hover ? 6 : 0"
                 @click="
@@ -65,18 +67,11 @@
                           </v-row>
                         </v-card-title>
                       </v-row>
-                      <v-row class="mt-0">
-                        <v-card-subtitle class="ma-0 pa-1 pl-1">
-                          Brother of Bob
-                        </v-card-subtitle>
-                      </v-row>
                       <v-row class="text-body-2 pl-4 pt-2">
                         <v-row v-if="person.address">
                           Address: {{ person.address }}
                         </v-row>
-                        <v-row v-else>
-                          No address is stored
-                        </v-row>
+                        <v-row v-else></v-row>
                       </v-row>
                     </v-col>
                   </v-row>
@@ -86,6 +81,11 @@
           </v-col>
         </v-row>
       </v-container>
+      <v-card-actions>
+        <v-btn @click="save()" color="success">Save</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn @click="cancel()" color="error">Cancel</v-btn>
+      </v-card-actions>
     </v-card>
     <v-btn icon @click="save()">
       <v-icon>content-save-outline</v-icon>
@@ -102,7 +102,6 @@ import Person from "@/models/person.model";
 import Group from "@/models/group.model";
 import GroupService from "@/services/groupServices";
 import RestService from "@/services/restServices";
-import AdminFab from "@/components/AdminFab.vue";
 import SelectionListModal from "@/components/SelectionListModal.vue";
 
 // import {ValidationObserver, ValidationProvider} from "vee-validate";
@@ -120,7 +119,6 @@ export default {
   },
   components: {
     SelectionListModal,
-    AdminFab,
   },
   data() {
     return {

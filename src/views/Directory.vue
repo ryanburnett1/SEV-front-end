@@ -7,6 +7,9 @@
         append-icon="mdi-magnify"
         label="Search"
         outlined
+        @change="changeDirectorySearch()"
+        clearable
+        color="secondary"
       ></v-text-field>
     </v-row>
     <v-col>
@@ -16,7 +19,10 @@
           rounded
           mandatory
           group
-          @change="checkPerPage"
+          @change="
+            checkPerPage();
+            changeShowFamilies();
+          "
         >
           <v-btn :value="true">
             Families
@@ -166,10 +172,10 @@ export default {
     return {
       pageNumber: 1, // current selected page
       size: 25, // number per page
-      search: "", // used in filteredData to find members by name
+      search: this.$store.getters.getDirectorySearch, // used in filteredData to find members by name
       members: [], // members of the congregation
       families: [], // families of the congregation
-      showFamilies: true, // if==true show family oriented directory
+      showFamilies: this.$store.getters.isShowFamilies, // if==true show family oriented directory
       statusFilter: "Active", // used in filteredData to find members from status ex: active, disabled, etc.
     };
   },
@@ -223,6 +229,12 @@ export default {
     },
   },
   methods: {
+    changeShowFamilies() {
+      this.$store.commit("setShowFamilies", this.showFamilies);
+    },
+    changeDirectorySearch() {
+      this.$store.commit("setDirectorySearch", this.search);
+    },
     // goto page to create new family
     addFamily() {
       this.$router.push({
@@ -251,7 +263,6 @@ export default {
     },
     // below functions ensure correct data for input fields
     checkPerPage() {
-      console.log("check per page called");
       this.pageNumber = 1;
     },
     checkGoto() {

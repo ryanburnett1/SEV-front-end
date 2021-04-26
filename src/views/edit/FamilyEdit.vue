@@ -94,13 +94,13 @@
             <v-card-actions class="pl-0">
               <v-card-title>Family Members:</v-card-title>
               <v-spacer></v-spacer>
-              <selection-list-menu
+              <selection-list-modal
                 label="Add or Remove Family Members"
                 :people="members"
                 :previousSelection="ids"
                 :doneCallback="test"
                 @onSelectionChanged="ids = $event"
-              ></selection-list-menu>
+              ></selection-list-modal>
             </v-card-actions>
             <v-divider></v-divider>
             <v-container fluid>
@@ -137,11 +137,6 @@
                                   {{ person.preferredFullName() }}
                                 </v-row>
                               </v-card-title>
-                            </v-row>
-                            <v-row class="mt-0">
-                              <v-card-subtitle class="ma-0 pa-1 pl-1">
-                                Brother of Bob
-                              </v-card-subtitle>
                             </v-row>
                             <v-row class="text-body-2 pl-4 pt-2">
                               <v-row v-if="person.address">
@@ -192,7 +187,7 @@ import Person from "@/models/person.model";
 import RestService from "@/services/restServices";
 import AdminFab from "@/components/AdminFab.vue";
 import UploadPic from "@/components/UploadPic.vue";
-//import SelectionList from "@/components/SelectionList.vue";
+import SelectionListModal from "@/components/SelectionListModal.vue";
 
 // used for field validation
 import { ValidationObserver, ValidationProvider } from "vee-validate";
@@ -211,7 +206,7 @@ export default {
     },
   },
   components: {
-    //SelectionList,
+    SelectionListModal,
     AdminFab,
     UploadPic,
     ValidationObserver,
