@@ -91,50 +91,23 @@ export default {
     },
   },
   mounted() {
-    GroupService.getAll().then(response => {
-      const gr = response.data.data.map(g => new Group(g));
-      this.groups = Array.from(gr)
-      //console.log(this.groups);
+    GroupService.getAll()
+      .then(res => res.data.data.map(g => new Group(g)))
+      .then(groups => {
+        this.groups = groups;
 
-      UserService.getAll().then(response => {
-
-        this.users = response.data.data;
-        //this will return an array of emails, so I have an array of arrays
-        gr.forEach(group => {
-          //getting the Personid of the person in the group
-          let ids = group.person.map(p => p.id)
-          //personUsers has all users now (2 arrays since it loops twice right now)
-          //this is getting the id's of the person for the group, but is user expecting it
-          //for the actual person ID? that would be why it is not working
-          const personUsers = this.users.filter(u => ids.includes(u.personId))
-          console.log("Person users: ", personUsers)
-          //pushes a new array of the users email
-          //arrays of all persons emails
-
-          personUsers.forEach(u => {
-            group.person.forEach(p => {
-              if (p.id === u.personId) p.user = u;
-            })
-          })
-          // this.emails = personUsers.map(u => u.email);
-          //console.log("emails: ", this.emails);
-          // personUsers.forEach(emails => {
-          //   emails = personUsers.map(u => u.email);
-          //   this.emails = emails;
-          // })
-        });
-        console.log("full email list? ", this.emails)
-
-      })
-
-      // let ids = this.group.map(x => x.id)
-      // UserService.getByPeople(ids).then(response => {
-      //   this.users = response.data.data.map(u => new User(u));
-      //   console.log("received user: ", this.users);
-      // })
-    });
-    
-    
+        // Add user to each person in each group
+        UserService.getAll()
+          .then(res => res.data.data)
+          .then(users => {
+            this.groups.forEach(group => {
+              group.person.forEach(p => {
+                p.user = users.find(u => u.personId === p.id);
+              });
+            });
+            console.log("full email list? ", this.emails);
+          });
+      });
   },
 };
 </script>

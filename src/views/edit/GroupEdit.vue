@@ -88,9 +88,9 @@
       </v-container>
     </v-card>
     <v-btn icon @click="save()">
-        <v-icon>content-save-outline</v-icon>
-        Save
-      </v-btn>
+      <v-icon>content-save-outline</v-icon>
+      Save
+    </v-btn>
     <admin-fab :cancelFunction="cancel" :saveFunction="save"></admin-fab>
   </v-container>
 </template>
