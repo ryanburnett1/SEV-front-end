@@ -1,5 +1,16 @@
 <template>
   <v-container>
+    <v-card>
+      <v-row
+        v-for="person in group.people"
+        :key="person.id"
+        no-gutters
+        style="height: 100px;"
+      >
+        {{ person.fullName() }}
+        {{ person.email() }}
+      </v-row>
+    </v-card>
     <v-card width="100%" title>
       <v-container fluid>
         <v-row>
@@ -76,6 +87,11 @@
         <v-btn @click="cancel()" color="error">Cancel</v-btn>
       </v-card-actions>
     </v-card>
+    <v-btn icon @click="save()">
+      <v-icon>content-save-outline</v-icon>
+      Save
+    </v-btn>
+    <admin-fab :cancelFunction="cancel" :saveFunction="save"></admin-fab>
   </v-container>
 </template>
 
