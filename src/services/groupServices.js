@@ -1,4 +1,5 @@
 import Vue from "vue";
+//import Group from "@/models/group.model";
 
 class GroupService {
   getAll() {
@@ -13,9 +14,9 @@ class GroupService {
     return Vue.axios.get(`/group/${id}`);
   }
 
-  getAllPeople(id) {
-    return Vue.axios.get(`/group/${id}`);
-  }
+  // getAllPeople(id) {
+  //   return Vue.axios.get(`/group/${id}`);
+  // }
 
   create(data) {
     return Vue.axios.post("/group", data);
