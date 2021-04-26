@@ -265,6 +265,21 @@ const routes = [
     component: () => import(/**/ "@/views/edit/AnnouncementEdit.vue"),
   },
   {
+    path: "/reports/",
+    name: "Reports",
+    meta: {
+      hide: false,
+      requiresAuth: true,
+      icon: "mdi-clipboard-list-outline",
+      roles: ["Admin"],
+    },
+    props(route) {
+      const props = { ...route.params };
+      return props;
+    },
+    component: () => import(/**/ "@/views/Reports.vue"),
+  },
+  {
     path: "/password-reset/:id/:token",
     name: "PasswordReset",
     alias: "/reset/:id/:token",
