@@ -96,10 +96,12 @@ export default {
       });
     },
     deleteG(group) {
-      // this.$router.delete({
-      //   params: {id: group.id}
-      // });
       GroupService.delete(group.id);
+
+      let deletedIndex = this.groups.indexOf(group);
+      if (deletedIndex != -1) {
+        this.groups.splice(deletedIndex, 1);
+      }
     },
   },
   mounted() {
