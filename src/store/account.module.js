@@ -18,7 +18,7 @@ const state = {
 };
 
 const actions = {
-  login({ commit }, { email, password }) {
+  login({ commit, dispatch }, { email, password }) {
     commit("loginRequest", { email }); // set email in state for further use
 
     userService
@@ -30,6 +30,7 @@ const actions = {
         if (session) {
           commit("loginSuccess", session);
           router.push("/");
+          dispatch("retrieveSkillList");
         } else {
           commit("loginFailure");
         }
@@ -38,7 +39,7 @@ const actions = {
         console.log(err);
       });
   },
-  loginWithGoogle({ commit }, { user }) {
+  loginWithGoogle({ commit, dispatch }, { user }) {
     commit("loginRequest", { email: user.email });
 
     rest
@@ -50,6 +51,7 @@ const actions = {
         if (session) {
           commit("loginSuccess", session);
           router.push("/");
+          dispatch("retrieveSkillList");
         } else {
           commit("loginFailure");
         }

@@ -54,7 +54,6 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.$vuetify.theme.dark = this.$store.getters.isDarkTheme;
-      this.$store.dispatch("retrieveSkillList");
     });
   },
 };
