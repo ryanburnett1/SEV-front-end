@@ -51,18 +51,23 @@ export default {
     },
   },
   mounted() {
-    // console.log("THINGS");
-    rest.get("/announcement/person/", this.personId).then(res => {
-      this.personalAnnouncements = res.data.data;
-    });
+    if (this.personId) {
+      rest.get("/announcement/person/", this.personId).then(res => {
+        this.personalAnnouncements = res.data.data;
+      });
+    }
 
-    rest.get("/announcement/group/", this.groupId).then(res => {
-      this.groupAnnouncements = res.data.data;
-    });
+    if (this.groupId) {
+      rest.get("/announcement/group/", this.groupId).then(res => {
+        this.groupAnnouncements = res.data.data;
+      });
+    }
 
-    rest.get("/announcement/family/", this.familyId).then(res => {
-      this.familyAnnouncements = res.data.data;
-    });
+    if (this.familyId) {
+      rest.get("/announcement/family/", this.familyId).then(res => {
+        this.familyAnnouncements = res.data.data;
+      });
+    }
   },
 };
 </script>
