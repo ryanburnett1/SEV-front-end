@@ -27,7 +27,7 @@
           <v-col>
             <p v-if="this.filteredSelectablePersons.length < 1">
               No relationships can be added. Everyone already has a relationship
-              to {{ this.personInPerspective.getPreferredName() }}.
+              to {{ this.personInPerspective.preferredFullName() }}.
             </p>
             <v-row v-else class="pl-0">
               <v-col>

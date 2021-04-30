@@ -91,18 +91,18 @@ export default {
             return (
               this.relationship.type1 +
               " of " +
-              this.personInPerspective.getPreferredName()
+              this.personInPerspective.preferredFullName()
             );
           } else {
             return (
               this.relationship.type2 +
               " of " +
-              this.personInPerspective.getPreferredName()
+              this.personInPerspective.preferredFullName()
             );
           }
         } else {
           return (
-            "No relationship to " + this.personInPerspective.getPreferredName()
+            "No relationship to " + this.personInPerspective.preferredFullName()
           );
         }
       }

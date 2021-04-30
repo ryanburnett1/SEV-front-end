@@ -13,10 +13,12 @@ const state = {
   family: null,
   token: null,
   darkMode: true,
+  showFamilies: true,
+  directorySearch: "",
 };
 
 const actions = {
-  login({ commit }, { email, password }) {
+  login({ commit, dispatch }, { email, password }) {
     commit("loginRequest", { email }); // set email in state for further use
 
     userService
@@ -28,6 +30,7 @@ const actions = {
         if (session) {
           commit("loginSuccess", session);
           router.push("/");
+          dispatch("retrieveSkillList");
         } else {
           commit("loginFailure");
         }
@@ -36,7 +39,7 @@ const actions = {
         console.log(err);
       });
   },
-  loginWithGoogle({ commit }, { user }) {
+  loginWithGoogle({ commit, dispatch }, { user }) {
     commit("loginRequest", { email: user.email });
 
     rest
@@ -48,6 +51,7 @@ const actions = {
         if (session) {
           commit("loginSuccess", session);
           router.push("/");
+          dispatch("retrieveSkillList");
         } else {
           commit("loginFailure");
         }
@@ -103,11 +107,19 @@ const mutations = {
     console.log(isDark);
     state.darkMode = isDark;
   },
+  setShowFamilies(state, showFamilies) {
+    state.showFamilies = showFamilies;
+  },
+  setDirectorySearch(state, search) {
+    state.directorySearch = search;
+  },
   resetState(state) {
     state.isLogin = false;
     state.session = null;
     state.user = null;
     state.token = null;
+    state.showFamilies = true;
+    state.directorySearch = "";
   },
   reloginSuccess(state, user) {
     state.isLogin = true;
@@ -140,9 +152,11 @@ const getters = {
   getUserToken: state => state.token,
   getSessionId: state => state.session.id,
   getUserEmail: state => state.user.email,
-  getGroupId: state => state.session.user.person.group[0].id,
-  getFamilyId: state => state.session.user.person.family[0].id,
+  getGroupId: state => state.session.user.person.group?.[0]?.id,
+  getFamilyId: state => state.session.user.person.family?.[0]?.id,
   isAdmin: state => state.user.role == "Admin",
+  isShowFamilies: state => state.showFamilies,
+  getDirectorySearch: state => state.directorySearch,
 };
 
 export const account = {
